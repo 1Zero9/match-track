@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script defer src="script.js"></script>
 </head>
 <body>
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
+            const supabase = supabase.createClient("https://tdocwsnhtwpqprqcrxro.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ");
+
             const { data: { user } } = await supabase.auth.getUser();
 
             if (user) {
