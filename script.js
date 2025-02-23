@@ -1,17 +1,20 @@
-const supabase = supabase.createClient("https://tdocwsnhtwpqprqcrxro.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ");
+// Initialize Supabase
+const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";
+
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 document.addEventListener("DOMContentLoaded", async () => {
-    console.log("Script loaded, checking user authentication...");
+    console.log("Checking authentication...");
 
-    const { data: { user }, error } = await supabase.auth.getUser();
+    try {
+        const { data: { user } } = await supabase.auth.getUser();
 
-    if (error) {
-        console.error("Supabase error:", error);
-        return;
-    }
-
-    if (!user && window.location.pathname !== "/login.html") {
-        window.location.href = "login.html";
+        if (window.location.pathname === "/index.html") {
+            window.location.href = user ? "dashboard.html" : "login.html";
+        }
+    } catch (error) {
+        console.error("Supabase authentication error:", error);
     }
 
     const buttons = document.querySelectorAll(".nav-btn");

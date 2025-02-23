@@ -8,15 +8,6 @@
     <script defer src="script.js"></script>
 </head>
 <body>
-    <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            try {
-                const { data: { user } } = await supabase.auth.getUser();
-                window.location.href = user ? "dashboard.html" : "login.html";
-            } catch (error) {
-                console.error("Supabase authentication error:", error);
-            }
-        });
-    </script>
+    <p>Loading...</p>
 </body>
 </html>
