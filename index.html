@@ -61,6 +61,27 @@
             margin: 20px auto;
             width: 80%;
         }
+        .setup-section {
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 80%;
+        }
+        .setup-section h2 {
+            margin-bottom: 20px;
+        }
+        .setup-section form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .setup-section input, .setup-section button {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +114,34 @@
         <section class="results">
             <h2>Select a Team</h2>
             <p>Please select a team to view match results</p>
+        </section>
+
+        <section class="setup-section">
+            <h2>Setup</h2>
+            <form id="setup-form">
+                <input type="text" id="team-name" placeholder="Team Name">
+                <input type="text" id="venue-name" placeholder="Venue Name">
+                <input type="text" id="opponent-name" placeholder="Opponent Name">
+                <button type="button" onclick="addSetupData()">Add</button>
+            </form>
+        </section>
+
+        <section class="log-match-section">
+            <h2>Log a Match</h2>
+            <form id="log-match-form">
+                <select id="log-team-select" class="filter">
+                    <option>Select Team</option>
+                </select>
+                <select id="log-venue-select" class="filter">
+                    <option>Select Venue</option>
+                </select>
+                <select id="log-opponent-select" class="filter">
+                    <option>Select Opponent</option>
+                </select>
+                <input type="date" id="log-date" class="filter">
+                <input type="text" id="log-score" class="filter" placeholder="Score">
+                <button type="button" onclick="logMatch()">Log Match</button>
+            </form>
         </section>
     </main>
     
