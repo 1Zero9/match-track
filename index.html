@@ -3,148 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Match Track</title>
+    <title>Football Match Tracker</title>
     <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
     <style>
         body {
-            background-color: #0A1F50;
-            color: white;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
             text-align: center;
         }
+
         header {
+            background-color: #222;
+            color: white;
             padding: 20px;
         }
-        .logo-container img {
-            width: 80px;
+
+        nav {
+            margin-top: 10px;
         }
-        .button-group {
-            margin: 20px 0;
-        }
-        .btn {
-            padding: 10px 20px;
-            margin: 10px;
+
+        .nav-btn {
+            background-color: #444;
+            color: white;
             border: none;
-            border-radius: 8px;
+            padding: 10px 20px;
+            margin: 5px;
             font-size: 16px;
             cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
         }
-        .btn-orange {
-            background-color: #FF7300;
+
+        .nav-btn:hover {
+            background-color: #666;
+            transform: scale(1.05);
+        }
+
+        .nav-btn.active {
+            background-color: orange;
             color: white;
         }
-        .btn-dark {
-            background-color: #1E2A47;
-            color: white;
+
+        .logout {
+            background-color: red;
         }
-        .filters {
+
+        main {
+            padding: 20px;
+        }
+
+        section {
             background: white;
-            color: black;
-            padding: 15px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px auto;
-            width: 80%;
-        }
-        .filter {
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .results {
-            background: white;
-            color: black;
             padding: 20px;
             border-radius: 10px;
-            margin: 20px auto;
-            width: 80%;
-        }
-        .setup-section {
-            background: white;
-            color: black;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px auto;
-            width: 80%;
-        }
-        .setup-section h2 {
-            margin-bottom: 20px;
-        }
-        .setup-section form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .setup-section input, .setup-section button {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo-container">
-            <img src="logo.png" alt="Match Track Logo">
-            <h1>Match Track</h1>
-            <p>Record and track your team's performance</p>
-        </div>
+        <h1>Football Match Tracker</h1>
+        <nav>
+            <button class="nav-btn active">Home</button>
+            <button class="nav-btn">Log Match</button>
+            <button class="nav-btn">View Matches</button>
+            <button class="nav-btn">Settings</button>
+            <button class="nav-btn logout">Logout</button>
+        </nav>
     </header>
     
     <main>
-        <div class="button-group">
-            <button class="btn btn-orange">🏆 View Results</button>
-            <button class="btn btn-dark">➕ Log a Match</button>
-            <button class="btn btn-dark">🔍 Setup</button>
-        </div>
-        
-        <section class="filters">
-            <select id="team-select" class="filter">
-                <option>Select Team</option>
-            </select>
-            <select id="year-select" class="filter">
-                <option>All Years</option>
-            </select>
-            <input type="date" id="date-filter" class="filter">
-            <input type="text" id="search-filter" class="filter" placeholder="Filter by...">
-        </section>
-        
-        <section class="results">
-            <h2>Select a Team</h2>
-            <p>Please select a team to view match results</p>
-        </section>
-
-        <section class="setup-section">
-            <h2>Setup</h2>
-            <form id="setup-form">
-                <input type="text" id="team-name" placeholder="Team Name">
-                <input type="text" id="venue-name" placeholder="Venue Name">
-                <input type="text" id="opponent-name" placeholder="Opponent Name">
-                <button type="button" onclick="addSetupData()">Add</button>
-            </form>
-        </section>
-
-        <section class="log-match-section">
-            <h2>Log a Match</h2>
-            <form id="log-match-form">
-                <select id="log-team-select" class="filter">
-                    <option>Select Team</option>
-                </select>
-                <select id="log-venue-select" class="filter">
-                    <option>Select Venue</option>
-                </select>
-                <select id="log-opponent-select" class="filter">
-                    <option>Select Opponent</option>
-                </select>
-                <input type="date" id="log-date" class="filter">
-                <input type="text" id="log-score" class="filter" placeholder="Score">
-                <button type="button" onclick="logMatch()">Log Match</button>
-            </form>
+        <section id="dashboard">
+            <h2>Welcome to the Match Tracker</h2>
+            <p>Track and manage your football matches with ease.</p>
         </section>
     </main>
-    
-    <script src="script.js"></script>
 </body>
 </html>
