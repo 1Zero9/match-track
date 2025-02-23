@@ -1,15 +1,22 @@
-// Initialize Supabase
-const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";
-
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 document.addEventListener("DOMContentLoaded", async () => {
-    console.log("Checking authentication...");
+    console.log("Initializing Supabase...");
 
+    // Ensure Supabase is initialized correctly
+    if (typeof supabase === "undefined") {
+        console.error("Supabase is not defined. Ensure the library is loaded before script.js.");
+        return;
+    }
+
+    const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";
+
+    const supabase = window.supabase || supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    console.log("Supabase initialized.");
+
+    // Check authentication status
     try {
         const { data: { user } } = await supabase.auth.getUser();
-
         if (window.location.pathname === "/index.html") {
             window.location.href = user ? "dashboard.html" : "login.html";
         }
