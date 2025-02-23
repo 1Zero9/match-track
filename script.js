@@ -1,126 +1,125 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+const supabase = supabase.createClient("YOUR_SUPABASE_URL", "YOUR_SUPABASE_ANON_KEY");
 
-.container {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 350px;
-}
+document.addEventListener("DOMContentLoaded", async () => {
+    console.log("Script loaded, checking user authentication...");
 
-h1 {
-    margin-bottom: 20px;
-    color: #333;
-}
+    const { data: { user }, error } = await supabase.auth.getUser();
 
-label {
-    display: block;
-    text-align: left;
-    font-size: 14px;
-    margin-top: 10px;
-}
+    if (error) {
+        console.error("Supabase error:", error);
+        return;
+    }
 
-input, select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+    if (!user && window.location.pathname !== "/login.html") {
+        window.location.href = "login.html";
+    }
 
-/* Button Styles */
-.button {
-    background-color: orange;
-    color: white;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    margin-top: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s, transform 0.2s;
-}
+    const buttons = document.querySelectorAll(".nav-btn");
+    const dashboard = document.getElementById("dashboard");
+    const logoutButton = document.querySelector(".logout");
 
-.button:hover {
-    background-color: darkorange;
-    transform: scale(1.05);
-}
+    function showLoading() {
+        dashboard.innerHTML = `<div class="loading">Loading...</div>`;
+    }
 
-.button.secondary {
-    background-color: #444;
-}
+    function loadPage(page) {
+        showLoading();
+        setTimeout(() => {
+            buttons.forEach(btn => btn.classList.remove("active"));
+            document.querySelector(`[data-page="${page}"]`).classList.add("active");
 
-.button.secondary:hover {
-    background-color: #666;
-}
+            if (page === "home") {
+                dashboard.innerHTML = `
+                    <h2>Welcome to the Match Tracker</h2>
+                    <p>Track and manage your football matches with ease.</p>
+                `;
+            } else if (page === "log") {
+                dashboard.innerHTML = `
+                    <h2>Log a Match</h2>
+                    <form id="matchForm">
+                        <label>Date: <input type="date" id="matchDate" required></label><br>
+                        <label>Home Team: <input type="text" id="homeTeam" required></label><br>
+                        <label>Away Team: <input type="text" id="awayTeam" required></label><br>
+                        <label>Score: <input type="text" id="score" required></label><br>
+                        <label>Venue: <input type="text" id="venue" required></label><br>
+                        <label>Competition: <input type="text" id="competition" required></label><br>
+                        <label>Notes: <textarea id="notes"></textarea></label><br>
+                        <button type="submit" class="nav-btn active">Save Match</button>
+                    </form>
+                    <p id="matchSuccess" class="success-message" style="display:none;">Match logged successfully!</p>
+                `;
 
-.button.logout {
-    background-color: red;
-}
+                document.getElementById("matchForm").addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const date = document.getElementById("matchDate").value;
+                    const homeTeam = document.getElementById("homeTeam").value;
+                    const awayTeam = document.getElementById("awayTeam").value;
+                    const score = document.getElementById("score").value;
+                    const venue = document.getElementById("venue").value;
+                    const competition = document.getElementById("competition").value;
+                    const notes = document.getElementById("notes").value;
 
-.button.logout:hover {
-    background-color: darkred;
-}
+                    if (!date || !homeTeam || !awayTeam || !score || !venue || !competition) {
+                        alert("Please fill in all required fields.");
+                        return;
+                    }
 
-/* Navigation */
-nav {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-}
+                    const { data, error } = await supabase.from("matches").insert([
+                        { date, home_team: homeTeam, away_team: awayTeam, score, venue, competition, notes }
+                    ]);
 
-.nav-btn {
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s, transform 0.2s;
-}
+                    if (error) {
+                        alert("Error logging match: " + error.message);
+                    } else {
+                        document.getElementById("matchSuccess").style.display = "block";
+                        setTimeout(() => document.getElementById("matchSuccess").style.display = "none", 3000);
+                    }
+                });
+            } else if (page === "view") {
+                dashboard.innerHTML = `
+                    <h2>Match History</h2>
+                    <div id="matchList">Loading...</div>
+                `;
+                loadMatchHistory();
+            } else if (page === "settings") {
+                dashboard.innerHTML = `
+                    <h2>Settings</h2>
+                    <p>Modify your preferences here.</p>
+                `;
+            }
+        }, 500);
+    }
 
-.nav-btn:hover {
-    background-color: #666;
-    transform: scale(1.05);
-}
+    async function loadMatchHistory() {
+        const matchList = document.getElementById("matchList");
+        const { data, error } = await supabase.from("matches").select("*");
 
-.nav-btn.active {
-    background-color: orange;
-    color: white;
-}
+        if (error) {
+            matchList.innerHTML = `<p>Error loading matches.</p>`;
+        } else {
+            matchList.innerHTML = data.map(match => `
+                <div class="match-item">
+                    <strong>${match.date}</strong>: ${match.home_team} vs ${match.away_team} - ${match.score}
+                    <br>Venue: ${match.venue} | Competition: ${match.competition}
+                    <br><em>${match.notes}</em>
+                </div>
+            `).join("");
+        }
+    }
 
-/* Forms */
-form {
-    display: flex;
-    flex-direction: column;
-}
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            const page = button.innerText.toLowerCase().replace(" ", "");
+            loadPage(page);
+        });
+    });
 
-.error-message {
-    color: red;
-    margin-top: 10px;
-    font-size: 14px;
-}
+    loadPage("home");
 
-/* Page Specific Containers */
-.dashboard-container, .match-log-container, .settings-container {
-    max-width: 600px;
-    width: 100%;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
+    if (logoutButton) {
+        logoutButton.addEventListener("click", async () => {
+            await supabase.auth.signOut();
+            window.location.href = "login.html";
+        });
+    }
+});
