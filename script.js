@@ -1,54 +1,126 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const buttons = document.querySelectorAll(".nav-btn");
-    const dashboard = document.getElementById("dashboard");
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
 
-    // Function to update active button and load content
-    function loadPage(page) {
-        buttons.forEach(btn => btn.classList.remove("active"));
-        document.querySelector(`[data-page="${page}"]`).classList.add("active");
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 350px;
+}
 
-        if (page === "home") {
-            dashboard.innerHTML = `
-                <h2>Welcome to the Match Tracker</h2>
-                <p>Track and manage your football matches with ease.</p>
-            `;
-        } else if (page === "log") {
-            dashboard.innerHTML = `
-                <h2>Log a Match</h2>
-                <form id="matchForm">
-                    <label>Date: <input type="date" id="matchDate" required></label><br>
-                    <label>Home Team: <input type="text" id="homeTeam" required></label><br>
-                    <label>Away Team: <input type="text" id="awayTeam" required></label><br>
-                    <label>Score: <input type="text" id="score" required></label><br>
-                    <button type="submit" class="nav-btn active">Save Match</button>
-                </form>
-            `;
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
 
-            document.getElementById("matchForm").addEventListener("submit", (e) => {
-                e.preventDefault();
-                alert("Match Logged!");
-            });
-        } else if (page === "view") {
-            dashboard.innerHTML = `
-                <h2>Match History</h2>
-                <p>Coming Soon...</p>
-            `;
-        } else if (page === "settings") {
-            dashboard.innerHTML = `
-                <h2>Settings</h2>
-                <p>Modify your preferences here.</p>
-            `;
-        }
-    }
+label {
+    display: block;
+    text-align: left;
+    font-size: 14px;
+    margin-top: 10px;
+}
 
-    // Assign click event to buttons
-    buttons.forEach(button => {
-        button.addEventListener("click", () => {
-            const page = button.innerText.toLowerCase().replace(" ", "");
-            loadPage(page);
-        });
-    });
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-    // Load home page by default
-    loadPage("home");
-});
+/* Button Styles */
+.button {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.button:hover {
+    background-color: darkorange;
+    transform: scale(1.05);
+}
+
+.button.secondary {
+    background-color: #444;
+}
+
+.button.secondary:hover {
+    background-color: #666;
+}
+
+.button.logout {
+    background-color: red;
+}
+
+.button.logout:hover {
+    background-color: darkred;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.nav-btn {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.nav-btn:hover {
+    background-color: #666;
+    transform: scale(1.05);
+}
+
+.nav-btn.active {
+    background-color: orange;
+    color: white;
+}
+
+/* Forms */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* Page Specific Containers */
+.dashboard-container, .match-log-container, .settings-container {
+    max-width: 600px;
+    width: 100%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
