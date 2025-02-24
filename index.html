@@ -3,24 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Match Tracker</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <title>Dashboard - Match Tracker</title>
+    <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
-    <style>
-        .version-indicator {
-            width: 200px;
-            height: 50px;
-            background-color: green;
-            color: white;
-            font-size: 16px;
-            text-align: center;
-            line-height: 50px;
-            border-radius: 8px;
-            margin: 20px auto;
-        }
-    </style>
 </head>
 <body>
-    <div class="version-indicator">Version 1.0.2</div>
+    <header>
+        <h1>Football Match Tracker</h1>
+        <nav>
+            <button class="nav-btn active" data-page="home">Home</button>
+            <button class="nav-btn" data-page="log">Log Match</button>
+            <button class="nav-btn" data-page="view">View Matches</button>
+            <button class="nav-btn" data-page="settings">Settings</button>
+            <button class="nav-btn logout">Logout</button>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="dashboard">
+            <h2>Welcome to the Match Tracker</h2>
+            <p>Track and manage your football matches with ease.</p>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card" id="recent-matches">
+                    <h3>Recent Matches</h3>
+                    <ul id="matchList">Loading...</ul>
+                </div>
+                
+                <div class="dashboard-card" id="team-stats">
+                    <h3>Team Statistics</h3>
+                    <p>Coming soon...</p>
+                </div>
+                
+                <div class="dashboard-card" id="user-profile">
+                    <h3>Your Profile</h3>
+                    <p id="user-email">Loading...</p>
+                </div>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
