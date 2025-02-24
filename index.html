@@ -3,44 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Match Tracker</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
+    <title>Match Tracker</title>
+    <script defer src="test.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Football Match Tracker</h1>
-        <nav>
-            <button class="nav-btn active" data-page="home">Home</button>
-            <button class="nav-btn" data-page="log">Log Match</button>
-            <button class="nav-btn" data-page="view">View Matches</button>
-            <button class="nav-btn" data-page="settings">Settings</button>
-            <button class="nav-btn logout">Logout</button>
-        </nav>
-    </header>
+    <!-- Header Section -->
+    <div id="header"></div>
+
+    <h1>Match Tracker</h1>
     
-    <main>
-        <section id="dashboard">
-            <h2>Welcome to the Match Tracker</h2>
-            <p>Track and manage your football matches with ease.</p>
-            
-            <div class="dashboard-grid">
-                <div class="dashboard-card" id="recent-matches">
-                    <h3>Recent Matches</h3>
-                    <ul id="matchList">Loading...</ul>
-                </div>
-                
-                <div class="dashboard-card" id="team-stats">
-                    <h3>Team Statistics</h3>
-                    <p>Coming soon...</p>
-                </div>
-                
-                <div class="dashboard-card" id="user-profile">
-                    <h3>Your Profile</h3>
-                    <p id="user-email">Loading...</p>
-                </div>
-            </div>
-        </section>
-    </main>
+    <ul id="test-data">Loading...</ul>
+    
+    <h2>Add New Entry</h2>
+    <form id="test-form">
+        <label for="entry-name">Name:</label>
+        <input type="text" id="entry-name" required>
+        <button type="submit">Add Entry</button>
+    </form>
+
+    <h2>Edit Entry</h2>
+    <form id="edit-form" style="display: none;">
+        <label for="edit-name">New Name:</label>
+        <input type="text" id="edit-name" required>
+        <input type="hidden" id="edit-id">
+        <button type="submit">Update Entry</button>
+    </form>
+
+    <p id="status-message"></p>
+
+    <!-- Footer Section -->
+    <div id="footer"></div>
+
+    <script>
+        // Load header and footer dynamically
+        document.getElementById("header").innerHTML = '<object type="text/html" data="header.html" ></object>';
+        document.getElementById("footer").innerHTML = '<object type="text/html" data="footer.html" ></object>';
+    </script>
 </body>
 </html>
