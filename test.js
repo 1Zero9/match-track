@@ -36,7 +36,7 @@ async function fetchTestData() {
             <li>
                 ${entry.name} - ${entry.created_at}
                 <button onclick="editEntry(${entry.id}, '${entry.name}')">Edit</button>
-                <button onclick="deleteEntry(${entry.id})">Delete</button>
+                <button onclick="confirmDelete(${entry.id})">Delete</button>
             </li>`
         ).join("");
     } catch (error) {
@@ -72,6 +72,12 @@ function setupFormListener() {
     });
 }
 
+function confirmDelete(id) {
+    if (confirm("Are you sure you want to delete this entry?")) {
+        deleteEntry(id);
+    }
+}
+
 async function deleteEntry(id) {
     try {
         const { error } = await window.supabase.from("test_entries").delete().eq("id", id);
@@ -83,6 +89,7 @@ async function deleteEntry(id) {
 }
 
 function editEntry(id, name) {
+    if (!confirm("Are you sure you want to edit this entry?")) return;
     document.getElementById("edit-id").value = id;
     document.getElementById("edit-name").value = name;
     document.getElementById("edit-form").style.display = "block";
