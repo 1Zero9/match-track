@@ -1,25 +1,21 @@
-// Ensure Supabase is properly loaded before using it
-if (typeof supabase === "undefined") {
+// Ensure Supabase library is properly loaded
+if (typeof window.supabase === "undefined") {
     document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"><\/script>');
 }
 
-// Initialize Supabase correctly
-const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";
-
-let supabase;
-
+// Initialize Supabase correctly after ensuring the library is loaded
 document.addEventListener("DOMContentLoaded", async () => {
-    console.log("Checking authentication...");
+    console.log("Initializing Supabase...");
+
+    // Define Supabase client
+    const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";
     
-    // Ensure Supabase is fully initialized before use
-    if (typeof supabase === "undefined" || !window.supabase) {
-        supabase = window.supabase || window.supabase_js.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    }
+    window.supabase = window.supabase || supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log("Supabase initialized.");
-    
+
     try {
-        const { data, error } = await supabase.auth.getUser();
+        const { data, error } = await window.supabase.auth.getUser();
         if (error) throw error;
         const user = data.user;
 
@@ -91,7 +87,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const matchList = document.getElementById("matchList");
         if (!matchList) return;
 
-        const { data, error } = await supabase.from("matches").select("*");
+        const { data, error } = await window.supabase.from("matches").select("*");
 
         if (error) {
             matchList.innerHTML = `<p>Error loading matches.</p>`;
@@ -117,7 +113,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (logoutButton) {
         logoutButton.addEventListener("click", async () => {
-            await supabase.auth.signOut();
+            await window.supabase.auth.signOut();
             window.location.href = "login.html";
         });
     }
