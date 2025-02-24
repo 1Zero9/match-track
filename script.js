@@ -7,14 +7,18 @@ let supabase;
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("Checking authentication...");
     
-    if (typeof supabase === "undefined") {
+    // Ensure Supabase is loaded before initializing
+    if (typeof supabase === "undefined" || !window.supabase) {
         supabase = window.supabase || supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
 
     console.log("Supabase initialized.");
     
     try {
-        const { data: { user } } = await supabase.auth.getUser();
+        const { data, error } = await supabase.auth.getUser();
+        if (error) throw error;
+        const user = data.user;
+
         if (window.location.pathname === "/index.html") {
             window.location.href = user ? "dashboard.html" : "login.html";
         }
@@ -27,6 +31,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const logoutButton = document.querySelector(".logout");
 
     function showLoading() {
+        if (!dashboard) {
+            console.error("Dashboard element not found.");
+            return;
+        }
         dashboard.innerHTML = `<div class="loading">Loading...</div>`;
     }
 
@@ -34,7 +42,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         showLoading();
         setTimeout(() => {
             buttons.forEach(btn => btn.classList.remove("active"));
-            document.querySelector(`[data-page="${page}"]`).classList.add("active");
+            const activeButton = document.querySelector(`[data-page="${page}"]`);
+            if (activeButton) activeButton.classList.add("active");
+
+            if (!dashboard) {
+                console.error("Dashboard element not found.");
+                return;
+            }
 
             if (page === "home") {
                 dashboard.innerHTML = `
