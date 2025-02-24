@@ -21,6 +21,7 @@ function initializeSupabase() {
     console.log("Supabase initialized.");
 
     fetchTestData();
+    setupFormListener();
 }
 
 async function fetchTestData() {
@@ -35,4 +36,31 @@ async function fetchTestData() {
         console.error("Error fetching data:", error);
         list.innerHTML = "Failed to load data.";
     }
+}
+
+function setupFormListener() {
+    const form = document.getElementById("test-form");
+    const statusMessage = document.getElementById("status-message");
+    
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const entryName = document.getElementById("entry-name").value;
+        
+        if (!entryName) {
+            statusMessage.textContent = "Please enter a name.";
+            return;
+        }
+        
+        try {
+            const { data, error } = await window.supabase.from("test_entries").insert([{ name: entryName }]);
+            if (error) throw error;
+            
+            statusMessage.textContent = "Entry added successfully!";
+            form.reset();
+            fetchTestData(); // Refresh the list
+        } catch (error) {
+            console.error("Error inserting data:", error);
+            statusMessage.textContent = "Failed to add entry.";
+        }
+    });
 }
