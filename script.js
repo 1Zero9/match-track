@@ -1,19 +1,18 @@
+// Ensure Supabase is initialized before usage
+const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";
+
+let supabase;
+
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("Checking authentication...");
-
-    // Ensure Supabase is loaded before initializing
-    if (typeof supabase === "undefined" || !supabase.createClient) {
-        console.error("Supabase is not defined. Ensure the library is loaded before script.js.");
-        return;
+    
+    if (typeof supabase === "undefined") {
+        supabase = window.supabase || supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
 
-    // Initialize Supabase
-    const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";
-    
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log("Supabase initialized.");
-
+    
     try {
         const { data: { user } } = await supabase.auth.getUser();
         if (window.location.pathname === "/index.html") {
@@ -74,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     }
 
                     const { data, error } = await supabase.from("matches").insert([
-                        { date, home_team: homeTeam, away_team: AwayTeam, score, venue, competition, notes }
+                        { date, home_team: homeTeam, away_team: awayTeam, score, venue, competition, notes }
                     ]);
 
                     if (error) {
