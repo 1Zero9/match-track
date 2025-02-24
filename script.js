@@ -1,4 +1,9 @@
-// Ensure Supabase is initialized before usage
+// Ensure Supabase is properly loaded before using it
+if (typeof supabase === "undefined") {
+    document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"><\/script>');
+}
+
+// Initialize Supabase correctly
 const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";
 
@@ -7,11 +12,10 @@ let supabase;
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("Checking authentication...");
     
-    // Ensure Supabase is loaded before initializing
+    // Ensure Supabase is fully initialized before use
     if (typeof supabase === "undefined" || !window.supabase) {
-        supabase = window.supabase || supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        supabase = window.supabase || window.supabase_js.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
-
     console.log("Supabase initialized.");
     
     try {
@@ -19,8 +23,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (error) throw error;
         const user = data.user;
 
-        if (window.location.pathname === "/index.html") {
-            window.location.href = user ? "dashboard.html" : "login.html";
+        if (!user) {
+            window.location.href = "login.html";
+        } else {
+            document.getElementById("user-email").textContent = user.email;
         }
     } catch (error) {
         console.error("Supabase authentication error:", error);
@@ -30,11 +36,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const dashboard = document.getElementById("dashboard");
     const logoutButton = document.querySelector(".logout");
 
+    if (!dashboard) {
+        console.error("Dashboard element not found.");
+        return;
+    }
+
     function showLoading() {
-        if (!dashboard) {
-            console.error("Dashboard element not found.");
-            return;
-        }
         dashboard.innerHTML = `<div class="loading">Loading...</div>`;
     }
 
@@ -44,11 +51,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             buttons.forEach(btn => btn.classList.remove("active"));
             const activeButton = document.querySelector(`[data-page="${page}"]`);
             if (activeButton) activeButton.classList.add("active");
-
-            if (!dashboard) {
-                console.error("Dashboard element not found.");
-                return;
-            }
 
             if (page === "home") {
                 dashboard.innerHTML = `
@@ -70,33 +72,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </form>
                     <p id="matchSuccess" class="success-message" style="display:none;">Match logged successfully!</p>
                 `;
-
-                document.getElementById("matchForm").addEventListener("submit", async (e) => {
-                    e.preventDefault();
-                    const date = document.getElementById("matchDate").value;
-                    const homeTeam = document.getElementById("homeTeam").value;
-                    const awayTeam = document.getElementById("awayTeam").value;
-                    const score = document.getElementById("score").value;
-                    const venue = document.getElementById("venue").value;
-                    const competition = document.getElementById("competition").value;
-                    const notes = document.getElementById("notes").value;
-
-                    if (!date || !homeTeam || !awayTeam || !score || !venue || !competition) {
-                        alert("Please fill in all required fields.");
-                        return;
-                    }
-
-                    const { data, error } = await supabase.from("matches").insert([
-                        { date, home_team: homeTeam, away_team: awayTeam, score, venue, competition, notes }
-                    ]);
-
-                    if (error) {
-                        alert("Error logging match: " + error.message);
-                    } else {
-                        document.getElementById("matchSuccess").style.display = "block";
-                        setTimeout(() => document.getElementById("matchSuccess").style.display = "none", 3000);
-                    }
-                });
             } else if (page === "view") {
                 dashboard.innerHTML = `
                     <h2>Match History</h2>
@@ -114,6 +89,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function loadMatchHistory() {
         const matchList = document.getElementById("matchList");
+        if (!matchList) return;
+
         const { data, error } = await supabase.from("matches").select("*");
 
         if (error) {
