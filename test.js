@@ -22,6 +22,7 @@ function initializeSupabase() {
 
     fetchTestData();
     setupFormListener();
+    setupEditListener();
 }
 
 async function fetchTestData() {
@@ -31,7 +32,13 @@ async function fetchTestData() {
     try {
         const { data, error } = await window.supabase.from("test_entries").select("*");
         if (error) throw error;
-        list.innerHTML = data.map(entry => `<li>${entry.name} - ${entry.created_at}</li>`).join("");
+        list.innerHTML = data.map(entry => `
+            <li>
+                ${entry.name} - ${entry.created_at}
+                <button onclick="editEntry(${entry.id}, '${entry.name}')">Edit</button>
+                <button onclick="deleteEntry(${entry.id})">Delete</button>
+            </li>`
+        ).join("");
     } catch (error) {
         console.error("Error fetching data:", error);
         list.innerHTML = "Failed to load data.";
@@ -61,6 +68,45 @@ function setupFormListener() {
         } catch (error) {
             console.error("Error inserting data:", error);
             statusMessage.textContent = "Failed to add entry.";
+        }
+    });
+}
+
+async function deleteEntry(id) {
+    try {
+        const { error } = await window.supabase.from("test_entries").delete().eq("id", id);
+        if (error) throw error;
+        fetchTestData();
+    } catch (error) {
+        console.error("Error deleting data:", error);
+    }
+}
+
+function editEntry(id, name) {
+    document.getElementById("edit-id").value = id;
+    document.getElementById("edit-name").value = name;
+    document.getElementById("edit-form").style.display = "block";
+}
+
+function setupEditListener() {
+    const editForm = document.getElementById("edit-form");
+    const statusMessage = document.getElementById("status-message");
+
+    editForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const id = document.getElementById("edit-id").value;
+        const newName = document.getElementById("edit-name").value;
+
+        try {
+            const { error } = await window.supabase.from("test_entries").update({ name: newName }).eq("id", id);
+            if (error) throw error;
+            
+            statusMessage.textContent = "Entry updated successfully!";
+            editForm.style.display = "none";
+            fetchTestData(); // Refresh the list
+        } catch (error) {
+            console.error("Error updating data:", error);
+            statusMessage.textContent = "Failed to update entry.";
         }
     });
 }
