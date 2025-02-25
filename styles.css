@@ -1,0 +1,5 @@
+body {
+    /* ...existing styles... */
+    margin-top: 44px;  /* slightly larger than header height to prevent overlap */
+    /* ...existing styles... */
+}
