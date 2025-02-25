@@ -52,7 +52,6 @@ async function fetchTestData() {
         ).join("");
     } catch (error) {
         console.error("❌ Error fetching data:", error);
-        list.innerHTML = "Failed to load data.";
     }
 }
 
@@ -60,7 +59,7 @@ async function fetchTestData() {
 async function fetchAdminData() {
     const list = document.getElementById("admin-data");
     if (!list) {
-        console.warn("⚠ Warning: admin-data element not found.");
+        console.error("Error: admin-data element not found.");
         return;
     }
     list.innerHTML = "Loading...";
@@ -77,7 +76,7 @@ async function fetchAdminData() {
             </li>`
         ).join("");
     } catch (error) {
-        console.error("❌ Error fetching admin data:", error);
+        console.error("Error fetching admin data:", error);
         list.innerHTML = "Failed to load data.";
     }
 }
@@ -86,30 +85,22 @@ async function fetchAdminData() {
 function setupFormListener() {
     const form = document.getElementById("test-form");
     if (!form) {
-        console.warn("⚠ Warning: Form element not found. Skipping event listener setup.");
+        console.warn("⚠ Warning: test-form element not found.");
         return;
     }
     
     const statusMessage = document.getElementById("status-message");
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
-        const entryName = document.getElementById("entry-name").value;
-        
-        if (!entryName) {
-            statusMessage.textContent = "Please enter a name.";
-            return;
-        }
-        
+        const name = document.getElementById("entry-name").value;
         try {
-            const { data, error } = await window.supabase.from("test_entries").insert([{ name: entryName }]);
+            const { data, error } = await window.supabase.from("test_entries").insert([{ name }]);
             if (error) throw error;
-            
             statusMessage.textContent = "✅ Entry added successfully!";
-            form.reset();
-            fetchTestData(); // Refresh the list
+            fetchTestData();
         } catch (error) {
-            console.error("❌ Error inserting data:", error);
-            statusMessage.textContent = "Failed to add entry.";
+            console.error("❌ Error adding entry:", error);
+            statusMessage.textContent = "❌ Error adding entry.";
         }
     });
 }
@@ -124,11 +115,11 @@ function confirmDelete(id) {
 // Delete an entry
 async function deleteEntry(id) {
     try {
-        const { error } = await window.supabase.from("test_entries").delete().eq("id", id);
+        const { data, error } = await window.supabase.from("test_entries").delete().eq("id", id);
         if (error) throw error;
         fetchTestData();
     } catch (error) {
-        console.error("❌ Error deleting data:", error);
+        console.error("❌ Error deleting entry:", error);
     }
 }
 
@@ -144,7 +135,7 @@ function editEntry(id, name) {
 function setupEditListener() {
     const editForm = document.getElementById("edit-form");
     if (!editForm) {
-        console.warn("⚠ Warning: Edit form element not found. Skipping event listener setup.");
+        console.warn("⚠ Warning: edit-form element not found.");
         return;
     }
     
@@ -153,18 +144,16 @@ function setupEditListener() {
     editForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         const id = document.getElementById("edit-id").value;
-        const newName = document.getElementById("edit-name").value;
-
+        const name = document.getElementById("edit-name").value;
         try {
-            const { error } = await window.supabase.from("test_entries").update({ name: newName }).eq("id", id);
+            const { data, error } = await window.supabase.from("test_entries").update({ name }).eq("id", id);
             if (error) throw error;
-            
             statusMessage.textContent = "✅ Entry updated successfully!";
+            fetchTestData();
             editForm.style.display = "none";
-            fetchTestData(); // Refresh the list
         } catch (error) {
-            console.error("❌ Error updating data:", error);
-            statusMessage.textContent = "Failed to update entry.";
+            console.error("❌ Error updating entry:", error);
+            statusMessage.textContent = "❌ Error updating entry.";
         }
     });
 }
