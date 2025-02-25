@@ -6,6 +6,7 @@
     <title>Admin Panel - Match Tracker</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
+    
 </head>
 <body>
     <div id="header"></div>
@@ -24,12 +25,16 @@
                 .then(response => response.text())
                 .then(data => document.getElementById("header").innerHTML = data)
                 .catch(error => console.error("Error loading header:", error));
-
-            if (typeof window.supabase === "undefined") {
-                console.error("Supabase not initialized.");
-                return;
-            }
-
+    
+            // Wait for Supabase to initialize
+            let checkSupabase = setInterval(() => {
+                if (typeof window.supabase !== "undefined") {
+                    clearInterval(checkSupabase);
+                    console.log("✅ Supabase detected! Fetching admin data...");
+                    fetchAdminData();
+                }
+            }, 500);
+    
             async function fetchAdminData() {
                 const list = document.getElementById("admin-data");
                 if (!list) {
@@ -54,9 +59,8 @@
                     list.innerHTML = "Failed to load data.";
                 }
             }
-
-            fetchAdminData();
         });
     </script>
+    
 </body>
 </html>
