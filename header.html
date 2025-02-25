@@ -15,6 +15,37 @@
 </header>
 
 <style>
+    .site-header {
+        background-color: #333;
+        padding: 5px 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .header-logo {
+        width: 50px;  /* Set fixed width */
+        height: auto;  /* Maintain aspect ratio */
+        margin-right: 15px;
+    }
+
+    .header-title {
+        color: white;
+        font-size: 1.5em;  /* Reduced from default size */
+        margin: 0;
+    }
+
     .header-nav {
         display: flex;
         gap: 15px;
@@ -23,8 +54,8 @@
     .nav-link {
         color: white;
         text-decoration: none;
-        font-size: 16px;
-        padding: 8px 12px;
+        font-size: 14px;  /* Reduced from 16px */
+        padding: 6px 10px;  /* Reduced padding */
         background: rgba(255, 255, 255, 0.2);
         border-radius: 5px;
         transition: background 0.3s;
@@ -41,6 +72,6 @@
     }
 
     .lock-icon {
-        font-size: 14px;
+        font-size: 12px;  /* Reduced from 14px */
     }
 </style>
