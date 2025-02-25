@@ -6,32 +6,54 @@
     <title>Match Tracker</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
-    <link rel="icon" href="icon/RVR.ico">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            background-color: #333;
+            color: white;
+            position: relative;
+            bottom: 0;
+        }
+    </style>
 </head>
 <body>
     <!-- Header Section -->
     <div id="header"></div>
-
-    <h1>Match Tracker</h1>
     
-    <ul id="test-data">Loading...</ul>
-    
-    <h2>Add New Entry</h2>
-    <form id="test-form">
-        <label for="entry-name">Name:</label>
-        <input type="text" id="entry-name" required>
-        <button type="submit">Add Entry</button>
-    </form>
+    <div class="content">
+        <h1>Match Tracker</h1>
+        
+        <ul id="test-data">Loading...</ul>
+        
+        <h2>Add New Entry</h2>
+        <form id="test-form">
+            <label for="entry-name">Name:</label>
+            <input type="text" id="entry-name" required>
+            <button type="submit">Add Entry</button>
+        </form>
 
-    <h2>Edit Entry</h2>
-    <form id="edit-form" style="display: none;">
-        <label for="edit-name">New Name:</label>
-        <input type="text" id="edit-name" required>
-        <input type="hidden" id="edit-id">
-        <button type="submit">Update Entry</button>
-    </form>
+        <h2>Edit Entry</h2>
+        <form id="edit-form" style="display: none;">
+            <label for="edit-name">New Name:</label>
+            <input type="text" id="edit-name" required>
+            <input type="hidden" id="edit-id">
+            <button type="submit">Update Entry</button>
+        </form>
 
-    <p id="status-message"></p>
+        <p id="status-message"></p>
+    </div>
 
     <!-- Footer Section -->
     <div id="footer"></div>
