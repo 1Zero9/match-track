@@ -24,7 +24,7 @@
         right: 0;
         z-index: 1000;
         height: 50px;
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.3s ease;
     }
 
     .header-content {
@@ -80,20 +80,27 @@
 
     .header-hidden {
         transform: translateY(-100%);
+        transition: transform 0.3s ease;
     }
 </style>
 
 <script>
-    let lastScroll = window.scrollY;
-    let header = document.querySelector('.site-header');
-    
+    let lastScroll = 0;
+    const header = document.querySelector('.site-header');
+    const scrollThreshold = 5; // Minimum scroll amount to trigger hide/show
+
     window.addEventListener('scroll', () => {
-        const currentScroll = window.scrollY;
-        if (currentScroll > lastScroll && currentScroll > 50) {
+        const currentScroll = window.pageYOffset;
+        
+        // Scrolling down
+        if (currentScroll > lastScroll && currentScroll > header.offsetHeight) {
             header.classList.add('header-hidden');
-        } else {
+        }
+        // Scrolling up
+        else if (currentScroll < lastScroll) {
             header.classList.remove('header-hidden');
         }
-        lastScroll = currentScroll;
-    });
+        
+        lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+    }, { passive: true });
 </script>
