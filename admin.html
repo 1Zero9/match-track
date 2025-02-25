@@ -6,7 +6,6 @@
     <title>Admin Panel - Match Tracker</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
-    
 </head>
 <body>
     <div id="header"></div>
@@ -19,14 +18,20 @@
         <ul id="admin-data" class="results-container">Loading...</ul>
     </div>
 
+    <div id="footer"></div>
+
     <script>
         document.addEventListener("DOMContentLoaded", async function () {
             fetch("header.html")
                 .then(response => response.text())
                 .then(data => document.getElementById("header").innerHTML = data)
                 .catch(error => console.error("Error loading header:", error));
-    
-            // Wait for Supabase to initialize
+
+            fetch("footer.html")
+                .then(response => response.text())
+                .then(data => document.getElementById("footer").innerHTML = data)
+                .catch(error => console.error("Error loading footer:", error));
+
             let checkSupabase = setInterval(() => {
                 if (typeof window.supabase !== "undefined") {
                     clearInterval(checkSupabase);
@@ -34,7 +39,7 @@
                     fetchAdminData();
                 }
             }, 500);
-    
+
             async function fetchAdminData() {
                 const list = document.getElementById("admin-data");
                 if (!list) {
@@ -61,6 +66,5 @@
             }
         });
     </script>
-    
 </body>
 </html>
