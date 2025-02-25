@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Match Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div id="header"></div>
+    
+    <div class="container">
+        <h1>Admin Panel</h1>
+        <p>Manage match results below.</p>
+        
+        <ul id="admin-data" class="results-container">Loading...</ul>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("header.html")
+                .then(response => response.text())
+                .then(data => document.getElementById("header").innerHTML = data)
+                .catch(error => console.error("Error loading header:", error));
+        });
+
+        async function fetchAdminData() {
+            const list = document.getElementById("admin-data");
+            if (!list) {
+                console.error("Error: admin-data element not found.");
+                return;
+            }
+            list.innerHTML = "Loading...";
+        
+            try {
+                const { data, error } = await window.supabase.from("matches").select("*");
+                if (error) throw error;
+                list.innerHTML = data.map(match => `
+                    <li class="match-card">
+                        <strong>${match.home_team} vs ${match.away_team}</strong>
+                        <span>Score: ${match.score}</span>
+                        <button onclick="editMatch(${match.id}, '${match.home_team}', '${match.away_team}', '${match.score}')">Edit</button>
+                        <button onclick="confirmDelete(${match.id})">Delete</button>
+                    </li>`
+                ).join("");
+            } catch (error) {
+                console.error("Error fetching admin data:", error);
+                list.innerHTML = "Failed to load data.";
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", fetchAdminData);
+    </script>
+</body>
+</html>

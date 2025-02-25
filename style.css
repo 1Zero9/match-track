@@ -40,6 +40,92 @@ input, select, textarea {
     border-radius: 5px;
 }
 
+/* Match Results Styling */
+.results-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.match-card {
+    background: #222;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.match-card strong {
+    font-size: 18px;
+    color: orange;
+}
+
+.match-card span {
+    font-size: 16px;
+}
+
+/* Header Styles */
+.site-header {
+    background: url('assets/headerbg.png') no-repeat center center/cover;
+    width: 100vw;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.header-logo {
+    width: 100px;
+    height: auto;
+}
+
+.header-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    flex-grow: 1;
+}
+
+/* Footer Styles */
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    background-color: #333;
+    color: white;
+    position: relative;
+    bottom: 0;
+}
+
+.full-width-image-section {
+    width: 100%;
+    overflow: hidden;
+}
+
+.full-width-image {
+    width: 100%;
+    display: block;
+}
+
 /* Button Styles */
 .button {
     background-color: orange;
@@ -102,108 +188,4 @@ nav {
 .nav-btn.active {
     background-color: orange;
     color: white;
-}
-
-/* Forms */
-form {
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    margin: auto;
-}
-
-textarea {
-    height: 80px;
-    resize: none;
-}
-
-.success-message {
-    color: green;
-    margin-top: 10px;
-    font-size: 14px;
-    display: none;
-}
-
-.error-message {
-    color: red;
-    margin-top: 10px;
-    font-size: 14px;
-}
-
-/* Match History Styling */
-.match-item {
-    background: white;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 8px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: left;
-}
-
-.match-item strong {
-    color: #333;
-    font-size: 16px;
-}
-
-.match-item em {
-    color: #666;
-    font-size: 14px;
-    display: block;
-    margin-top: 5px;
-}
-
-/* Header Styles */
-.site-header {
-    background: url('assets/headerbg.png') no-repeat center center/cover;
-    width: 100%;
-    padding: 20px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.header-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 80%;
-}
-
-.header-logo {
-    width: 80px;
-    height: auto;
-}
-
-.header-title {
-    font-size: 28px;
-    font-weight: bold;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-}
-
-/* Footer Styles */
-footer {
-    width: 100%;
-    text-align: center;
-    padding: 20px 0;
-    background-color: #333;
-    color: white;
-    position: relative;
-    bottom: 0;
-}
-
-.full-width-image-section {
-    width: 100%;
-    overflow: hidden;
-}
-
-.full-width-image {
-    width: 100%;
-    display: block;
 }
