@@ -92,6 +92,20 @@
                 padding: 10px;
             }
         }
+
+        .spinner {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .table-container.loading .spinner {
+            display: block;
+        }
+
+        .table-container.loading .results-table {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -106,6 +120,7 @@
         <div class="container">
             <h2 class="page-title">Recent Match Results</h2>
             <div class="table-container">
+                <div id="loading-spinner" class="spinner">Loading...</div>
                 <table class="results-table">
                     <thead>
                         <tr>
@@ -140,18 +155,56 @@
                 .then(response => response.text())
                 .then(data => document.getElementById("footer").innerHTML = data)
                 .catch(error => console.error("Error loading footer:", error));
+
+            fetchMatches();
         });
+
+        function fetchMatches() {
+            const tableContainer = document.querySelector('.table-container');
+            tableContainer.classList.add('loading');
+
+            fetch('api/get-matches.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayResults(data.data);
+                    } else {
+                        throw new Error(data.error || 'Failed to fetch matches');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('resultsTableBody').innerHTML = `
+                        <tr><td colspan="5" style="text-align: center; color: red;">
+                            Error loading matches. Please try again later.
+                        </td></tr>
+                    `;
+                })
+                .finally(() => {
+                    tableContainer.classList.remove('loading');
+                });
+        }
 
         function displayResults(results) {
             const tbody = document.getElementById('resultsTableBody');
             tbody.innerHTML = '';
             
+            if (results.length === 0) {
+                tbody.innerHTML = `
+                    <tr><td colspan="5" style="text-align: center;">
+                        No matches found
+                    </td></tr>
+                `;
+                return;
+            }
+            
             results.forEach((result, index) => {
                 const row = document.createElement('tr');
                 row.style.animationDelay = `${index * 0.05}s`;
                 
+                const matchDate = new Date(result.date);
                 row.innerHTML = `
-                    <td>${new Date(result.date).toLocaleDateString()}</td>
+                    <td>${matchDate.toLocaleDateString()}</td>
                     <td>${result.player1}</td>
                     <td>${result.score}</td>
                     <td>${result.player2}</td>
@@ -161,9 +214,6 @@
                 tbody.appendChild(row);
             });
         }
-
-        // Assuming you have your existing fetch/data loading logic
-        // ...existing code...
     </script>
 </body>
 </html>
