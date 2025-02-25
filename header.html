@@ -1,6 +1,18 @@
 <header class="site-header">
     <div class="header-content">
-        <img src="assets/rvrlogo.png" alt="RVR Logo" class="header-logo">
+        <img src="assets/RVRLogo.png" alt="RVR Logo" class="header-logo">
         <h1 class="header-title">Match Tracker</h1>
     </div>
 </header>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let header = document.getElementById("header");
+        if (header) {
+            fetch("header.html")
+                .then(response => response.text())
+                .then(data => header.innerHTML = data)
+                .catch(error => console.error("Error loading header:", error));
+        }
+    });
+</script>
