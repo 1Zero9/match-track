@@ -28,6 +28,70 @@
             position: relative;
             bottom: 0;
         }
+        .table-container {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+            background: white;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .results-table th {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .results-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .results-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .results-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .results-table tbody tr:hover {
+            background-color: #f0f4f8;
+            transform: scale(1.001);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-title {
+            color: #333;
+            margin: 30px 0;
+            font-size: 2em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .results-table {
+                font-size: 14px;
+            }
+
+            .results-table td, .results-table th {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -39,20 +103,25 @@
         
         <ul id="test-data">Loading...</ul>
         
-        <h2>Add New Entry</h2>
-        <form id="test-form">
-            <label for="entry-name">Name:</label>
-            <input type="text" id="entry-name" required>
-            <button type="submit">Add Entry</button>
-        </form>
-
-        <h2>Edit Entry</h2>
-        <form id="edit-form" style="display: none;">
-            <label for="edit-name">New Name:</label>
-            <input type="text" id="edit-name" required>
-            <input type="hidden" id="edit-id">
-            <button type="submit">Update Entry</button>
-        </form>
+        <div class="container">
+            <h2 class="page-title">Recent Match Results</h2>
+            <div class="table-container">
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Player 1</th>
+                            <th>Score</th>
+                            <th>Player 2</th>
+                            <th>Competition</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTableBody">
+                        <!-- Table rows will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <p id="status-message"></p>
     </div>
@@ -72,6 +141,29 @@
                 .then(data => document.getElementById("footer").innerHTML = data)
                 .catch(error => console.error("Error loading footer:", error));
         });
+
+        function displayResults(results) {
+            const tbody = document.getElementById('resultsTableBody');
+            tbody.innerHTML = '';
+            
+            results.forEach((result, index) => {
+                const row = document.createElement('tr');
+                row.style.animationDelay = `${index * 0.05}s`;
+                
+                row.innerHTML = `
+                    <td>${new Date(result.date).toLocaleDateString()}</td>
+                    <td>${result.player1}</td>
+                    <td>${result.score}</td>
+                    <td>${result.player2}</td>
+                    <td>${result.competition}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        // Assuming you have your existing fetch/data loading logic
+        // ...existing code...
     </script>
 </body>
 </html>
