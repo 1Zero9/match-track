@@ -17,14 +17,14 @@
 <style>
     .site-header {
         background-color: #333;
-        padding: 1px 0;
+        padding: 2px 0;
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         z-index: 1000;
-        height: 50px;
-        transition: transform 0.3s ease;
+        height: 55px;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .header-content {
@@ -38,7 +38,7 @@
     }
 
     .header-logo {
-        width: 90px;
+        width: 99px;
         height: auto;
         margin-right: 15px;
     }
@@ -87,13 +87,19 @@
 <script>
     let lastScroll = 0;
     const header = document.querySelector('.site-header');
-    const scrollThreshold = 5; // Minimum scroll amount to trigger hide/show
+    const scrollThreshold = 50; // Increased threshold for better user experience
 
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
         
+        // Only trigger if we've scrolled more than the threshold
+        if (Math.abs(currentScroll - lastScroll) < scrollThreshold) {
+            lastScroll = currentScroll;
+            return;
+        }
+        
         // Scrolling down
-        if (currentScroll > lastScroll && currentScroll > header.offsetHeight) {
+        if (currentScroll > lastScroll && currentScroll > header.offsetHeight + 100) {
             header.classList.add('header-hidden');
         }
         // Scrolling up
