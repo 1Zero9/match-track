@@ -1,27 +1,89 @@
+tracker/admin.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Match Tracker</title>
+    <title>Match Tracker Admin</title>
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
+    <link rel="icon" href="icon/RVR.ico">
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+        .admin-controls {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
 </head>
 <body>
+    <!-- Header Section -->
     <div id="header"></div>
     
-    <div class="container">
-        <h1>Admin Panel</h1>
-        <p>Manage match results below.</p>
+    <div class="content">
+        <h1>Match Tracker Administration</h1>
         
-        <!-- Match Results List -->
-        <ul id="admin-data" class="results-container">Loading...</ul>
+        <div class="admin-controls">
+            <h2>Match Results Management</h2>
+            <ul id="test-data">Loading...</ul>
+        </div>
+
+        <div class="admin-controls">
+            <h2>Add New Match Result</h2>
+            <form id="test-form">
+                <div class="form-group">
+                    <label for="entry-name">Name:</label>
+                    <input type="text" id="entry-name" required>
+                </div>
+                <button type="submit" class="btn-primary">Add Entry</button>
+            </form>
+        </div>
+
+        <div class="admin-controls">
+            <h2>Edit Match Result</h2>
+            <form id="edit-form" style="display: none;">
+                <div class="form-group">
+                    <label for="edit-name">New Name:</label>
+                    <input type="text" id="edit-name" required>
+                </div>
+                <input type="hidden" id="edit-id">
+                <div class="action-buttons">
+                    <button type="submit" class="btn-primary">Update Entry</button>
+                    <button type="button" class="btn-secondary" onclick="cancelEdit()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <p id="status-message"></p>
     </div>
 
+    <!-- Footer Section -->
     <div id="footer"></div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", async function () {
+        document.addEventListener("DOMContentLoaded", function () {
             fetch("header.html")
                 .then(response => response.text())
                 .then(data => document.getElementById("header").innerHTML = data)
@@ -31,40 +93,11 @@
                 .then(response => response.text())
                 .then(data => document.getElementById("footer").innerHTML = data)
                 .catch(error => console.error("Error loading footer:", error));
-
-            let checkSupabase = setInterval(() => {
-                if (typeof window.supabase !== "undefined") {
-                    clearInterval(checkSupabase);
-                    console.log("✅ Supabase detected! Fetching admin data...");
-                    fetchAdminData();
-                }
-            }, 500);
-
-            async function fetchAdminData() {
-                const list = document.getElementById("admin-data");
-                if (!list) {
-                    console.error("Error: admin-data element not found.");
-                    return;
-                }
-                list.innerHTML = "Loading...";
-            
-                try {
-                    const { data, error } = await window.supabase.from("matches").select("*");
-                    if (error) throw error;
-                    list.innerHTML = data.map(match => `
-                        <li class="match-card">
-                            <strong>${match.home_team} vs ${match.away_team}</strong>
-                            <span>Score: ${match.score}</span>
-                            <button onclick="editMatch(${match.id}, '${match.home_team}', '${match.away_team}', '${match.score}')">Edit</button>
-                            <button onclick="confirmDelete(${match.id})">Delete</button>
-                        </li>`
-                    ).join("");
-                } catch (error) {
-                    console.error("Error fetching admin data:", error);
-                    list.innerHTML = "Failed to load data.";
-                }
-            }
         });
+
+        function cancelEdit() {
+            document.getElementById('edit-form').style.display = 'none';
+        }
     </script>
 </body>
 </html>
