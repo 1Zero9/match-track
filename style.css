@@ -1,206 +1,55 @@
-/* General Styles */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-html {
-    scroll-padding-top: 60px; /* Ensures anchors account for fixed header */
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-    min-height: 100vh;
-    padding-top: 60px; /* Adjust based on header height */
-    padding-bottom: 80px; /* Adjust based on footer height */
-}
-
-.container {
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 350px;
+    animation: fadeIn 0.5s ease-in;
 }
 
-h1 {
-    margin-bottom: 20px;
-    color: #333;
-}
-
-label {
-    display: block;
-    text-align: left;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Match Results Styling */
-.results-container {
-    width: 90%;
-    max-width: 800px;
-    margin: 20px auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.match-card {
-    background: #222;
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.match-card strong {
-    font-size: 18px;
-    color: orange;
-}
-
-.match-card span {
-    font-size: 16px;
-}
-
-/* Header Styles */
-.site-header {
-    background: url('assets/headerbg.png') no-repeat center center/cover;
-    width: 100vw;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 0;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.header-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 90%;
-    max-width: 1200px;
-}
-
-.header-logo {
-    width: 100px;
-    height: auto;
-}
-
-.header-title {
-    font-size: 32px;
-    font-weight: bold;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-    flex-grow: 1;
-}
-
-/* Footer Styles */
-footer {
-    width: 100%;
-    text-align: center;
-    padding: 20px 0;
+.results-table th {
     background-color: #333;
     color: white;
-    position: relative;
-    bottom: 0;
+    padding: 15px;
+    text-align: left;
+    font-weight: 500;
 }
 
-.full-width-image-section {
-    width: 100%;
-    overflow: hidden;
+.results-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
 }
 
-.full-width-image {
-    width: 100%;
+.results-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.results-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.results-table tbody tr:hover {
+    background-color: #f0f4f8;
+    transform: scale(1.001);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+    color: #333;
+    margin: 30px 0;
+    font-size: 2em;
+    font-weight: 600;
+    text-align: center;
+}
+
+.spinner {
+    text-align: center;
+    padding: 20px;
+    display: none;
+}
+
+.table-container.loading .spinner {
     display: block;
 }
 
-/* Button Styles */
-.button {
-    background-color: orange;
-    color: white;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    margin-top: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s, transform 0.2s;
-}
-
-.button:hover {
-    background-color: darkorange;
-    transform: scale(1.05);
-}
-
-.button.secondary {
-    background-color: #444;
-}
-
-.button.secondary:hover {
-    background-color: #666;
-}
-
-.button.logout {
-    background-color: red;
-}
-
-.button.logout:hover {
-    background-color: darkred;
-}
-
-/* Navigation */
-nav {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.nav-btn {
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s, transform 0.2s;
-}
-
-.nav-btn:hover {
-    background-color: #666;
-    transform: scale(1.05);
-}
-
-.nav-btn.active {
-    background-color: orange;
-    color: white;
-}
-
-.content {
-    flex: 1;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
+.table-container.loading .results-table {
+    display: none;
 }
