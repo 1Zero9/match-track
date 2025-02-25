@@ -1,120 +1,123 @@
-// Ensure Supabase library is properly loaded
-if (typeof window.supabase === "undefined") {
-    document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"><\/script>');
-}
+// Ensure Supabase library is loaded before using it
+(async function() {
+    if (typeof window.supabase === "undefined") {
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js";
+        script.onload = initializeSupabase;
+        document.head.appendChild(script);
+    } else {
+        initializeSupabase();
+    }
+})();
 
-// Initialize Supabase correctly after ensuring the library is loaded
-document.addEventListener("DOMContentLoaded", async () => {
+// Initialize Supabase only after the script is loaded
+function initializeSupabase() {
     console.log("Initializing Supabase...");
-
-    // Define Supabase client
+    
     const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";
     
-    window.supabase = window.supabase || supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log("Supabase initialized.");
 
-    try {
-        const { data, error } = await window.supabase.auth.getUser();
-        if (error) throw error;
-        const user = data.user;
+    fetchTestData();
+    setupFormListener();
+    setupEditListener();
+}
 
-        if (!user) {
-            window.location.href = "login.html";
-        } else {
-            document.getElementById("user-email").textContent = user.email;
-        }
-    } catch (error) {
-        console.error("Supabase authentication error:", error);
-    }
-
-    const buttons = document.querySelectorAll(".nav-btn");
-    const dashboard = document.getElementById("dashboard");
-    const logoutButton = document.querySelector(".logout");
-
-    if (!dashboard) {
-        console.error("Dashboard element not found.");
+async function fetchTestData() {
+    const list = document.getElementById("test-data");
+    if (!list) {
+        console.error("Error: test-data element not found.");
         return;
     }
+    list.innerHTML = "Loading...";
 
-    function showLoading() {
-        dashboard.innerHTML = `<div class="loading">Loading...</div>`;
+    try {
+        const { data, error } = await window.supabase.from("test_entries").select("*");
+        if (error) throw error;
+        list.innerHTML = data.map(entry => `
+            <li>
+                ${entry.name} - ${entry.created_at}
+                <button onclick="editEntry(${entry.id}, '${entry.name}')">Edit</button>
+                <button onclick="confirmDelete(${entry.id})">Delete</button>
+            </li>`
+        ).join("");
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        list.innerHTML = "Failed to load data.";
     }
+}
 
-    function loadPage(page) {
-        showLoading();
-        setTimeout(() => {
-            buttons.forEach(btn => btn.classList.remove("active"));
-            const activeButton = document.querySelector(`[data-page="${page}"]`);
-            if (activeButton) activeButton.classList.add("active");
-
-            if (page === "home") {
-                dashboard.innerHTML = `
-                    <h2>Welcome to the Match Tracker</h2>
-                    <p>Track and manage your football matches with ease.</p>
-                `;
-            } else if (page === "log") {
-                dashboard.innerHTML = `
-                    <h2>Log a Match</h2>
-                    <form id="matchForm">
-                        <label>Date: <input type="date" id="matchDate" required></label><br>
-                        <label>Home Team: <input type="text" id="homeTeam" required></label><br>
-                        <label>Away Team: <input type="text" id="awayTeam" required></label><br>
-                        <label>Score: <input type="text" id="score" required></label><br>
-                        <label>Venue: <input type="text" id="venue" required></label><br>
-                        <label>Competition: <input type="text" id="competition" required></label><br>
-                        <label>Notes: <textarea id="notes"></textarea></label><br>
-                        <button type="submit" class="nav-btn active">Save Match</button>
-                    </form>
-                    <p id="matchSuccess" class="success-message" style="display:none;">Match logged successfully!</p>
-                `;
-            } else if (page === "view") {
-                dashboard.innerHTML = `
-                    <h2>Match History</h2>
-                    <div id="matchList">Loading...</div>
-                `;
-                loadMatchHistory();
-            } else if (page === "settings") {
-                dashboard.innerHTML = `
-                    <h2>Settings</h2>
-                    <p>Modify your preferences here.</p>
-                `;
-            }
-        }, 500);
-    }
-
-    async function loadMatchHistory() {
-        const matchList = document.getElementById("matchList");
-        if (!matchList) return;
-
-        const { data, error } = await window.supabase.from("matches").select("*");
-
-        if (error) {
-            matchList.innerHTML = `<p>Error loading matches.</p>`;
-        } else {
-            matchList.innerHTML = data.map(match => `
-                <div class="match-item">
-                    <strong>${match.date}</strong>: ${match.home_team} vs ${match.away_team} - ${match.score}
-                    <br>Venue: ${match.venue} | Competition: ${match.competition}
-                    <br><em>${match.notes}</em>
-                </div>
-            `).join("");
+function setupFormListener() {
+    const form = document.getElementById("test-form");
+    const statusMessage = document.getElementById("status-message");
+    
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const entryName = document.getElementById("entry-name").value;
+        
+        if (!entryName) {
+            statusMessage.textContent = "Please enter a name.";
+            return;
         }
-    }
-
-    buttons.forEach(button => {
-        button.addEventListener("click", () => {
-            const page = button.innerText.toLowerCase().replace(" ", "");
-            loadPage(page);
-        });
+        
+        try {
+            const { data, error } = await window.supabase.from("test_entries").insert([{ name: entryName }]);
+            if (error) throw error;
+            
+            statusMessage.textContent = "Entry added successfully!";
+            form.reset();
+            fetchTestData(); // Refresh the list
+        } catch (error) {
+            console.error("Error inserting data:", error);
+            statusMessage.textContent = "Failed to add entry.";
+        }
     });
+}
 
-    loadPage("home");
-
-    if (logoutButton) {
-        logoutButton.addEventListener("click", async () => {
-            await window.supabase.auth.signOut();
-            window.location.href = "login.html";
-        });
+function confirmDelete(id) {
+    if (confirm("Are you sure you want to delete this entry?")) {
+        deleteEntry(id);
     }
-});
+}
+
+async function deleteEntry(id) {
+    try {
+        const { error } = await window.supabase.from("test_entries").delete().eq("id", id);
+        if (error) throw error;
+        fetchTestData();
+    } catch (error) {
+        console.error("Error deleting data:", error);
+    }
+}
+
+function editEntry(id, name) {
+    if (!confirm("Are you sure you want to edit this entry?")) return;
+    document.getElementById("edit-id").value = id;
+    document.getElementById("edit-name").value = name;
+    document.getElementById("edit-form").style.display = "block";
+}
+
+function setupEditListener() {
+    const editForm = document.getElementById("edit-form");
+    const statusMessage = document.getElementById("status-message");
+
+    editForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const id = document.getElementById("edit-id").value;
+        const newName = document.getElementById("edit-name").value;
+
+        try {
+            const { error } = await window.supabase.from("test_entries").update({ name: newName }).eq("id", id);
+            if (error) throw error;
+            
+            statusMessage.textContent = "Entry updated successfully!";
+            editForm.style.display = "none";
+            fetchTestData(); // Refresh the list
+        } catch (error) {
+            console.error("Error updating data:", error);
+            statusMessage.textContent = "Failed to update entry.";
+        }
+    });
+}
