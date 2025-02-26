@@ -26,7 +26,11 @@ function initializeSupabase() {
     window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log("✅ Supabase initialized.");
 
-    setTimeout(fetchMatches, 2000); // 🔥 Added delay to ensure Supabase is fully initialized
+    // ✅ Ensure fetchMatches() runs only after Supabase is fully initialized
+    setTimeout(() => {
+        console.log("🚀 Fetching matches now...");
+        fetchMatches();
+    }, 2000);
 }
 
 // Function to fetch match results
