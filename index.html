@@ -7,54 +7,112 @@
     <link rel="icon" type="image/x-icon" href="/icon/rvr.ico">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
+    <style>
+        body {
+            background-color: #0B1E49;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .header-container {
+            padding: 20px 0;
+            background-color: #0B1E49;
+        }
+
+        .logo {
+            width: 80px;
+        }
+
+        .main-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .sub-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .main-button {
+            background-color: #FF7F32;
+            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .main-button:hover {
+            background-color: #e56e2a;
+        }
+
+        .filter-container {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            color: black;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .filter-container select,
+        .filter-container input {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
     <!-- Header Section -->
-    <div id="header"></div>
-
-    <div class="content">
-        <h1>Match Tracker</h1>
-
-        <!-- Filter Section -->
-        <div class="filter-container">
-            <label for="competition-filter">Competition:</label>
-            <select id="competition-filter" onchange="applyFilter()">
-                <option value="all">All</option>
-                <option value="League">League</option>
-                <option value="Cup">Cup</option>
-                <option value="Friendly">Friendly</option>
-            </select>
-
-            <label for="team-filter">Team:</label>
-            <select id="team-filter" onchange="applyFilter()">
-                <option value="all">All Teams</option>
-                <!-- Teams dynamically populated -->
-            </select>
-
-            <label for="date-filter">Date:</label>
-            <input type="date" id="date-filter" onchange="applyFilter()">
+    <div class="header-container">
+        <img src="assets/rvr_logo.png" alt="Match Tracker Logo" class="logo">
+        <div class="main-title">River Valley Rangers</div>
+        <div class="sub-title">Match Records & Stats</div>
+        <div class="buttons-container">
+            <button class="main-button">View Results</button>
+            <button class="main-button">Log a Match</button>
+            <button class="main-button">Setup</button>
         </div>
+    </div>
 
-        <div class="container">
-            <h2 class="page-title">Recent Match Results</h2>
-            <div class="table-container">
-                <div id="loading-spinner" class="spinner">Loading...</div>
-                <table class="results-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Home Team</th>
-                            <th>Score</th>
-                            <th>Away Team</th>
-                            <th>Competition</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultsTableBody">
-                        <!-- JavaScript will insert rows here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <!-- Filter Section -->
+    <div class="filter-container">
+        <select id="team-filter" onchange="applyFilter()">
+            <option value="all">Select Team</option>
+            <!-- Teams dynamically populated -->
+        </select>
+
+        <select id="year-filter" onchange="applyFilter()">
+            <option value="all">All Years</option>
+        </select>
+
+        <input type="date" id="date-filter" onchange="applyFilter()">
+
+        <select id="competition-filter" onchange="applyFilter()">
+            <option value="all">Filter by...</option>
+            <option value="League">League</option>
+            <option value="Cup">Cup</option>
+            <option value="Friendly">Friendly</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <h2 class="page-title">Select a Team</h2>
+        <p>Please select a team to view match results</p>
     </div>
 
     <!-- Footer Section -->
@@ -62,11 +120,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            fetch("header.html")
-                .then(response => response.text())
-                .then(data => document.getElementById("header").innerHTML = data)
-                .catch(error => console.error("Error loading header:", error));
-
             fetch("footer.html")
                 .then(response => response.text())
                 .then(data => document.getElementById("footer").innerHTML = data)
@@ -74,23 +127,7 @@
         });
 
         function applyFilter() {
-            const competitionValue = document.getElementById("competition-filter").value;
-            const teamValue = document.getElementById("team-filter").value;
-            const dateValue = document.getElementById("date-filter").value;
-            
-            const rows = document.querySelectorAll("#resultsTableBody tr");
-            rows.forEach(row => {
-                const competition = row.children[4].innerText;
-                const homeTeam = row.children[1].innerText;
-                const awayTeam = row.children[3].innerText;
-                const matchDate = row.children[0].innerText;
-                
-                const competitionMatch = (competitionValue === "all" || competition === competitionValue);
-                const teamMatch = (teamValue === "all" || homeTeam === teamValue || awayTeam === teamValue);
-                const dateMatch = (!dateValue || matchDate === new Date(dateValue).toLocaleDateString());
-                
-                row.style.display = (competitionMatch && teamMatch && dateMatch) ? "" : "none";
-            });
+            // Filtering logic will go here
         }
     </script>
 </body>
