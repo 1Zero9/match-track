@@ -15,8 +15,8 @@
 function initializeSupabase() {
     console.log("Initializing Supabase...");
     
-    const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";  // ✅ Correct Supabase URL
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";  // ✅ Correct API Key
+    const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";  
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";  
 
     if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
         console.error("❌ Supabase URL or API Key missing!");
@@ -26,7 +26,7 @@ function initializeSupabase() {
     window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log("✅ Supabase initialized.");
 
-    setTimeout(fetchMatches, 1000); // 🔥 Added delay to ensure initialization
+    setTimeout(fetchMatches, 2000); // 🔥 Added delay to ensure Supabase is fully initialized
 }
 
 // Function to fetch match results
@@ -73,7 +73,7 @@ function displayResults(results) {
     console.log("Rendering match results...", results);
     
     const tbody = document.getElementById('resultsTableBody');
-    tbody.innerHTML = '';
+    tbody.innerHTML = '';  // Clear previous entries
 
     if (!results || results.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No matches found</td></tr>`;
@@ -86,7 +86,7 @@ function displayResults(results) {
 
         const matchDate = new Date(match.date).toLocaleDateString();
 
-        // ✅ Prevents "Cannot read properties of null" errors
+        // ✅ Handles missing/null values safely
         const homeTeam = match.home_team ? match.home_team.name : "Unknown Team";
         const awayTeam = match.away_team ? match.away_team.name : "Unknown Team";
         const competition = match.competition ? match.competition.name : "Unknown Competition";
