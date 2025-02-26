@@ -1,8 +1,11 @@
-(async function() {
+(async function () {
     if (typeof window.supabase === "undefined") {
         const script = document.createElement("script");
         script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js";
-        script.onload = initializeSupabase;
+        script.onload = () => {
+            console.log("✅ Supabase library loaded.");
+            initializeSupabase();
+        };
         document.head.appendChild(script);
     } else {
         initializeSupabase();
@@ -12,13 +15,18 @@
 function initializeSupabase() {
     console.log("Initializing Supabase...");
     
-    const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";
-    
+    const SUPABASE_URL = "https://tdocwsnhtwpqprqcrxro.supabase.co";  // ✅ Correct Supabase URL
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkb2N3c25odHdwcXBycWNyeHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzMzc4ODIsImV4cCI6MjA1NTkxMzg4Mn0.f3bdQMdJAQaxMVqml2qdTxtweV1tD6dgAO8PgHnX9EQ";  // ✅ Correct API Key
+
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+        console.error("❌ Supabase URL or API Key missing!");
+        return;
+    }
+
     window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log("✅ Supabase initialized.");
 
-    fetchMatches(); // Fetch match results on page load
+    setTimeout(fetchMatches, 1000); // 🔥 Added delay to ensure initialization
 }
 
 // Function to fetch match results
@@ -43,6 +51,12 @@ async function fetchMatches() {
 
         if (error) throw error;
 
+        console.log("✅ Fetched match data:", data);  // 🔥 Added debugging log
+
+        if (!data || data.length === 0) {
+            console.warn("⚠ No matches found in the database.");
+        }
+
         displayResults(data);
     } catch (error) {
         console.error("❌ Error fetching matches:", error);
@@ -57,15 +71,12 @@ async function fetchMatches() {
 // Function to display match results in the table
 function displayResults(results) {
     console.log("Rendering match results...", results);
+    
     const tbody = document.getElementById('resultsTableBody');
     tbody.innerHTML = '';
 
-    if (results.length === 0) {
-        tbody.innerHTML = `
-            <tr><td colspan="5" style="text-align: center;">
-                No matches found
-            </td></tr>
-        `;
+    if (!results || results.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No matches found</td></tr>`;
         return;
     }
 
@@ -75,12 +86,17 @@ function displayResults(results) {
 
         const matchDate = new Date(match.date).toLocaleDateString();
 
+        // ✅ Prevents "Cannot read properties of null" errors
+        const homeTeam = match.home_team ? match.home_team.name : "Unknown Team";
+        const awayTeam = match.away_team ? match.away_team.name : "Unknown Team";
+        const competition = match.competition ? match.competition.name : "Unknown Competition";
+
         row.innerHTML = `
             <td>${matchDate}</td>
-            <td>${match.home_team.name}</td>
+            <td>${homeTeam}</td>
             <td>${match.home_score} - ${match.away_score}</td>
-            <td>${match.away_team.name}</td>
-            <td>${match.competition.name}</td>
+            <td>${awayTeam}</td>
+            <td>${competition}</td>
         `;
 
         tbody.appendChild(row);
