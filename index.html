@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match Tracker</title>
-    <link rel="icon" type="image/x-icon" href="/icon/rvr.ico">
+    <link rel="icon" type="image/x-icon" href="icon/rvr.ico">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
-    
 </head>
 <body>
     <!-- Header Section -->
@@ -15,6 +14,17 @@
 
     <div class="content">
         <h1>Match Tracker</h1>
+
+        <!-- Filter Section -->
+        <div class="filter-container">
+            <label for="filter">Filter by Competition:</label>
+            <select id="filter" onchange="applyFilter()">
+                <option value="all">All</option>
+                <option value="League">League</option>
+                <option value="Cup">Cup</option>
+                <option value="Friendly">Friendly</option>
+            </select>
+        </div>
 
         <div class="container">
             <h2 class="page-title">Recent Match Results</h2>
@@ -43,7 +53,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // ✅ Load header and footer (but DO NOT call fetchMatches again)
             fetch("header.html")
                 .then(response => response.text())
                 .then(data => document.getElementById("header").innerHTML = data)
@@ -54,6 +63,15 @@
                 .then(data => document.getElementById("footer").innerHTML = data)
                 .catch(error => console.error("Error loading footer:", error));
         });
+
+        function applyFilter() {
+            const filterValue = document.getElementById("filter").value;
+            const rows = document.querySelectorAll("#resultsTableBody tr");
+            rows.forEach(row => {
+                const competition = row.children[4].innerText;
+                row.style.display = (filterValue === "all" || competition === filterValue) ? "" : "none";
+            });
+        }
     </script>
 </body>
 </html>
