@@ -74,6 +74,24 @@
             border-radius: 5px;
             border: 1px solid #ccc;
         }
+
+        .table-container {
+            background: white;
+            color: black;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .results-table th, .results-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -110,9 +128,23 @@
         </select>
     </div>
 
-    <div class="container">
-        <h2 class="page-title">Select a Team</h2>
-        <p>Please select a team to view match results</p>
+    <!-- Match Results Table -->
+    <div class="table-container">
+        <h2 class="page-title">Recent Matches</h2>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Home Team</th>
+                    <th>Score</th>
+                    <th>Away Team</th>
+                    <th>Competition</th>
+                </tr>
+            </thead>
+            <tbody id="resultsTableBody">
+                <!-- JavaScript will insert rows here -->
+            </tbody>
+        </table>
     </div>
 
     <!-- Footer Section -->
