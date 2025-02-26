@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="/icon/rvr.ico">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
+    <script defer src="scripts/filters.js"></script>
     <style>
         body {
             background-color: #0B1E49;
@@ -110,8 +111,7 @@
     <!-- Filter Section -->
     <div class="filter-container">
         <select id="team-filter" onchange="applyFilter()">
-            <option value="all">Select Team</option>
-            <!-- Teams dynamically populated -->
+            <option value="all">All Teams</option>
         </select>
 
         <select id="year-filter" onchange="applyFilter()">
@@ -121,7 +121,7 @@
         <input type="date" id="date-filter" onchange="applyFilter()">
 
         <select id="competition-filter" onchange="applyFilter()">
-            <option value="all">Filter by...</option>
+            <option value="all">All Competitions</option>
             <option value="League">League</option>
             <option value="Cup">Cup</option>
             <option value="Friendly">Friendly</option>
