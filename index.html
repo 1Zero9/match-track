@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match Tracker</title>
-    <link rel="icon" type="image/x-icon" href="icon/rvr.ico">
+    <link rel="icon" type="image/x-icon" href="/icon/rvr.ico">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
 </head>
@@ -17,13 +17,22 @@
 
         <!-- Filter Section -->
         <div class="filter-container">
-            <label for="filter">Filter by Competition:</label>
-            <select id="filter" onchange="applyFilter()">
+            <label for="competition-filter">Competition:</label>
+            <select id="competition-filter" onchange="applyFilter()">
                 <option value="all">All</option>
                 <option value="League">League</option>
                 <option value="Cup">Cup</option>
                 <option value="Friendly">Friendly</option>
             </select>
+
+            <label for="team-filter">Team:</label>
+            <select id="team-filter" onchange="applyFilter()">
+                <option value="all">All Teams</option>
+                <!-- Teams dynamically populated -->
+            </select>
+
+            <label for="date-filter">Date:</label>
+            <input type="date" id="date-filter" onchange="applyFilter()">
         </div>
 
         <div class="container">
@@ -65,11 +74,22 @@
         });
 
         function applyFilter() {
-            const filterValue = document.getElementById("filter").value;
+            const competitionValue = document.getElementById("competition-filter").value;
+            const teamValue = document.getElementById("team-filter").value;
+            const dateValue = document.getElementById("date-filter").value;
+            
             const rows = document.querySelectorAll("#resultsTableBody tr");
             rows.forEach(row => {
                 const competition = row.children[4].innerText;
-                row.style.display = (filterValue === "all" || competition === filterValue) ? "" : "none";
+                const homeTeam = row.children[1].innerText;
+                const awayTeam = row.children[3].innerText;
+                const matchDate = row.children[0].innerText;
+                
+                const competitionMatch = (competitionValue === "all" || competition === competitionValue);
+                const teamMatch = (teamValue === "all" || homeTeam === teamValue || awayTeam === teamValue);
+                const dateMatch = (!dateValue || matchDate === new Date(dateValue).toLocaleDateString());
+                
+                row.style.display = (competitionMatch && teamMatch && dateMatch) ? "" : "none";
             });
         }
     </script>
