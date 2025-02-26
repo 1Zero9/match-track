@@ -7,7 +7,6 @@
     <link rel="icon" type="image/x-icon" href="/icon/rvr.ico">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
-    <script defer src="scripts/filters.js"></script>
     <style>
         body {
             background-color: #0B1E49;
@@ -93,20 +92,6 @@
             padding: 10px;
             border-bottom: 1px solid #ddd;
         }
-
-        .reset-button {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .reset-button:hover {
-            background-color: #c0392b;
-        }
     </style>
 </head>
 <body>
@@ -125,7 +110,8 @@
     <!-- Filter Section -->
     <div class="filter-container">
         <select id="team-filter" onchange="applyFilter()">
-            <option value="all">All Teams</option>
+            <option value="all">Select Team</option>
+            <!-- Teams dynamically populated -->
         </select>
 
         <select id="year-filter" onchange="applyFilter()">
@@ -135,13 +121,11 @@
         <input type="date" id="date-filter" onchange="applyFilter()">
 
         <select id="competition-filter" onchange="applyFilter()">
-            <option value="all">All Competitions</option>
+            <option value="all">Filter by...</option>
             <option value="League">League</option>
             <option value="Cup">Cup</option>
             <option value="Friendly">Friendly</option>
         </select>
-
-        <button onclick="resetFilters()" class="reset-button">Reset Filters</button>
     </div>
 
     <!-- Match Results Table -->
@@ -176,14 +160,6 @@
 
         function applyFilter() {
             // Filtering logic will go here
-        }
-
-        function resetFilters() {
-            document.getElementById("team-filter").value = "all";
-            document.getElementById("year-filter").value = "all";
-            document.getElementById("date-filter").value = "";
-            document.getElementById("competition-filter").value = "all";
-            applyFilter();
         }
     </script>
 </body>
