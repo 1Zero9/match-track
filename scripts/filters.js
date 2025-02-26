@@ -39,27 +39,46 @@ function populateYearFilter() {
     });
 }
 
+function resetFilters() {
+    document.getElementById('team-filter').value = 'all';
+    document.getElementById('year-filter').value = 'all';
+    document.getElementById('date-filter').value = '';
+    document.getElementById('competition-filter').value = 'all';
+    
+    displayMatches(matchData);
+}
+
 function applyFilter() {
     const teamFilter = document.getElementById('team-filter').value;
     const yearFilter = document.getElementById('year-filter').value;
     const dateFilter = document.getElementById('date-filter').value;
     const competitionFilter = document.getElementById('competition-filter').value;
 
-    let filteredMatches = matchData.filter(match => {
-        if (teamFilter !== 'all' && 
-            match.homeTeam !== teamFilter && 
-            match.awayTeam !== teamFilter) return false;
-        
-        if (yearFilter !== 'all' && 
-            new Date(match.date).getFullYear().toString() !== yearFilter) return false;
-        
-        if (dateFilter && match.date !== dateFilter) return false;
-        
-        if (competitionFilter !== 'all' && 
-            match.competition !== competitionFilter) return false;
-        
-        return true;
-    });
+    let filteredMatches = [...matchData]; // Create a copy of the original data
+
+    if (teamFilter !== 'all') {
+        filteredMatches = filteredMatches.filter(match => 
+            match.homeTeam === teamFilter || match.awayTeam === teamFilter
+        );
+    }
+
+    if (yearFilter !== 'all') {
+        filteredMatches = filteredMatches.filter(match => 
+            new Date(match.date).getFullYear().toString() === yearFilter
+        );
+    }
+
+    if (dateFilter) {
+        filteredMatches = filteredMatches.filter(match => 
+            match.date === dateFilter
+        );
+    }
+
+    if (competitionFilter !== 'all') {
+        filteredMatches = filteredMatches.filter(match => 
+            match.competition === competitionFilter
+        );
+    }
 
     displayMatches(filteredMatches);
 }
@@ -67,6 +86,16 @@ function applyFilter() {
 function displayMatches(matches) {
     const tbody = document.getElementById('resultsTableBody');
     tbody.innerHTML = '';
+    
+    if (matches.length === 0) {
+        const row = tbody.insertRow();
+        const cell = row.insertCell();
+        cell.colSpan = 5;
+        cell.textContent = 'No matches found';
+        cell.style.textAlign = 'center';
+        cell.style.padding = '20px';
+        return;
+    }
     
     matches.forEach(match => {
         const row = tbody.insertRow();

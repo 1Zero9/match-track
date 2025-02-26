@@ -93,6 +93,20 @@
             padding: 10px;
             border-bottom: 1px solid #ddd;
         }
+
+        .reset-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .reset-button:hover {
+            background-color: #c0392b;
+        }
     </style>
 </head>
 <body>
@@ -126,6 +140,8 @@
             <option value="Cup">Cup</option>
             <option value="Friendly">Friendly</option>
         </select>
+
+        <button onclick="resetFilters()" class="reset-button">Reset Filters</button>
     </div>
 
     <!-- Match Results Table -->
@@ -160,6 +176,14 @@
 
         function applyFilter() {
             // Filtering logic will go here
+        }
+
+        function resetFilters() {
+            document.getElementById("team-filter").value = "all";
+            document.getElementById("year-filter").value = "all";
+            document.getElementById("date-filter").value = "";
+            document.getElementById("competition-filter").value = "all";
+            applyFilter();
         }
     </script>
 </body>
