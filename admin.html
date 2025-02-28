@@ -3,76 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Match Tracker Admin</title>
+    <title>Admin - Match Tracker</title>
+    <link rel="icon" type="image/x-icon" href="/icon/rvr.ico">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
-    <link rel="icon" href="icon/RVR.ico">
 </head>
 <body>
     <!-- Header Section -->
-    <div id="header"></div>
-    
-    <div class="content">
-        <h1>Match Tracker Administration</h1>
-        
-        <div class="admin-controls">
-            <h2>Manage Match Results</h2>
-            
-            <!-- Match Entry Form -->
-            <form id="match-form">
-                <div class="form-group">
-                    <label for="match-date">Date:</label>
-                    <input type="date" id="match-date" required>
-                </div>
-                <div class="form-group">
-                    <label for="home-team">Home Team:</label>
-                    <input type="text" id="home-team" required>
-                </div>
-                <div class="form-group">
-                    <label for="away-team">Away Team:</label>
-                    <input type="text" id="away-team" required>
-                </div>
-                <div class="form-group">
-                    <label for="home-score">Home Score:</label>
-                    <input type="number" id="home-score" min="0" required>
-                </div>
-                <div class="form-group">
-                    <label for="away-score">Away Score:</label>
-                    <input type="number" id="away-score" min="0" required>
-                </div>
-                <div class="form-group">
-                    <label for="competition">Competition:</label>
-                    <select id="competition">
-                        <option value="League">League</option>
-                        <option value="Cup">Cup</option>
-                        <option value="Friendly">Friendly</option>
-                    </select>
-                </div>
-                <button type="submit" class="admin-button">Add Match</button>
-            </form>
-
-            <p id="status-message"></p>
+    <div class="header-container">
+        <img src="assets/rvr_logo.png" alt="Match Tracker Logo" class="logo">
+        <div class="main-title">Match Tracker Admin</div>
+        <div class="sub-title">Manage Match Records</div>
+        <div class="buttons-container">
+            <a href="index.html"><button class="main-button">View Results</button></a>
+            <a href="admin.html"><button class="main-button">Log a Match</button></a>
+            <a href="setup.html"><button class="main-button">Setup</button></a>
         </div>
+    </div>
 
-        <!-- Match List -->
-        <div class="admin-controls">
-            <h2>Existing Matches</h2>
-            <table class="results-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Home Team</th>
-                        <th>Away Team</th>
-                        <th>Score</th>
-                        <th>Competition</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="adminResultsTableBody">
-                    <!-- Matches will be loaded here dynamically -->
-                </tbody>
-            </table>
-        </div>
+    <!-- Match Entry Form -->
+    <div class="table-container">
+        <h2 class="page-title">Add New Match</h2>
+        <form id="match-form">
+            <div class="form-group">
+                <label for="match-date">Date:</label>
+                <input type="date" id="match-date" required>
+            </div>
+            <div class="form-group">
+                <label for="home-team">Home Team:</label>
+                <input type="text" id="home-team" required>
+            </div>
+            <div class="form-group">
+                <label for="away-team">Away Team:</label>
+                <input type="text" id="away-team" required>
+            </div>
+            <div class="form-group">
+                <label for="home-score">Home Score:</label>
+                <input type="number" id="home-score" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="away-score">Away Score:</label>
+                <input type="number" id="away-score" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="competition">Competition:</label>
+                <select id="competition">
+                    <option value="League">League</option>
+                    <option value="Cup">Cup</option>
+                    <option value="Friendly">Friendly</option>
+                </select>
+            </div>
+            <button type="submit" class="main-button">Add Match</button>
+        </form>
+        <p id="status-message"></p>
+    </div>
+
+    <!-- Existing Matches -->
+    <div class="table-container">
+        <h2 class="page-title">Existing Matches</h2>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Home Team</th>
+                    <th>Away Team</th>
+                    <th>Score</th>
+                    <th>Competition</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="adminResultsTableBody">
+                <!-- Matches loaded dynamically -->
+            </tbody>
+        </table>
     </div>
 
     <!-- Footer Section -->
@@ -80,138 +83,19 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            fetch("header.html")
-                .then(response => response.text())
-                .then(data => document.getElementById("header").innerHTML = data)
-                .catch(error => console.error("Error loading header:", error));
-
             fetch("footer.html")
                 .then(response => response.text())
                 .then(data => document.getElementById("footer").innerHTML = data)
                 .catch(error => console.error("Error loading footer:", error));
 
-            // Form Submission for New Match
-            document.getElementById("match-form").addEventListener("submit", async function (e) {
-                e.preventDefault();
-                
-                const matchData = {
-                    date: document.getElementById("match-date").value,
-                    home_team_id: await getTeamId(document.getElementById("home-team").value),
-                    away_team_id: await getTeamId(document.getElementById("away-team").value),
-                    home_score: parseInt(document.getElementById("home-score").value),
-                    away_score: parseInt(document.getElementById("away-score").value),
-                    competition_id: await getCompetitionId(document.getElementById("competition").value),
-                    venue_id: "YOUR_DEFAULT_VENUE_UUID" // Adjust this if needed
-                };
-
-                await insertMatch(matchData);
-                document.getElementById("status-message").innerText = "✅ Match added successfully!";
-                fetchMatches();
-            });
-
             fetchMatches();
         });
 
-        // Function to delete a match
         async function handleDelete(matchId) {
             if (confirm("Are you sure you want to delete this match?")) {
                 await deleteMatch(matchId);
                 fetchMatches();
             }
-        }
-
-        // Display matches in admin panel
-        function displayAdminResults(results) {
-            const tbody = document.getElementById("adminResultsTableBody");
-            tbody.innerHTML = "";
-
-            if (!results || results.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">No matches found</td></tr>`;
-                return;
-            }
-
-            results.forEach((match) => {
-                const row = document.createElement("tr");
-                const matchDate = new Date(match.date).toLocaleDateString();
-                const homeTeam = match.home_team ? match.home_team.name : "Unknown Team";
-                const awayTeam = match.away_team ? match.away_team.name : "Unknown Team";
-                const competition = match.competition ? match.competition.name : "Unknown Competition";
-
-                row.innerHTML = `
-                    <td>${matchDate}</td>
-                    <td>${homeTeam}</td>
-                    <td>${awayTeam}</td>
-                    <td>${match.home_score} - ${match.away_score}</td>
-                    <td>${competition}</td>
-                    <td>
-                        <button class="admin-button" onclick="handleDelete('${match.id}')">Delete</button>
-                    </td>
-                `;
-
-                tbody.appendChild(row);
-            });
-        }
-
-        // Fetch updated match list
-        async function fetchMatches() {
-            try {
-                const { data, error } = await window.supabase
-                    .from("matches")
-                    .select(`
-                        id,
-                        date,
-                        home_score,
-                        away_score,
-                        home_team:home_team_id (name),
-                        away_team:away_team_id (name),
-                        competition:competition_id (name),
-                        venue:venue_id (name)
-                    `)
-                    .order("date", { ascending: false });
-
-                if (error) throw error;
-
-                displayAdminResults(data);
-            } catch (error) {
-                console.error("❌ Error fetching matches:", error);
-            }
-        }
-
-        // Get Team ID or Insert New Team
-        async function getTeamId(teamName) {
-            let { data: teams, error } = await window.supabase
-                .from("teams")
-                .select("id")
-                .eq("name", teamName)
-                .limit(1);
-
-            if (error) console.error("Error fetching team:", error);
-
-            if (teams && teams.length > 0) {
-                return teams[0].id;
-            } else {
-                let { data: newTeam, error: insertError } = await window.supabase
-                    .from("teams")
-                    .insert([{ name: teamName }])
-                    .select("id")
-                    .single();
-
-                if (insertError) console.error("Error inserting new team:", insertError);
-                return newTeam.id;
-            }
-        }
-
-        // Get Competition ID
-        async function getCompetitionId(compName) {
-            let { data: competitions, error } = await window.supabase
-                .from("competitions")
-                .select("id")
-                .eq("name", compName)
-                .limit(1);
-
-            if (error) console.error("Error fetching competition:", error);
-
-            return competitions.length > 0 ? competitions[0].id : null;
         }
     </script>
 </body>
