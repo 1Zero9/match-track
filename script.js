@@ -33,6 +33,13 @@ function initializeSupabase() {
 async function fetchMatches() {
     console.log("Fetching match results...");
 
+    // ✅ Ensure the table exists in the DOM
+    const tbody = document.getElementById("resultsTableBody");
+    if (!tbody) {
+        console.error("❌ Error: resultsTableBody element not found.");
+        return;
+    }
+
     try {
         const { data, error } = await window.supabase
             .from("matches")
@@ -59,11 +66,6 @@ async function fetchMatches() {
         displayResults(data);
     } catch (error) {
         console.error("❌ Error fetching matches:", error);
-        document.getElementById('resultsTableBody').innerHTML = `
-            <tr><td colspan="5" style="text-align: center; color: red;">
-                Error loading matches. Please try again later.
-            </td></tr>
-        `;
     }
 }
 
@@ -71,7 +73,12 @@ async function fetchMatches() {
 function displayResults(results) {
     console.log("Rendering match results...", results);
     
-    const tbody = document.getElementById('resultsTableBody');
+    const tbody = document.getElementById("resultsTableBody");
+    if (!tbody) {
+        console.error("❌ Error: resultsTableBody not found.");
+        return;
+    }
+
     tbody.innerHTML = '';  
 
     if (!results || results.length === 0) {
@@ -99,109 +106,3 @@ function displayResults(results) {
         tbody.appendChild(row);
     });
 }
-
-// ✅ Function to insert a new match
-async function insertMatch(matchData) {
-    console.log("Adding new match:", matchData);
-
-    try {
-        const { data, error } = await window.supabase
-            .from("matches")
-            .insert([matchData]);
-
-        if (error) throw error;
-
-        console.log("✅ Match inserted:", data);
-        fetchMatches();  // Refresh the match list
-    } catch (error) {
-        console.error("❌ Error inserting match:", error);
-    }
-}
-
-// ✅ Function to delete a match
-async function deleteMatch(matchId) {
-    console.log("Deleting match:", matchId);
-
-    try {
-        const { error } = await window.supabase
-            .from("matches")
-            .delete()
-            .eq("id", matchId);
-
-        if (error) throw error;
-
-        console.log("✅ Match deleted");
-        fetchMatches();
-    } catch (error) {
-        console.error("❌ Error deleting match:", error);
-    }
-}
-
-// ✅ Login Function (Basic Authentication)
-async function loginUser(email, password) {
-    console.log(`Attempting login for ${email}`);
-
-    try {
-        const { user, session, error } = await window.supabase.auth.signInWithPassword({
-            email,
-            password
-        });
-
-        if (error) throw error;
-
-        console.log("✅ Logged in successfully:", user);
-        return user;
-    } catch (error) {
-        console.error("❌ Login failed:", error);
-        return null;
-    }
-}
-
-// ✅ Logout Function
-async function logoutUser() {
-    console.log("Logging out...");
-
-    try {
-        const { error } = await window.supabase.auth.signOut();
-
-        if (error) throw error;
-
-        console.log("✅ Logged out successfully.");
-    } catch (error) {
-        console.error("❌ Logout failed:", error);
-    }
-}
-
-// ✅ Form Submission for Match Insert
-document.addEventListener("DOMContentLoaded", function () {
-    const matchForm = document.getElementById("test-form");
-    if (matchForm) {
-        matchForm.addEventListener("submit", async function (e) {
-            e.preventDefault();
-
-            const matchData = {
-                date: new Date().toISOString().split("T")[0], // Use today's date
-                home_team_id: "YOUR_HOME_TEAM_UUID",
-                away_team_id: "YOUR_AWAY_TEAM_UUID",
-                home_score: 0,
-                away_score: 0,
-                competition_id: "YOUR_COMPETITION_UUID",
-                venue_id: "YOUR_VENUE_UUID",
-                created_by: null // Optional if using authentication
-            };
-
-            await insertMatch(matchData);
-        });
-    }
-
-    // Load header and footer
-    fetch("header.html")
-        .then(response => response.text())
-        .then(data => document.getElementById("header").innerHTML = data)
-        .catch(error => console.error("Error loading header:", error));
-
-    fetch("footer.html")
-        .then(response => response.text())
-        .then(data => document.getElementById("footer").innerHTML = data)
-        .catch(error => console.error("Error loading footer:", error));
-});
