@@ -21,6 +21,8 @@ async function populateTeamFilter() {
             const option = new Option(team.name, team.name);
             teamFilter.add(option);
         });
+
+        console.log("✅ Team Filter Populated:", data);
     } catch (error) {
         console.error("❌ Error loading teams:", error);
     }
@@ -55,6 +57,8 @@ async function populateCompetitionFilter() {
             const option = new Option(comp.name, comp.name);
             competitionFilter.add(option);
         });
+
+        console.log("✅ Competition Filter Populated:", data);
     } catch (error) {
         console.error("❌ Error loading competitions:", error);
     }
@@ -88,8 +92,11 @@ async function applyFilter() {
                 competition:competition_id (name)
             `);
 
-        // ✅ Fix: Filter by Team using `home_team_id` and `away_team_id`
+        // ✅ Debugging: Check if Team Filter is Selected
         if (teamFilter !== 'all') {
+            console.log(`🔍 Selected Team: ${teamFilter}`);
+
+            // ✅ Fetch the team ID from Supabase
             const { data: teamData, error: teamError } = await window.supabase
                 .from("teams")
                 .select("id")
@@ -102,6 +109,9 @@ async function applyFilter() {
             }
 
             const teamId = teamData.id;
+            console.log(`✅ Found Team ID: ${teamId}`);
+
+            // ✅ Correct Supabase `or()` Syntax
             query = query.or(`home_team_id.eq.${teamId},away_team_id.eq.${teamId}`);
         }
 
@@ -120,9 +130,11 @@ async function applyFilter() {
             query = query.eq("competition.name", competitionFilter);
         }
 
-        // Fetch the filtered data
+        // ✅ Execute the Query
         const { data, error } = await query;
         if (error) throw error;
+
+        console.log("✅ Filtered Match Data:", data);
 
         displayMatches(data);
     } catch (error) {
