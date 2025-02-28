@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="/icon/rvr.ico">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
+    <script defer src="scripts/filters.js"></script>
     <style>
         body {
             background-color: #0B1E49;
@@ -101,9 +102,9 @@
         <div class="main-title">River Valley Rangers</div>
         <div class="sub-title">Match Records & Stats</div>
         <div class="buttons-container">
-            <button class="main-button">View Results</button>
-            <button class="main-button">Log a Match</button>
-            <button class="main-button">Setup</button>
+            <a href="index.html"><button class="main-button">View Results</button></a>
+            <a href="admin.html"><button class="main-button">Log a Match</button></a>
+            <a href="admin.html"><button class="main-button">Setup</button></a>
         </div>
     </div>
 
@@ -111,7 +112,6 @@
     <div class="filter-container">
         <select id="team-filter" onchange="applyFilter()">
             <option value="all">Select Team</option>
-            <!-- Teams dynamically populated -->
         </select>
 
         <select id="year-filter" onchange="applyFilter()">
@@ -126,6 +126,7 @@
             <option value="Cup">Cup</option>
             <option value="Friendly">Friendly</option>
         </select>
+        <button class="main-button" onclick="resetFilters()">Reset Filters</button>
     </div>
 
     <!-- Match Results Table -->
@@ -157,10 +158,6 @@
                 .then(data => document.getElementById("footer").innerHTML = data)
                 .catch(error => console.error("Error loading footer:", error));
         });
-
-        function applyFilter() {
-            // Filtering logic will go here
-        }
     </script>
 </body>
 </html>
