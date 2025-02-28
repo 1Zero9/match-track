@@ -1,4 +1,4 @@
-// Initialize filters when the page loads
+// ✅ Initialize filters when the page loads
 document.addEventListener('DOMContentLoaded', async () => {
     await populateTeamFilter();
     await populateYearFilter();
@@ -6,12 +6,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     await fetchMatches(); // Load matches on page load
 });
 
-// ✅ Populate team dropdown from Supabase
+// ✅ Populate team filter dynamically from Supabase
 async function populateTeamFilter() {
     const teamFilter = document.getElementById('team-filter');
     if (!teamFilter) return;
 
-    teamFilter.innerHTML = `<option value="all">Select Team</option>`; // Reset
+    teamFilter.innerHTML = `<option value="all">Select Team</option>`; 
 
     try {
         const { data, error } = await window.supabase.from("teams").select("name");
@@ -26,7 +26,7 @@ async function populateTeamFilter() {
     }
 }
 
-// ✅ Populate year dropdown dynamically
+// ✅ Populate year filter dynamically
 async function populateYearFilter() {
     const yearFilter = document.getElementById('year-filter');
     if (!yearFilter) return;
@@ -40,12 +40,12 @@ async function populateYearFilter() {
     }
 }
 
-// ✅ Populate competition dropdown from Supabase
+// ✅ Populate competition filter dynamically from Supabase
 async function populateCompetitionFilter() {
     const competitionFilter = document.getElementById('competition-filter');
     if (!competitionFilter) return;
 
-    competitionFilter.innerHTML = `<option value="all">Filter by...</option>`;
+    competitionFilter.innerHTML = `<option value="all">Filter by...</option>`; 
 
     try {
         const { data, error } = await window.supabase.from("competitions").select("name");
@@ -86,7 +86,7 @@ async function applyFilter() {
         `);
 
         if (teamFilter !== 'all') {
-            query = query.or(`home_team.eq.${teamFilter},away_team.eq.${teamFilter}`);
+            query = query.or(`home_team.name.eq.${teamFilter},away_team.name.eq.${teamFilter}`);
         }
         if (yearFilter !== 'all') {
             query = query.gte("date", `${yearFilter}-01-01`).lte("date", `${yearFilter}-12-31`);
@@ -115,8 +115,7 @@ function displayMatches(matches) {
     tbody.innerHTML = '';
 
     if (!matches || matches.length === 0) {
-        const row = tbody.insertRow();
-        row.innerHTML = `<td colspan="5" style="text-align: center;">No matches found</td>`;
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No matches found</td></tr>`;
         return;
     }
 
