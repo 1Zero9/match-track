@@ -1,119 +1,133 @@
-// Sample data - replace with your actual data source
-const matchData = [
-    { date: '2024-01-15', homeTeam: 'Rangers A', awayTeam: 'United B', score: '2-1', competition: 'League' },
-    { date: '2024-01-08', homeTeam: 'City C', awayTeam: 'Rangers A', score: '0-3', competition: 'Cup' },
-    // ... more matches
-];
-
-// Initialize filters
-document.addEventListener('DOMContentLoaded', () => {
-    populateTeamFilter();
-    populateYearFilter();
-    populateCompetitionFilter();
-    displayMatches(matchData);
+// Initialize filters when the page loads
+document.addEventListener('DOMContentLoaded', async () => {
+    await populateTeamFilter();
+    await populateYearFilter();
+    await populateCompetitionFilter();
+    await fetchMatches(); // Load matches on page load
 });
 
-function populateTeamFilter() {
-    const teams = new Set();
-    matchData.forEach(match => {
-        teams.add(match.homeTeam);
-        teams.add(match.awayTeam);
-    });
-    
+// ✅ Populate team dropdown from Supabase
+async function populateTeamFilter() {
     const teamFilter = document.getElementById('team-filter');
-    teams.forEach(team => {
-        const option = new Option(team, team);
-        teamFilter.add(option);
-    });
+    if (!teamFilter) return;
+
+    teamFilter.innerHTML = `<option value="all">Select Team</option>`; // Reset
+
+    try {
+        const { data, error } = await window.supabase.from("teams").select("name");
+        if (error) throw error;
+
+        data.forEach(team => {
+            const option = new Option(team.name, team.name);
+            teamFilter.add(option);
+        });
+    } catch (error) {
+        console.error("❌ Error loading teams:", error);
+    }
 }
 
-function populateYearFilter() {
-    const years = new Set(
-        matchData.map(match => new Date(match.date).getFullYear())
-    );
-    
+// ✅ Populate year dropdown dynamically
+async function populateYearFilter() {
     const yearFilter = document.getElementById('year-filter');
-    Array.from(years).sort().reverse().forEach(year => {
+    if (!yearFilter) return;
+
+    const currentYear = new Date().getFullYear();
+    yearFilter.innerHTML = `<option value="all">All Years</option>`;
+
+    for (let year = currentYear; year >= 2000; year--) {
         const option = new Option(year.toString(), year);
         yearFilter.add(option);
-    });
+    }
 }
 
+// ✅ Populate competition dropdown from Supabase
+async function populateCompetitionFilter() {
+    const competitionFilter = document.getElementById('competition-filter');
+    if (!competitionFilter) return;
+
+    competitionFilter.innerHTML = `<option value="all">Filter by...</option>`;
+
+    try {
+        const { data, error } = await window.supabase.from("competitions").select("name");
+        if (error) throw error;
+
+        data.forEach(comp => {
+            const option = new Option(comp.name, comp.name);
+            competitionFilter.add(option);
+        });
+    } catch (error) {
+        console.error("❌ Error loading competitions:", error);
+    }
+}
+
+// ✅ Reset filters and reload matches
 function resetFilters() {
     document.getElementById('team-filter').value = 'all';
     document.getElementById('year-filter').value = 'all';
     document.getElementById('date-filter').value = '';
     document.getElementById('competition-filter').value = 'all';
-    
-    displayMatches(matchData);
+
+    fetchMatches(); // Reload matches without filters
 }
 
-function applyFilter() {
+// ✅ Apply filters dynamically
+async function applyFilter() {
     const teamFilter = document.getElementById('team-filter').value;
     const yearFilter = document.getElementById('year-filter').value;
     const dateFilter = document.getElementById('date-filter').value;
     const competitionFilter = document.getElementById('competition-filter').value;
 
-    let filteredMatches = [...matchData]; // Create a copy of the original data
+    try {
+        let query = window.supabase.from("matches").select(`
+            id, date, home_score, away_score,
+            home_team:home_team_id (name),
+            away_team:away_team_id (name),
+            competition:competition_id (name)
+        `);
 
-    if (teamFilter !== 'all') {
-        filteredMatches = filteredMatches.filter(match => 
-            match.homeTeam === teamFilter || match.awayTeam === teamFilter
-        );
+        if (teamFilter !== 'all') {
+            query = query.or(`home_team.eq.${teamFilter},away_team.eq.${teamFilter}`);
+        }
+        if (yearFilter !== 'all') {
+            query = query.gte("date", `${yearFilter}-01-01`).lte("date", `${yearFilter}-12-31`);
+        }
+        if (dateFilter) {
+            query = query.eq("date", dateFilter);
+        }
+        if (competitionFilter !== 'all') {
+            query = query.eq("competition.name", competitionFilter);
+        }
+
+        const { data, error } = await query;
+        if (error) throw error;
+
+        displayMatches(data);
+    } catch (error) {
+        console.error("❌ Error applying filters:", error);
     }
-
-    if (yearFilter !== 'all') {
-        filteredMatches = filteredMatches.filter(match => 
-            new Date(match.date).getFullYear().toString() === yearFilter
-        );
-    }
-
-    if (dateFilter) {
-        filteredMatches = filteredMatches.filter(match => 
-            match.date === dateFilter
-        );
-    }
-
-    if (competitionFilter !== 'all') {
-        filteredMatches = filteredMatches.filter(match => 
-            match.competition === competitionFilter
-        );
-    }
-
-    displayMatches(filteredMatches);
 }
 
+// ✅ Display matches in table
 function displayMatches(matches) {
     const tbody = document.getElementById('resultsTableBody');
+    if (!tbody) return;
+
     tbody.innerHTML = '';
-    
-    if (matches.length === 0) {
+
+    if (!matches || matches.length === 0) {
         const row = tbody.insertRow();
-        const cell = row.insertCell();
-        cell.colSpan = 5;
-        cell.textContent = 'No matches found';
-        cell.style.textAlign = 'center';
-        cell.style.padding = '20px';
+        row.innerHTML = `<td colspan="5" style="text-align: center;">No matches found</td>`;
         return;
     }
-    
+
     matches.forEach(match => {
         const row = tbody.insertRow();
         row.innerHTML = `
-            <td>${formatDate(match.date)}</td>
-            <td>${match.homeTeam}</td>
-            <td>${match.score}</td>
-            <td>${match.awayTeam}</td>
-            <td>${match.competition}</td>
+            <td>${new Date(match.date).toLocaleDateString()}</td>
+            <td>${match.home_team?.name || "Unknown Team"}</td>
+            <td>${match.home_score} - ${match.away_score}</td>
+            <td>${match.away_team?.name || "Unknown Team"}</td>
+            <td>${match.competition?.name || "Unknown Competition"}</td>
         `;
-    });
-}
-
-function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
     });
 }
