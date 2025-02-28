@@ -78,26 +78,49 @@ async function applyFilter() {
     const competitionFilter = document.getElementById('competition-filter').value;
 
     try {
-        let query = window.supabase.from("matches").select(`
-            id, date, home_score, away_score,
-            home_team:home_team_id (name),
-            away_team:away_team_id (name),
-            competition:competition_id (name)
-        `);
+        let query = window.supabase
+            .from("matches")
+            .select(`
+                id, date, home_score, away_score,
+                home_team_id, away_team_id,
+                home_team:home_team_id (name),
+                away_team:away_team_id (name),
+                competition:competition_id (name)
+            `);
 
+        // ✅ Fix: Filter by Team using `home_team_id` and `away_team_id`
         if (teamFilter !== 'all') {
-            query = query.or(`home_team.name.eq.${teamFilter},away_team.name.eq.${teamFilter}`);
+            const { data: teamData, error: teamError } = await window.supabase
+                .from("teams")
+                .select("id")
+                .eq("name", teamFilter)
+                .single();
+
+            if (teamError || !teamData) {
+                console.error("❌ Error fetching team ID:", teamError);
+                return;
+            }
+
+            const teamId = teamData.id;
+            query = query.or(`home_team_id.eq.${teamId},away_team_id.eq.${teamId}`);
         }
+
+        // ✅ Filter by Year
         if (yearFilter !== 'all') {
             query = query.gte("date", `${yearFilter}-01-01`).lte("date", `${yearFilter}-12-31`);
         }
+
+        // ✅ Filter by Exact Date
         if (dateFilter) {
             query = query.eq("date", dateFilter);
         }
+
+        // ✅ Filter by Competition
         if (competitionFilter !== 'all') {
             query = query.eq("competition.name", competitionFilter);
         }
 
+        // Fetch the filtered data
         const { data, error } = await query;
         if (error) throw error;
 
