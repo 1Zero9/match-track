@@ -13,6 +13,17 @@ html, body {
     font-family: Arial, sans-serif;
     background-color: #0B1E49;
     color: white;
+    margin: 0;
+    padding: 0;
+}
+
+/* ✅ Fix Content & Table Layout */
+.content-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
 }
 
 /* HEADER: Reduced spacing */
@@ -23,17 +34,17 @@ html, body {
 }
 
 .logo {
-    width: 60px; /* Reduced size */
+    width: 60px;
 }
 
 .main-title {
-    font-size: 20px; /* Smaller font */
+    font-size: 20px;
     font-weight: bold;
     margin: 5px 0;
 }
 
 .sub-title {
-    font-size: 16px; /* Smaller font */
+    font-size: 16px;
     margin-bottom: 10px;
 }
 
@@ -49,7 +60,7 @@ html, body {
     background-color: #FF7F32;
     color: white;
     padding: 10px 20px;
-    font-size: 14px; /* Smaller text */
+    font-size: 14px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -81,18 +92,18 @@ html, body {
     border: 1px solid #ccc;
 }
 
-/* RESULTS TABLE AREA */
+/* ✅ Fix Table Container to Scroll */
 .table-container {
-    flex: 1;
-    max-height: 65vh; /* Expands table area */
+    flex-grow: 1;
+    max-height: calc(100vh - 220px); /* Prevents footer overlap */
     overflow-y: auto;
     border-radius: 10px;
     background: white;
     padding: 10px;
     color: black;
-    margin: 10px auto;
     width: 95%;
     max-width: 1200px;
+    margin: 10px auto;
 }
 
 /* Style for tables */
@@ -107,7 +118,7 @@ html, body {
     text-align: center;
 }
 
-/* FOOTER */
+/* ✅ Fix Footer Position & Remove Gaps */
 footer {
     background-color: #0B1E49;
     color: white;
@@ -116,4 +127,13 @@ footer {
     position: relative;
     bottom: 0;
     width: 100%;
+    z-index: 10;
+}
+
+/* ✅ Fix Footer Image Gaps */
+.footer-image {
+    width: 100%;
+    display: block;
+    margin: 0;
+    padding: 0;
 }
