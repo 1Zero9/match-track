@@ -1,24 +1,39 @@
-// ✅ Initialize filters when the page loads
+// ✅ Ensure Supabase is available before running filters
 document.addEventListener('DOMContentLoaded', async () => {
-    await populateTeamFilter();
-    await populateYearFilter();
-    await populateCompetitionFilter();
-    await fetchMatches(); // Load matches on page load
+    if (typeof window.supabase === "undefined") {
+        console.warn("⚠ Supabase not initialized yet. Retrying...");
+        setTimeout(() => {
+            populateTeamFilter();
+            populateYearFilter();
+            populateCompetitionFilter();
+            fetchMatches();
+        }, 2000);
+    } else {
+        await populateTeamFilter();
+        await populateYearFilter();
+        await populateCompetitionFilter();
+        await fetchMatches();
+    }
 });
 
 // ✅ Populate team filter dynamically from Supabase
 async function populateTeamFilter() {
+    if (!window.supabase) {
+        console.warn("⚠ Supabase not ready for team filter.");
+        return;
+    }
+
     const teamFilter = document.getElementById('team-filter');
     if (!teamFilter) return;
 
     teamFilter.innerHTML = `<option value="all">Select Team</option>`; 
 
     try {
-        const { data, error } = await window.supabase.from("teams").select("name");
+        const { data, error } = await window.supabase.from("teams").select("id, name");
         if (error) throw error;
 
         data.forEach(team => {
-            const option = new Option(team.name, team.name);
+            const option = new Option(team.name, team.id);
             teamFilter.add(option);
         });
 
@@ -44,6 +59,11 @@ async function populateYearFilter() {
 
 // ✅ Populate competition filter dynamically from Supabase
 async function populateCompetitionFilter() {
+    if (!window.supabase) {
+        console.warn("⚠ Supabase not ready for competition filter.");
+        return;
+    }
+
     const competitionFilter = document.getElementById('competition-filter');
     if (!competitionFilter) return;
 
@@ -64,16 +84,6 @@ async function populateCompetitionFilter() {
     }
 }
 
-// ✅ Reset filters and reload matches
-function resetFilters() {
-    document.getElementById('team-filter').value = 'all';
-    document.getElementById('year-filter').value = 'all';
-    document.getElementById('date-filter').value = '';
-    document.getElementById('competition-filter').value = 'all';
-
-    fetchMatches(); // Reload matches without filters
-}
-
 // ✅ Apply filters dynamically
 async function applyFilter() {
     const teamFilter = document.getElementById('team-filter').value;
@@ -92,45 +102,22 @@ async function applyFilter() {
                 competition:competition_id (name)
             `);
 
-        // ✅ Debugging: Check if Team Filter is Selected
         if (teamFilter !== 'all') {
-            console.log(`🔍 Selected Team: ${teamFilter}`);
-
-            // ✅ Fetch the team ID from Supabase
-            const { data: teamData, error: teamError } = await window.supabase
-                .from("teams")
-                .select("id")
-                .eq("name", teamFilter)
-                .single();
-
-            if (teamError || !teamData) {
-                console.error("❌ Error fetching team ID:", teamError);
-                return;
-            }
-
-            const teamId = teamData.id;
-            console.log(`✅ Found Team ID: ${teamId}`);
-
-            // ✅ Correct Supabase `or()` Syntax
-            query = query.or(`home_team_id.eq.${teamId},away_team_id.eq.${teamId}`);
+            query = query.or(`home_team_id.eq.${teamFilter},away_team_id.eq.${teamFilter}`);
         }
 
-        // ✅ Filter by Year
         if (yearFilter !== 'all') {
             query = query.gte("date", `${yearFilter}-01-01`).lte("date", `${yearFilter}-12-31`);
         }
 
-        // ✅ Filter by Exact Date
         if (dateFilter) {
             query = query.eq("date", dateFilter);
         }
 
-        // ✅ Filter by Competition
         if (competitionFilter !== 'all') {
             query = query.eq("competition.name", competitionFilter);
         }
 
-        // ✅ Execute the Query
         const { data, error } = await query;
         if (error) throw error;
 
@@ -140,28 +127,4 @@ async function applyFilter() {
     } catch (error) {
         console.error("❌ Error applying filters:", error);
     }
-}
-
-// ✅ Display matches in table
-function displayMatches(matches) {
-    const tbody = document.getElementById('resultsTableBody');
-    if (!tbody) return;
-
-    tbody.innerHTML = '';
-
-    if (!matches || matches.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No matches found</td></tr>`;
-        return;
-    }
-
-    matches.forEach(match => {
-        const row = tbody.insertRow();
-        row.innerHTML = `
-            <td>${new Date(match.date).toLocaleDateString()}</td>
-            <td>${match.home_team?.name || "Unknown Team"}</td>
-            <td>${match.home_score} - ${match.away_score}</td>
-            <td>${match.away_team?.name || "Unknown Team"}</td>
-            <td>${match.competition?.name || "Unknown Competition"}</td>
-        `;
-    });
 }
