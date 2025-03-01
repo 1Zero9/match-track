@@ -128,3 +128,19 @@ async function applyFilter() {
         console.error("❌ Error applying filters:", error);
     }
 }
+
+
+// ✅ Reset filters and reload matches
+function resetFilters() {
+    console.log("🔄 Resetting filters...");
+
+    // Reset all dropdowns and inputs to default values
+    document.getElementById('team-filter').value = 'all';
+    document.getElementById('home-away-filter').value = 'all';
+    document.getElementById('year-filter').value = 'all';
+    document.getElementById('date-filter').value = '';
+    document.getElementById('competition-filter').value = 'all';
+
+    // Fetch all matches again
+    fetchMatches();
+}
