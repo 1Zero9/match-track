@@ -8,139 +8,52 @@
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
     <script defer src="scripts/filters.js"></script>
-    <style>
-        body {
-            background-color: #0B1E49;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-
-        .header-container {
-            padding: 20px 0;
-            background-color: #0B1E49;
-        }
-
-        .logo {
-            width: 80px;
-        }
-
-        .main-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .sub-title {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .buttons-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .main-button {
-            background-color: #FF7F32;
-            color: white;
-            padding: 12px 24px;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .main-button:hover {
-            background-color: #e56e2a;
-        }
-
-        .filter-container {
-            background-color: white;
-            padding: 15px;
-            border-radius: 10px;
-            color: black;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .filter-container select,
-        .filter-container input {
-            padding: 8px;
-            font-size: 14px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        .table-container {
-            background: white;
-            color: black;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        .results-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .results-table th, .results-table td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-    </style>
 </head>
 <body>
-    <!-- Header Section -->
+    <!-- ✅ Header Section -->
     <div class="header-container">
         <img src="assets/rvr_logo.png" alt="Match Tracker Logo" class="logo">
-        <div class="main-title">River Valley Rangers</div>
-        <div class="sub-title">Match Records & Stats</div>
+        <h1 class="main-title">River Valley Rangers</h1>
+        <p class="sub-title">Match Records & Stats</p>
+
         <div class="buttons-container">
             <a href="index.html"><button class="main-button">View Results</button></a>
             <a href="admin.html"><button class="main-button">Log a Match</button></a>
-            <a href="admin.html"><button class="main-button">Setup</button></a>
+            <a href="setup.html"><button class="main-button">Setup</button></a>
         </div>
     </div>
 
-    <!-- Filter Section -->
+    <!-- ✅ Filter Section -->
+    <div class="filter-container">
+        <label for="team-filter">Team:</label>
+        <select id="team-filter" onchange="applyFilter()">
+            <option value="all">Select Team</option>
+        </select>
 
-    <!-- Filter Section -->
-<div class="filter-container">
-    <label for="team-filter">Team:</label>
-    <select id="team-filter" onchange="applyFilter()">
-        <option value="all">Select Team</option>
-    </select>
+        <label for="home-away-filter">Home/Away:</label>
+        <select id="home-away-filter" onchange="applyFilter()">
+            <option value="all">Home & Away</option>
+            <option value="home">Home Only</option>
+            <option value="away">Away Only</option>
+        </select>
 
-    <label for="home-away-filter">Home/Away:</label>
-    <select id="home-away-filter" onchange="applyFilter()">
-        <option value="all">Home & Away</option>
-        <option value="home">Home Only</option>
-        <option value="away">Away Only</option>
-    </select>
+        <label for="year-filter">Year:</label>
+        <select id="year-filter" onchange="applyFilter()">
+            <option value="all">All Years</option>
+        </select>
 
-    <label for="year-filter">Year:</label>
-    <select id="year-filter" onchange="applyFilter()">
-        <option value="all">All Years</option>
-    </select>
+        <label for="date-filter">Date:</label>
+        <input type="date" id="date-filter" onchange="applyFilter()">
 
-    <label for="date-filter">Date:</label>
-    <input type="date" id="date-filter" onchange="applyFilter()">
+        <label for="competition-filter">Competition:</label>
+        <select id="competition-filter" onchange="applyFilter()">
+            <option value="all">Filter by...</option>
+        </select>
 
-    <label for="competition-filter">Competition:</label>
-    <select id="competition-filter" onchange="applyFilter()">
-        <option value="all">Filter by...</option>
-    </select>
+        <button type="button" class="main-button reset-button" onclick="resetFilters()">Reset Filters</button>
+    </div>
 
-    <button type="button" class="main-button reset-button" onclick="resetFilters()">Reset Filters</button>
-</div>
-
-    <!-- Match Results Table -->
+    <!-- ✅ Match Results Table -->
     <div class="table-container">
         <h2 class="page-title">Recent Matches</h2>
         <table class="results-table">
@@ -159,16 +72,10 @@
         </table>
     </div>
 
-    <!-- Footer Section -->
-    <div id="footer"></div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("footer.html")
-                .then(response => response.text())
-                .then(data => document.getElementById("footer").innerHTML = data)
-                .catch(error => console.error("Error loading footer:", error));
-        });
-    </script>
+    <!-- ✅ Footer Section -->
+    <footer>
+        <img src="assets/footer-grass.png" alt="Grass Background" class="footer-image">
+        <p>© 2025 River Valley Rangers AFC. All rights reserved.</p>
+    </footer>
 </body>
 </html>
