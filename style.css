@@ -137,3 +137,26 @@ footer {
     margin: 0;
     padding: 0;
 }
+
+/* ✅ Reset Filters Button - Match Other Orange Buttons */
+.reset-button {
+    background-color: #FF7F32; /* Same orange color */
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+/* ✅ Hover Effect */
+.reset-button:hover {
+    background-color: #e56e2a; /* Slightly darker orange */
+    transform: scale(1.05); /* Slightly enlarges on hover */
+}
+
+/* ✅ Ensuring Buttons Have Consistent Spacing */
+.buttons-container button {
+    margin: 5px;
+}

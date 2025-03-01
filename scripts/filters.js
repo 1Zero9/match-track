@@ -84,9 +84,35 @@ async function populateCompetitionFilter() {
     }
 }
 
-// ✅ Apply filters dynamically
+// ✅ Add Home/Away Filter
+function addHomeAwayFilter() {
+    const homeAwayFilter = document.getElementById('home-away-filter');
+    if (!homeAwayFilter) return;
+
+    homeAwayFilter.innerHTML = `
+        <option value="all">Home & Away</option>
+        <option value="home">Home Only</option>
+        <option value="away">Away Only</option>
+    `;
+}
+
+// ✅ Reset filters and reload matches
+function resetFilters() {
+    console.log("🔄 Resetting filters...");
+
+    document.getElementById('team-filter').value = 'all';
+    document.getElementById('home-away-filter').value = 'all';
+    document.getElementById('year-filter').value = 'all';
+    document.getElementById('date-filter').value = '';
+    document.getElementById('competition-filter').value = 'all';
+
+    fetchMatches(); // Reload matches without filters
+}
+
+// ✅ Apply filters dynamically (Fixing Home/Away Selection)
 async function applyFilter() {
     const teamFilter = document.getElementById('team-filter').value;
+    const homeAwayFilter = document.getElementById('home-away-filter').value;
     const yearFilter = document.getElementById('year-filter').value;
     const dateFilter = document.getElementById('date-filter').value;
     const competitionFilter = document.getElementById('competition-filter').value;
@@ -102,45 +128,63 @@ async function applyFilter() {
                 competition:competition_id (name)
             `);
 
+        // ✅ Fix: Apply Home/Away filter correctly
         if (teamFilter !== 'all') {
-            query = query.or(`home_team_id.eq.${teamFilter},away_team_id.eq.${teamFilter}`);
+            if (homeAwayFilter === "home") {
+                query = query.eq("home_team_id", teamFilter); // Show only Home matches
+            } else if (homeAwayFilter === "away") {
+                query = query.eq("away_team_id", teamFilter); // Show only Away matches
+            } else {
+                query = query.or(`home_team_id.eq.${teamFilter},away_team_id.eq.${teamFilter}`); // Show both Home & Away matches
+            }
         }
 
+        // ✅ Filter by Year
         if (yearFilter !== 'all') {
             query = query.gte("date", `${yearFilter}-01-01`).lte("date", `${yearFilter}-12-31`);
         }
 
+        // ✅ Filter by Exact Date
         if (dateFilter) {
             query = query.eq("date", dateFilter);
         }
 
+        // ✅ Filter by Competition
         if (competitionFilter !== 'all') {
             query = query.eq("competition.name", competitionFilter);
         }
 
+        // ✅ Execute Query
         const { data, error } = await query;
         if (error) throw error;
 
         console.log("✅ Filtered Match Data:", data);
-
         displayMatches(data);
     } catch (error) {
         console.error("❌ Error applying filters:", error);
     }
 }
 
+// ✅ Display matches in table
+function displayMatches(matches) {
+    const tbody = document.getElementById('resultsTableBody');
+    if (!tbody) return;
 
-// ✅ Reset filters and reload matches
-function resetFilters() {
-    console.log("🔄 Resetting filters...");
+    tbody.innerHTML = '';
 
-    // Reset all dropdowns and inputs to default values
-    document.getElementById('team-filter').value = 'all';
-    document.getElementById('home-away-filter').value = 'all';
-    document.getElementById('year-filter').value = 'all';
-    document.getElementById('date-filter').value = '';
-    document.getElementById('competition-filter').value = 'all';
+    if (!matches || matches.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No matches found</td></tr>`;
+        return;
+    }
 
-    // Fetch all matches again
-    fetchMatches();
+    matches.forEach(match => {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td>${new Date(match.date).toLocaleDateString()}</td>
+            <td>${match.home_team?.name || "Unknown Team"}</td>
+            <td>${match.home_score} - ${match.away_score}</td>
+            <td>${match.away_team?.name || "Unknown Team"}</td>
+            <td>${match.competition?.name || "Unknown Competition"}</td>
+        `;
+    });
 }
