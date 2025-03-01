@@ -188,3 +188,7 @@ function displayMatches(matches) {
         `;
     });
 }
+
+
+console.log("🔍 Selected Team:", teamFilter);
+console.log("🔍 Selected Home/Away:", homeAwayFilter);
