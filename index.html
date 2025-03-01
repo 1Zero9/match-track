@@ -109,34 +109,36 @@
     </div>
 
     <!-- Filter Section -->
-    <div class="filter-container">
-        <select id="team-filter" onchange="applyFilter()">
-            <option value="all">Select Team</option>
-        </select>
 
+    <!-- Filter Section -->
+<div class="filter-container">
+    <label for="team-filter">Team:</label>
+    <select id="team-filter" onchange="applyFilter()">
+        <option value="all">Select Team</option>
+    </select>
 
-        <select id="home-away-filter">
-            <option value="all">Home & Away</option>
-            <option value="home">Home Only</option>
-            <option value="away">Away Only</option>
-        </select>
-        
+    <label for="home-away-filter">Home/Away:</label>
+    <select id="home-away-filter" onchange="applyFilter()">
+        <option value="all">Home & Away</option>
+        <option value="home">Home Only</option>
+        <option value="away">Away Only</option>
+    </select>
 
-        <select id="year-filter" onchange="applyFilter()">
-            <option value="all">All Years</option>
-        </select>
+    <label for="year-filter">Year:</label>
+    <select id="year-filter" onchange="applyFilter()">
+        <option value="all">All Years</option>
+    </select>
 
-        <input type="date" id="date-filter" onchange="applyFilter()">
+    <label for="date-filter">Date:</label>
+    <input type="date" id="date-filter" onchange="applyFilter()">
 
-        <select id="competition-filter" onchange="applyFilter()">
-            <option value="all">Filter by...</option>
-            <option value="League">League</option>
-            <option value="Cup">Cup</option>
-            <option value="Friendly">Friendly</option>
-        </select>
-<button type="button" class="main-button reset-button" onclick="resetFilters()">Reset Filters</button>
+    <label for="competition-filter">Competition:</label>
+    <select id="competition-filter" onchange="applyFilter()">
+        <option value="all">Filter by...</option>
+    </select>
 
-    </div>
+    <button type="button" class="main-button reset-button" onclick="resetFilters()">Reset Filters</button>
+</div>
 
     <!-- Match Results Table -->
     <div class="table-container">

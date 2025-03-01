@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// ✅ Populate team filter dynamically from Supabase
+// ✅ Populate team filter dynamically from Supabase (Stores IDs correctly)
 async function populateTeamFilter() {
     if (!window.supabase) {
         console.warn("⚠ Supabase not ready for team filter.");
@@ -33,7 +33,7 @@ async function populateTeamFilter() {
         if (error) throw error;
 
         data.forEach(team => {
-            const option = new Option(team.name, team.id);
+            const option = new Option(team.name, team.id); // ✅ Store team ID instead of name
             teamFilter.add(option);
         });
 
@@ -84,18 +84,6 @@ async function populateCompetitionFilter() {
     }
 }
 
-// ✅ Add Home/Away Filter
-function addHomeAwayFilter() {
-    const homeAwayFilter = document.getElementById('home-away-filter');
-    if (!homeAwayFilter) return;
-
-    homeAwayFilter.innerHTML = `
-        <option value="all">Home & Away</option>
-        <option value="home">Home Only</option>
-        <option value="away">Away Only</option>
-    `;
-}
-
 // ✅ Reset filters and reload matches
 function resetFilters() {
     console.log("🔄 Resetting filters...");
@@ -117,6 +105,9 @@ async function applyFilter() {
     const dateFilter = document.getElementById('date-filter').value;
     const competitionFilter = document.getElementById('competition-filter').value;
 
+    console.log("🔍 Selected Team ID:", teamFilter);
+    console.log("🔍 Selected Home/Away Filter:", homeAwayFilter);
+
     try {
         let query = window.supabase
             .from("matches")
@@ -131,11 +122,11 @@ async function applyFilter() {
         // ✅ Fix: Apply Home/Away filter correctly
         if (teamFilter !== 'all') {
             if (homeAwayFilter === "home") {
-                query = query.eq("home_team_id", teamFilter); // Show only Home matches
+                query = query.eq("home_team_id", teamFilter);
             } else if (homeAwayFilter === "away") {
-                query = query.eq("away_team_id", teamFilter); // Show only Away matches
+                query = query.eq("away_team_id", teamFilter);
             } else {
-                query = query.or(`home_team_id.eq.${teamFilter},away_team_id.eq.${teamFilter}`); // Show both Home & Away matches
+                query = query.or(`home_team_id.eq.${teamFilter},away_team_id.eq.${teamFilter}`);
             }
         }
 
@@ -164,31 +155,3 @@ async function applyFilter() {
         console.error("❌ Error applying filters:", error);
     }
 }
-
-// ✅ Display matches in table
-function displayMatches(matches) {
-    const tbody = document.getElementById('resultsTableBody');
-    if (!tbody) return;
-
-    tbody.innerHTML = '';
-
-    if (!matches || matches.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No matches found</td></tr>`;
-        return;
-    }
-
-    matches.forEach(match => {
-        const row = tbody.insertRow();
-        row.innerHTML = `
-            <td>${new Date(match.date).toLocaleDateString()}</td>
-            <td>${match.home_team?.name || "Unknown Team"}</td>
-            <td>${match.home_score} - ${match.away_score}</td>
-            <td>${match.away_team?.name || "Unknown Team"}</td>
-            <td>${match.competition?.name || "Unknown Competition"}</td>
-        `;
-    });
-}
-
-
-console.log("🔍 Selected Team:", teamFilter);
-console.log("🔍 Selected Home/Away:", homeAwayFilter);
