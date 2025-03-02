@@ -156,3 +156,36 @@ footer {
 
 
 
+/* ✅ Make Filter & Results Box Same Width */
+.container-wrapper {
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto; /* Centers both sections */
+}
+
+/* ✅ Fix Filter Section */
+.filter-container {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    color: black;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 100%; /* Matches results width */
+}
+
+/* ✅ Fix Results Table Box */
+.table-container {
+    flex-grow: 1;
+    max-height: calc(100vh - 280px);
+    overflow-y: auto;
+    border-radius: 10px;
+    background: white;
+    padding: 15px;
+    color: black;
+    width: 100%; /* Matches filter width */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}

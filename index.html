@@ -23,7 +23,9 @@
         </div>
     </div>
 
-    <!-- ✅ Filter Section -->
+<!-- ✅ Wrap Both in a Common Container -->
+<div class="container-wrapper">
+    <!-- Filter Section -->
     <div class="filter-container">
         <label for="team-filter">Team:</label>
         <select id="team-filter" onchange="applyFilter()">
@@ -53,7 +55,7 @@
         <button type="button" class="main-button reset-button" onclick="resetFilters()">Reset Filters</button>
     </div>
 
-    <!-- ✅ Match Results Table -->
+    <!-- Match Results Table -->
     <div class="table-container">
         <h2 class="page-title">Recent Matches</h2>
         <table class="results-table">
@@ -71,6 +73,8 @@
             </tbody>
         </table>
     </div>
+</div>
+
 
     <div id="footer"></div>
 
