@@ -280,3 +280,56 @@ footer {
 .small-button:hover {
     background-color: #e56e2a;
 }
+
+
+/* ✅ Header Container (Compact Layout) */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #0B1E49;
+    color: white;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ✅ Align Logo & Title */
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 60px; /* Reduce size */
+    height: auto;
+    margin-right: 10px;
+}
+
+.main-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* ✅ Group Buttons Together */
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* ✅ Make Buttons More Compact */
+.main-button {
+    background-color: #FF7F32;
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.main-button:hover {
+    background-color: #e56e2a;
+}
