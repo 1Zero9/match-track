@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Setup - Match Tracker</title>
-    <link rel="icon" type="image/x-icon" href="/icon/rvr.ico">
+    <link rel="icon" type="image/x-icon" href="rvr.ico">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
 </head>
@@ -24,34 +24,34 @@
     <!-- Setup Forms -->
     <div class="table-container">
         <h2 class="page-title">Add a Team</h2>
-        <form id="team-form">
-            <div class="form-group">
-                <label for="team-name">Team Name:</label>
+        <form id="team-form" class="form-container">
+            <label for="team-name">Team Name:</label>
+            <div class="input-group">
                 <input type="text" id="team-name" required>
+                <button type="submit" class="small-button">Add</button>
             </div>
-            <button type="submit" class="main-button">Add Team</button>
         </form>
     </div>
 
     <div class="table-container">
         <h2 class="page-title">Add a Venue</h2>
-        <form id="venue-form">
-            <div class="form-group">
-                <label for="venue-name">Venue Name:</label>
+        <form id="venue-form" class="form-container">
+            <label for="venue-name">Venue Name:</label>
+            <div class="input-group">
                 <input type="text" id="venue-name" required>
+                <button type="submit" class="small-button">Add</button>
             </div>
-            <button type="submit" class="main-button">Add Venue</button>
         </form>
     </div>
 
     <div class="table-container">
         <h2 class="page-title">Add a Competition</h2>
-        <form id="competition-form">
-            <div class="form-group">
-                <label for="competition-name">Competition Name:</label>
+        <form id="competition-form" class="form-container">
+            <label for="competition-name">Competition Name:</label>
+            <div class="input-group">
                 <input type="text" id="competition-name" required>
+                <button type="submit" class="small-button">Add</button>
             </div>
-            <button type="submit" class="main-button">Add Competition</button>
         </form>
     </div>
 
