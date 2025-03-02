@@ -1,12 +1,13 @@
 // ✅ Ensure scripts only run after Supabase is available
-document.addEventListener("DOMContentLoaded", async () => {
-    console.log("🚀 Initializing Match Tracker...");
+document.addEventListener("supabaseReady", () => {
+    console.log("🚀 Supabase is ready! Initializing Match Tracker...");
 
-    // ✅ Ensure Supabase is loaded before calling other scripts
-    if (typeof supabase === "undefined") {
-        console.error("❌ Supabase not found. Ensure supabase.js loads first.");
-        return;
-    }
+    // ✅ Now it's safe to load footer, fetch matches, and apply filters
+    loadFooter();
+    fetchMatches();
+    populateFilters();
+});
+
 
 // ✅ Load footer dynamically
 function loadFooter() {

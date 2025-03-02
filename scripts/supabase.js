@@ -6,7 +6,7 @@ if (typeof window.supabase === "undefined") {
     script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js";
     script.onload = () => {
         console.log("✅ Supabase SDK loaded.");
-        initializeSupabase();  // Run initialization after loading
+        initializeSupabase();
     };
     document.head.appendChild(script);
 } else {
@@ -26,4 +26,7 @@ function initializeSupabase() {
 
     window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log("✅ Supabase Initialized and Ready.");
+
+    // ✅ Dispatch event so other scripts know Supabase is ready
+    document.dispatchEvent(new Event("supabaseReady"));
 }

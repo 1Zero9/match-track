@@ -1,5 +1,20 @@
-// ✅ Ensure authentication before accessing protected pages
-document.addEventListener("DOMContentLoaded", checkAuth);
+// ✅ Ensure authentication only runs when Supabase is ready
+document.addEventListener("supabaseReady", checkAuth);
+
+async function checkAuth() {
+    try {
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (user) {
+            console.log("✅ User is logged in:", user);
+        } else {
+            console.warn("❌ No user logged in.");
+        }
+    } catch (error) {
+        console.error("❌ Error checking authentication:", error);
+    }
+}
+
 
 // ✅ Check if the user is logged in
 async function checkAuth() {
