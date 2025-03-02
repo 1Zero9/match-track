@@ -8,8 +8,31 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    // ✅ Load footer dynamically
-    loadFooter();
+// ✅ Load footer dynamically
+function loadFooter() {
+    const footer = document.getElementById("footer");
+    if (!footer) {
+        console.warn("⚠ Footer container not found.");
+        return;
+    }
+
+    fetch("footer.html")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("❌ Failed to load footer.");
+            }
+            return response.text();
+        })
+        .then(data => {
+            footer.innerHTML = data;
+            console.log("✅ Footer loaded successfully.");
+        })
+        .catch(error => console.error(error));
+}
+
+// ✅ Run footer load on page load
+document.addEventListener("DOMContentLoaded", loadFooter);
+
 
     // ✅ Fetch match results
     fetchMatches();
