@@ -1,4 +1,4 @@
-/* Reset default browser styles */
+/* ✅ Reset default browser styles */
 * {
     margin: 0;
     padding: 0;
@@ -61,6 +61,22 @@ html, body {
     background-color: #e56e2a;
 }
 
+/* ✅ Form Styling */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+input, select {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 250px;
+}
+
 /* ✅ Filter Section */
 .filter-container {
     background-color: white;
@@ -84,13 +100,6 @@ html, body {
     border-radius: 5px;
     border: 1px solid #ccc;
     min-width: 140px;
-}
-
-/* ✅ Fix Button Spacing */
-.filter-container button {
-    margin-left: 10px;
-    padding: 10px 15px;
-    font-size: 14px;
 }
 
 /* ✅ Results Table Box */
@@ -146,16 +155,6 @@ footer {
     padding: 0;
 }
 
-
-/* ✅ Fix Footer Image Display */
-.footer-image {
-    width: 100%;   /* Ensures the image stretches to fit */
-    height: auto;
-    display: block;  /* Ensures it's visible */
-}
-
-
-
 /* ✅ Make Filter & Results Box Same Width */
 .container-wrapper {
     width: 95%;
@@ -190,31 +189,6 @@ footer {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-
-/* ✅ Style the form container */
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-/* ✅ Group Input & Button Together */
-.input-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* ✅ Style Input Fields */
-.input-group input {
-    padding: 8px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 200px;  /* Keeps all inputs same size */
-}
-
 /* ✅ Smaller Add Buttons */
 .small-button {
     background-color: #FF7F32;
@@ -230,40 +204,6 @@ footer {
 .small-button:hover {
     background-color: #e56e2a;
 }
-
-
-/* ✅ Ensure Input & Button Are in the Same Row */
-.input-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* ✅ Fix Input Styling */
-.input-group input {
-    padding: 8px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 200px;
-}
-
-/* ✅ Reduce Button Size */
-.small-button {
-    background-color: #FF7F32;
-    color: white;
-    padding: 6px 12px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-}
-
-.small-button:hover {
-    background-color: #e56e2a;
-}
-
 
 /* ✅ Hide Elements by Default */
 .hidden {
@@ -283,6 +223,7 @@ footer {
     margin-top: 15px;
     background-color: #555;
 }
+
 .back-button:hover {
     background-color: #444;
 }
@@ -307,12 +248,7 @@ footer {
     color: white;
 }
 
-/* ✅ Hide Elements by Default */
-.hidden {
-    display: none;
-}
-
-/* ✅ Style for Login & Signup Forms */
+/* ✅ Login & Signup Forms */
 .form-container {
     display: flex;
     flex-direction: column;
@@ -321,7 +257,6 @@ footer {
     padding: 15px;
 }
 
-/* ✅ Input Fields */
 .form-container input {
     padding: 8px;
     font-size: 14px;

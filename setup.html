@@ -7,18 +7,18 @@
     <link rel="icon" type="image/x-icon" href="rvr.ico">
     <link rel="stylesheet" href="style.css">
 
-    <script defer src="supabase.js"></script>
-    <script defer src="auth.js"></script>
-    <script defer src="script.js"></script>
-    <script defer src="crud.js"></script>
-
+    <!-- ✅ Load Scripts in Correct Order -->
+    <script defer src="scripts/supabase.js"></script>
+    <script defer src="scripts/auth.js"></script>
+    <script defer src="scripts/main.js"></script>
+    <script defer src="scripts/crud.js"></script>
 </head>
 <body>
-    <!-- Header Section -->
+    <!-- ✅ Header Section -->
     <div class="header-container">
         <img src="assets/rvr_logo.png" alt="Match Tracker Logo" class="logo">
-        <div class="main-title">Match Tracker Setup</div>
-        <div class="sub-title">Manage Teams, Venues, and Competitions</div>
+        <h1 class="main-title">Match Tracker Setup</h1>
+        <p class="sub-title">Manage Teams, Venues, and Competitions</p>
         <div class="buttons-container">
             <a href="index.html"><button class="main-button">View Results</button></a>
             <a href="admin.html"><button class="main-button">Log a Match</button></a>
@@ -28,14 +28,14 @@
     </div>
 
     <!-- ✅ Login Section (Hidden if Logged In) -->
-    <div id="login-container" class="table-container">
+    <div id="login-container" class="table-container hidden">
         <h2 class="page-title">Login</h2>
-        <form id="login-form" class="form-container">
+        <form id="login-form">
             <label>Email:</label>
-            <input type="email" id="login-email" required>
+            <input type="email" id="email" required>
             
             <label>Password:</label>
-            <input type="password" id="login-password" required>
+            <input type="password" id="password" required>
 
             <button type="submit" class="small-button">Login</button>
         </form>
@@ -45,7 +45,7 @@
     <!-- ✅ Signup Section (Hidden by Default) -->
     <div id="signup-container" class="table-container hidden">
         <h2 class="page-title">Sign Up</h2>
-        <form id="signup-form" class="form-container">
+        <form id="signup-form">
             <label>Email:</label>
             <input type="email" id="signup-email" required>
 
@@ -59,17 +59,17 @@
 
     <!-- ✅ Setup Wizard (Hidden by Default) -->
     <div id="setup-container" class="table-container hidden">
-        <h2 class="page-title">What do you want to do?</h2>
+        <h2 class="page-title">Manage Teams, Venues, and Competitions</h2>
         <div class="wizard-buttons">
-            <button class="small-button" onclick="showForm('team')">Manage Teams</button>
-            <button class="small-button" onclick="showForm('venue')">Manage Venues</button>
-            <button class="small-button" onclick="showForm('competition')">Manage Competitions</button>
+            <button class="small-button" onclick="showForm('teams')">Manage Teams</button>
+            <button class="small-button" onclick="showForm('venues')">Manage Venues</button>
+            <button class="small-button" onclick="showForm('competitions')">Manage Competitions</button>
         </div>
 
         <!-- ✅ Step 2: Forms & CRUD Table (Hidden by Default) -->
         <div id="wizard-step-2" class="table-container hidden">
             <h2 id="form-title" class="page-title"></h2>
-            <form id="setup-form" class="form-container">
+            <form id="setup-form">
                 <label id="form-label" for="setup-name"></label>
                 <div class="input-group">
                     <input type="text" id="setup-name" required>
@@ -94,10 +94,7 @@
         </div>
     </div>
 
-    <!-- Footer Section -->
+    <!-- ✅ Footer -->
     <div id="footer"></div>
-
-    <script defer src="auth.js"></script>
-    <script defer src="crud.js"></script>
 </body>
 </html>
