@@ -1,6 +1,6 @@
 // ✅ Fetch Existing Items for CRUD Table
 async function fetchItems(table) {
-    const { data, error } = await window.supabase.from(table).select("*");
+    const { data, error } = await supabase.from(table).select("*");
 
     if (error) {
         console.error(`❌ Error fetching ${table}:`, error);
@@ -23,16 +23,9 @@ async function fetchItems(table) {
     });
 }
 
-// ✅ Handle Form Submission (Create)
-document.getElementById("setup-form").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const itemName = document.getElementById("setup-name").value;
-    insertItem(selectedTable, itemName);
-});
-
 // ✅ Add New Item to Database
 async function insertItem(table, itemName) {
-    const { error } = await window.supabase.from(table).insert([{ name: itemName }]);
+    const { error } = await supabase.from(table).insert([{ name: itemName }]);
     if (error) {
         console.error(`❌ Error inserting into ${table}:`, error);
         return;
@@ -50,7 +43,7 @@ function editItem(table, id, currentName) {
 }
 
 async function updateItem(table, id, newName) {
-    const { error } = await window.supabase.from(table).update({ name: newName }).eq("id", id);
+    const { error } = await supabase.from(table).update({ name: newName }).eq("id", id);
     if (error) {
         console.error(`❌ Error updating ${table}:`, error);
         return;
@@ -61,7 +54,7 @@ async function updateItem(table, id, newName) {
 // ✅ Delete an Item
 async function deleteItem(table, id) {
     if (!confirm("Are you sure you want to delete this?")) return;
-    const { error } = await window.supabase.from(table).delete().eq("id", id);
+    const { error } = await supabase.from(table).delete().eq("id", id);
     if (error) {
         console.error(`❌ Error deleting from ${table}:`, error);
         return;

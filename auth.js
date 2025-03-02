@@ -1,11 +1,9 @@
-// ✅ Supabase Setup
-const SUPABASE_URL = "https://ozsraoyortbvkckymdll.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// ✅ Wait for Supabase to be ready
+document.addEventListener("DOMContentLoaded", checkAuth);
 
-// ✅ Check User Login State
+// ✅ Check if User is Logged In
 async function checkAuth() {
-    const { data: user } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser();
     
     if (user) {
         console.log("✅ User logged in:", user);
@@ -58,17 +56,3 @@ async function logout() {
     await supabase.auth.signOut();
     location.reload();
 }
-
-// ✅ Toggle Between Login & Signup
-function showSignup() {
-    document.getElementById("login-container").classList.add("hidden");
-    document.getElementById("signup-container").classList.remove("hidden");
-}
-
-function showLogin() {
-    document.getElementById("signup-container").classList.add("hidden");
-    document.getElementById("login-container").classList.remove("hidden");
-}
-
-// ✅ Run Check on Page Load
-checkAuth();

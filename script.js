@@ -15,20 +15,20 @@
 function initializeSupabase() {
     console.log("Initializing Supabase...");
     
-    // ✅ Supabase client setup
     const SUPABASE_URL = "https://ozsraoyortbvkckymdll.supabase.co";  
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96c3Jhb3lvcnRidmtja3ltZGxsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA3NjE3NzgsImV4cCI6MjA1NjMzNzc3OH0.va3ZxmhrHsHC_T5WwiUr1n6i8euftfW-NDBbCQaAS9Q";  
+    const SUPABASE_ANON_KEY = "YOUR_ANON_KEY"; // Ensure this is stored securely
 
     window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log("✅ Supabase initialized.");
 
-    // ✅ Run only if necessary (avoid errors on setup page)
     if (document.getElementById("resultsTableBody")) {
         console.log("🚀 Fetching matches now...");
         fetchMatches();
     } else {
         console.log("⚠ No match table detected, skipping fetchMatches.");
     }
+
+    attachEventListeners();
 }
 
 // ✅ Fetch match results from the database
@@ -55,11 +55,6 @@ async function fetchMatches() {
         if (error) throw error;
 
         console.log("✅ Fetched match data:", data);
-
-        if (!data || data.length === 0) {
-            console.warn("⚠ No matches found in the database.");
-        }
-
         displayMatches(data);
     } catch (error) {
         console.error("❌ Error fetching matches:", error);
@@ -71,39 +66,22 @@ function displayMatches(results) {
     console.log("Rendering match results...", results);
     
     const tbody = document.getElementById("resultsTableBody");
-    if (!tbody) {
-        console.error("❌ Error: resultsTableBody not found.");
-        return;
-    }
+    if (!tbody) return console.error("❌ Error: resultsTableBody not found.");
 
-    tbody.innerHTML = '';  
-
-    if (!results || results.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No matches found</td></tr>`;
-        return;
-    }
-
-    results.forEach(match => {
-        const row = document.createElement('tr');
-
-        const matchDate = new Date(match.date).toLocaleDateString();
-        const homeTeam = match.home_team ? match.home_team.name : "Unknown Team";
-        const awayTeam = match.away_team ? match.away_team.name : "Unknown Team";
-        const competition = match.competition ? match.competition.name : "Unknown Competition";
-
-        row.innerHTML = `
-            <td>${matchDate}</td>
-            <td>${homeTeam}</td>
-            <td>${match.home_score} - ${match.away_score}</td>
-            <td>${awayTeam}</td>
-            <td>${competition}</td>
-        `;
-
-        tbody.appendChild(row);
-    });
+    tbody.innerHTML = results.length
+        ? results.map(match => `
+            <tr>
+                <td>${new Date(match.date).toLocaleDateString()}</td>
+                <td>${match.home_team?.name || "Unknown Team"}</td>
+                <td>${match.home_score} - ${match.away_score}</td>
+                <td>${match.away_team?.name || "Unknown Team"}</td>
+                <td>${match.competition?.name || "Unknown Competition"}</td>
+            </tr>
+        `).join('')
+        : `<tr><td colspan="5" style="text-align: center;">No matches found</td></tr>`;
 }
 
-// ✅ Handle inserting a new match from admin.html
+// ✅ Handle inserting a new match
 async function addMatch(event) {
     event.preventDefault();
 
@@ -115,30 +93,18 @@ async function addMatch(event) {
     const competition = document.getElementById("competition").value;
 
     try {
-        const { data: homeTeamData, error: homeTeamError } = await window.supabase
-            .from("teams")
-            .select("id")
-            .eq("name", homeTeam)
-            .single();
+        const [homeTeamData, awayTeamData, competitionData] = await Promise.all([
+            getEntityId("teams", homeTeam),
+            getEntityId("teams", awayTeam),
+            getEntityId("competitions", competition)
+        ]);
 
-        const { data: awayTeamData, error: awayTeamError } = await window.supabase
-            .from("teams")
-            .select("id")
-            .eq("name", awayTeam)
-            .single();
-
-        const { data: competitionData, error: competitionError } = await window.supabase
-            .from("competitions")
-            .select("id")
-            .eq("name", competition)
-            .single();
-
-        if (homeTeamError || awayTeamError || competitionError) {
-            console.error("❌ Error fetching team/competition IDs:", homeTeamError, awayTeamError, competitionError);
+        if (!homeTeamData || !awayTeamData || !competitionData) {
+            console.error("❌ Error fetching necessary IDs.");
             return;
         }
 
-        const { error: insertError } = await window.supabase.from("matches").insert([
+        const { error } = await window.supabase.from("matches").insert([
             {
                 date: matchDate,
                 home_team_id: homeTeamData.id,
@@ -149,12 +115,29 @@ async function addMatch(event) {
             }
         ]);
 
-        if (insertError) throw insertError;
+        if (error) throw error;
 
         console.log("✅ Match added successfully!");
-        fetchMatches(); // Refresh match list
+        fetchMatches();
     } catch (error) {
         console.error("❌ Error adding match:", error);
+    }
+}
+
+// ✅ Fetch ID of an entity (team, venue, competition)
+async function getEntityId(table, name) {
+    try {
+        const { data, error } = await window.supabase
+            .from(table)
+            .select("id")
+            .eq("name", name)
+            .single();
+
+        if (error) throw error;
+        return data;
+    } catch (error) {
+        console.error(`❌ Error fetching ${name} from ${table}:`, error);
+        return null;
     }
 }
 
@@ -168,7 +151,6 @@ async function insertItem(table, itemName) {
         if (error) throw error;
         console.log(`✅ ${itemName} added successfully to ${table}.`);
         
-        // Clear the input after insertion
         document.getElementById(`${table}-name`).value = "";
     } catch (error) {
         console.error(`❌ Error inserting ${itemName} into ${table}:`, error);
@@ -176,29 +158,18 @@ async function insertItem(table, itemName) {
 }
 
 // ✅ Attach event listeners
-document.addEventListener("DOMContentLoaded", () => {
+function attachEventListeners() {
     if (document.getElementById("match-form")) {
         document.getElementById("match-form").addEventListener("submit", addMatch);
     }
 
-    if (document.getElementById("team-form")) {
-        document.getElementById("team-form").addEventListener("submit", function (e) {
-            e.preventDefault();
-            insertItem("teams", document.getElementById("team-name").value);
-        });
-    }
-
-    if (document.getElementById("venue-form")) {
-        document.getElementById("venue-form").addEventListener("submit", function (e) {
-            e.preventDefault();
-            insertItem("venues", document.getElementById("venue-name").value);
-        });
-    }
-
-    if (document.getElementById("competition-form")) {
-        document.getElementById("competition-form").addEventListener("submit", function (e) {
-            e.preventDefault();
-            insertItem("competitions", document.getElementById("competition-name").value);
-        });
-    }
-});
+    ["team", "venue", "competition"].forEach(type => {
+        const form = document.getElementById(`${type}-form`);
+        if (form) {
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                insertItem(`${type}s`, document.getElementById(`${type}-name`).value);
+            });
+        }
+    });
+}
