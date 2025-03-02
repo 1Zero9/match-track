@@ -145,3 +145,14 @@ footer {
     margin: 0;
     padding: 0;
 }
+
+
+/* ✅ Fix Footer Image Display */
+.footer-image {
+    width: 100%;   /* Ensures the image stretches to fit */
+    height: auto;
+    display: block;  /* Ensures it's visible */
+}
+
+
+
