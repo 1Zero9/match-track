@@ -12,156 +12,87 @@
     <!-- Header Section -->
     <div class="header-container">
         <img src="assets/rvr_logo.png" alt="Match Tracker Logo" class="logo">
-        <div class="main-title">Match Tracker Setup Wizard</div>
+        <div class="main-title">Match Tracker Setup</div>
         <div class="sub-title">Manage Teams, Venues, and Competitions</div>
         <div class="buttons-container">
             <a href="index.html"><button class="main-button">View Results</button></a>
             <a href="admin.html"><button class="main-button">Log a Match</button></a>
             <a href="setup.html"><button class="main-button">Setup</button></a>
+            <button class="small-button" onclick="logout()">Logout</button>
         </div>
     </div>
 
-    <!-- ✅ Step 1: Selection Screen -->
-    <div id="wizard-step-1" class="table-container">
+    <!-- ✅ Login Section (Hidden if Logged In) -->
+    <div id="login-container" class="table-container">
+        <h2 class="page-title">Login</h2>
+        <form id="login-form" class="form-container">
+            <label>Email:</label>
+            <input type="email" id="login-email" required>
+            
+            <label>Password:</label>
+            <input type="password" id="login-password" required>
+
+            <button type="submit" class="small-button">Login</button>
+        </form>
+        <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+    </div>
+
+    <!-- ✅ Signup Section (Hidden by Default) -->
+    <div id="signup-container" class="table-container hidden">
+        <h2 class="page-title">Sign Up</h2>
+        <form id="signup-form" class="form-container">
+            <label>Email:</label>
+            <input type="email" id="signup-email" required>
+
+            <label>Password:</label>
+            <input type="password" id="signup-password" required>
+
+            <button type="submit" class="small-button">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+    </div>
+
+    <!-- ✅ Setup Wizard (Hidden by Default) -->
+    <div id="setup-container" class="table-container hidden">
         <h2 class="page-title">What do you want to do?</h2>
         <div class="wizard-buttons">
             <button class="small-button" onclick="showForm('team')">Manage Teams</button>
             <button class="small-button" onclick="showForm('venue')">Manage Venues</button>
             <button class="small-button" onclick="showForm('competition')">Manage Competitions</button>
         </div>
-    </div>
 
-    <!-- ✅ Step 2: Forms & Table (Hidden by Default) -->
-    <div id="wizard-step-2" class="table-container hidden">
-        <h2 id="form-title" class="page-title"></h2>
-        <form id="setup-form" class="form-container">
-            <label id="form-label" for="setup-name"></label>
-            <div class="input-group">
-                <input type="text" id="setup-name" required>
-                <button type="submit" class="small-button">Add</button>
-            </div>
-        </form>
-        <button class="small-button back-button" onclick="showSelection()">⬅ Back</button>
+        <!-- ✅ Step 2: Forms & CRUD Table (Hidden by Default) -->
+        <div id="wizard-step-2" class="table-container hidden">
+            <h2 id="form-title" class="page-title"></h2>
+            <form id="setup-form" class="form-container">
+                <label id="form-label" for="setup-name"></label>
+                <div class="input-group">
+                    <input type="text" id="setup-name" required>
+                    <button type="submit" class="small-button">Add</button>
+                </div>
+            </form>
+            <button class="small-button back-button" onclick="showSelection()">⬅ Back</button>
 
-        <!-- ✅ CRUD Table -->
-        <h3 class="page-title">Existing Entries</h3>
-        <table class="results-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="resultsTableBody">
-                <!-- JavaScript will insert rows here -->
-            </tbody>
-        </table>
+            <!-- ✅ CRUD Table -->
+            <h3 class="page-title">Existing Entries</h3>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTableBody">
+                    <!-- JavaScript will insert rows here -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Footer Section -->
     <div id="footer"></div>
 
-    <script>
-        // ✅ Load Footer
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("footer.html")
-                .then(response => response.text())
-                .then(data => document.getElementById("footer").innerHTML = data)
-                .catch(error => console.error("❌ Error loading footer:", error));
-        });
-
-        let selectedTable = "";
-
-        // ✅ Show the correct form and load table data
-        function showForm(type) {
-            selectedTable = type === "team" ? "teams" : type === "venue" ? "venues" : "competitions";
-            document.getElementById("wizard-step-1").classList.add("hidden");
-            document.getElementById("wizard-step-2").classList.remove("hidden");
-
-            document.getElementById("form-title").innerText = `Manage ${type.charAt(0).toUpperCase() + type.slice(1)}s`;
-            document.getElementById("form-label").innerText = `${type.charAt(0).toUpperCase() + type.slice(1)} Name:`;
-            document.getElementById("setup-name").value = "";
-
-            fetchItems(selectedTable);
-        }
-
-        // ✅ Show selection screen again
-        function showSelection() {
-            document.getElementById("wizard-step-1").classList.remove("hidden");
-            document.getElementById("wizard-step-2").classList.add("hidden");
-        }
-
-        // ✅ Fetch Existing Items for CRUD Table
-        async function fetchItems(table) {
-            const { data, error } = await window.supabase.from(table).select("*");
-
-            if (error) {
-                console.error(`❌ Error fetching ${table}:`, error);
-                return;
-            }
-
-            const tbody = document.getElementById("resultsTableBody");
-            tbody.innerHTML = '';
-
-            data.forEach(item => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${item.name}</td>
-                    <td>
-                        <button class="edit-button" onclick="editItem('${table}', ${item.id}, '${item.name}')">✏ Edit</button>
-                        <button class="delete-button" onclick="deleteItem('${table}', ${item.id})">🗑 Delete</button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        // ✅ Handle Form Submission (Create)
-        document.getElementById("setup-form").addEventListener("submit", function (e) {
-            e.preventDefault();
-            const itemName = document.getElementById("setup-name").value;
-            insertItem(selectedTable, itemName);
-        });
-
-        // ✅ Add New Item to Database
-        async function insertItem(table, itemName) {
-            const { error } = await window.supabase.from(table).insert([{ name: itemName }]);
-            if (error) {
-                console.error(`❌ Error inserting into ${table}:`, error);
-                return;
-            }
-            fetchItems(table);
-            document.getElementById("setup-name").value = "";
-        }
-
-        // ✅ Edit an Item
-        function editItem(table, id, currentName) {
-            const newName = prompt("Enter new name:", currentName);
-            if (newName && newName !== currentName) {
-                updateItem(table, id, newName);
-            }
-        }
-
-        async function updateItem(table, id, newName) {
-            const { error } = await window.supabase.from(table).update({ name: newName }).eq("id", id);
-            if (error) {
-                console.error(`❌ Error updating ${table}:`, error);
-                return;
-            }
-            fetchItems(table);
-        }
-
-        // ✅ Delete an Item
-        async function deleteItem(table, id) {
-            if (!confirm("Are you sure you want to delete this?")) return;
-            const { error } = await window.supabase.from(table).delete().eq("id", id);
-            if (error) {
-                console.error(`❌ Error deleting from ${table}:`, error);
-                return;
-            }
-            fetchItems(table);
-        }
-
-    </script>
+    <script defer src="auth.js"></script>
+    <script defer src="crud.js"></script>
 </body>
 </html>
