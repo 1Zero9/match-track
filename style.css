@@ -263,3 +263,46 @@ footer {
 .small-button:hover {
     background-color: #e56e2a;
 }
+
+
+/* ✅ Hide Elements by Default */
+.hidden {
+    display: none;
+}
+
+/* ✅ Wizard Buttons */
+.wizard-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* ✅ Back Button */
+.back-button {
+    margin-top: 15px;
+    background-color: #555;
+}
+.back-button:hover {
+    background-color: #444;
+}
+
+/* ✅ CRUD Buttons */
+.edit-button, .delete-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    margin: 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.edit-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
