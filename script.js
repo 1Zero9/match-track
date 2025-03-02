@@ -22,14 +22,13 @@ function initializeSupabase() {
     window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log("✅ Supabase initialized.");
 
-    // 🚀 Ensure filters and match fetching run after Supabase is ready
-    setTimeout(() => {
+    // ✅ Run only if necessary (avoid errors on setup page)
+    if (document.getElementById("resultsTableBody")) {
         console.log("🚀 Fetching matches now...");
         fetchMatches();
-        populateTeamFilter();
-        populateYearFilter();
-        populateCompetitionFilter();
-    }, 2000);
+    } else {
+        console.log("⚠ No match table detected, skipping fetchMatches.");
+    }
 }
 
 // ✅ Fetch match results from the database
@@ -38,7 +37,7 @@ async function fetchMatches() {
 
     const tbody = document.getElementById("resultsTableBody");
     if (!tbody) {
-        console.error("❌ Error: resultsTableBody element not found.");
+        console.warn("⚠ No match table found. Skipping fetch.");
         return;
     }
 
@@ -104,7 +103,7 @@ function displayMatches(results) {
     });
 }
 
-// ✅ Handle adding a new match from admin.html
+// ✅ Handle inserting a new match from admin.html
 async function addMatch(event) {
     event.preventDefault();
 
@@ -159,25 +158,47 @@ async function addMatch(event) {
     }
 }
 
-// ✅ Handle deleting a match
-async function deleteMatch(matchId) {
-    if (!confirm("Are you sure you want to delete this match?")) return;
-
+// ✅ Handle inserting a new team, venue, or competition
+async function insertItem(table, itemName) {
+    console.log(`🚀 Adding ${itemName} to ${table}...`);
+    
     try {
-        const { error } = await window.supabase.from("matches").delete().eq("id", matchId);
-        if (error) throw error;
+        const { error } = await window.supabase.from(table).insert([{ name: itemName }]);
 
-        console.log("✅ Match deleted successfully!");
-        fetchMatches();
+        if (error) throw error;
+        console.log(`✅ ${itemName} added successfully to ${table}.`);
+        
+        // Clear the input after insertion
+        document.getElementById(`${table}-name`).value = "";
     } catch (error) {
-        console.error("❌ Error deleting match:", error);
+        console.error(`❌ Error inserting ${itemName} into ${table}:`, error);
     }
 }
 
-// ✅ Attach event listeners for adding matches
+// ✅ Attach event listeners
 document.addEventListener("DOMContentLoaded", () => {
-    const matchForm = document.getElementById("match-form");
-    if (matchForm) {
-        matchForm.addEventListener("submit", addMatch);
+    if (document.getElementById("match-form")) {
+        document.getElementById("match-form").addEventListener("submit", addMatch);
+    }
+
+    if (document.getElementById("team-form")) {
+        document.getElementById("team-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            insertItem("teams", document.getElementById("team-name").value);
+        });
+    }
+
+    if (document.getElementById("venue-form")) {
+        document.getElementById("venue-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            insertItem("venues", document.getElementById("venue-name").value);
+        });
+    }
+
+    if (document.getElementById("competition-form")) {
+        document.getElementById("competition-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            insertItem("competitions", document.getElementById("competition-name").value);
+        });
     }
 });

@@ -230,3 +230,36 @@ footer {
 .small-button:hover {
     background-color: #e56e2a;
 }
+
+
+/* ✅ Ensure Input & Button Are in the Same Row */
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ✅ Fix Input Styling */
+.input-group input {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 200px;
+}
+
+/* ✅ Reduce Button Size */
+.small-button {
+    background-color: #FF7F32;
+    color: white;
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.small-button:hover {
+    background-color: #e56e2a;
+}

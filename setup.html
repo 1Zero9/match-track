@@ -59,29 +59,45 @@
     <div id="footer"></div>
 
     <script>
+        // ✅ Load Footer Correctly
         document.addEventListener("DOMContentLoaded", function () {
             fetch("footer.html")
                 .then(response => response.text())
                 .then(data => document.getElementById("footer").innerHTML = data)
-                .catch(error => console.error("Error loading footer:", error));
+                .catch(error => console.error("❌ Error loading footer:", error));
         });
 
-        document.getElementById("team-form").addEventListener("submit", async function (e) {
+        // ✅ Insert Function for Teams, Venues, and Competitions
+        async function insertItem(table, itemName) {
+            console.log(`🚀 Adding ${itemName} to ${table}...`);
+
+            try {
+                const { error } = await window.supabase.from(table).insert([{ name: itemName }]);
+
+                if (error) throw error;
+                console.log(`✅ ${itemName} added successfully to ${table}.`);
+
+                // Clear input field
+                document.getElementById(`${table}-name`).value = "";
+            } catch (error) {
+                console.error(`❌ Error inserting ${itemName} into ${table}:`, error);
+            }
+        }
+
+        // ✅ Attach Event Listeners to Forms
+        document.getElementById("team-form").addEventListener("submit", function (e) {
             e.preventDefault();
-            const teamName = document.getElementById("team-name").value;
-            await insertTeam({ name: teamName });
+            insertItem("teams", document.getElementById("team-name").value);
         });
 
-        document.getElementById("venue-form").addEventListener("submit", async function (e) {
+        document.getElementById("venue-form").addEventListener("submit", function (e) {
             e.preventDefault();
-            const venueName = document.getElementById("venue-name").value;
-            await insertVenue({ name: venueName });
+            insertItem("venues", document.getElementById("venue-name").value);
         });
 
-        document.getElementById("competition-form").addEventListener("submit", async function (e) {
+        document.getElementById("competition-form").addEventListener("submit", function (e) {
             e.preventDefault();
-            const competitionName = document.getElementById("competition-name").value;
-            await insertCompetition({ name: competitionName });
+            insertItem("competitions", document.getElementById("competition-name").value);
         });
     </script>
 </body>
