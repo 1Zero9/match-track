@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- ✅ Correct Script Loading Order -->
-    <script defer src="scripts/supabase.js"></script>  <!-- Supabase must load first -->
+    <script defer src="scripts/supabase.js"></script>  <!-- ✅ Must load first -->
     <script defer src="scripts/auth.js"></script>      <!-- Handles login/logout -->
-    <script defer src="scripts/main.js"></script>      <!-- Main event listeners -->
+    <script defer src="scripts/main.js"></script>      <!-- Handles global events -->
     <script defer src="scripts/matches.js"></script>   <!-- Fetches and displays matches -->
     <script defer src="scripts/filters.js"></script>   <!-- Handles filters -->
-    <script defer src="scripts/script.js"></script>   <!-- Handles filters -->
+    <script defer src="scripts/crud.js"></script>      <!-- Handles setup page actions -->
+    
 
 </head>
 <body>

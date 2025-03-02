@@ -8,10 +8,14 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- ✅ Load Scripts in Correct Order -->
-    <script defer src="scripts/supabase.js"></script>
-    <script defer src="scripts/auth.js"></script>
-    <script defer src="scripts/main.js"></script>
-    <script defer src="scripts/crud.js"></script>
+    <script defer src="scripts/supabase.js"></script>  <!-- ✅ Must load first -->
+    <script defer src="scripts/auth.js"></script>      <!-- Handles login/logout -->
+    <script defer src="scripts/main.js"></script>      <!-- Handles global events -->
+    <script defer src="scripts/matches.js"></script>   <!-- Fetches and displays matches -->
+    <script defer src="scripts/filters.js"></script>   <!-- Handles filters -->
+    <script defer src="scripts/crud.js"></script>      <!-- Handles setup page actions -->
+
+    
 </head>
 <body>
     <!-- ✅ Header Section -->
