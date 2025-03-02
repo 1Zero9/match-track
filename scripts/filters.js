@@ -2,6 +2,7 @@
 async function populateFilters() {
     await populateDropdown("teams", "team-filter");
     await populateDropdown("competitions", "competition-filter");
+    populateYearFilter();  // ✅ Ensure year filter is populated
 }
 
 // ✅ Fetch teams and competitions dynamically
@@ -23,6 +24,31 @@ async function populateDropdown(table, elementId) {
     } catch (error) {
         console.error(`❌ Error fetching ${table}:`, error);
     }
+}
+
+// ✅ Populate the year filter dynamically from match results
+function populateYearFilter() {
+    const yearFilter = document.getElementById("year-filter");
+    if (!yearFilter) return;
+
+    const uniqueYears = new Set();
+
+    // ✅ Loop through all match rows and extract unique years
+    document.querySelectorAll("#resultsTableBody tr").forEach(row => {
+        const dateText = row.cells[0]?.textContent.trim();
+        if (dateText) {
+            const year = new Date(dateText).getFullYear();
+            uniqueYears.add(year);
+        }
+    });
+
+    // ✅ Populate dropdown
+    yearFilter.innerHTML = `<option value="all">All Years</option>`;
+    [...uniqueYears].sort().forEach(year => {
+        yearFilter.innerHTML += `<option value="${year}">${year}</option>`;
+    });
+
+    console.log("✅ Populated year-filter dropdown:", [...uniqueYears]);
 }
 
 // ✅ Apply filters when dropdowns change
@@ -53,8 +79,9 @@ function applyFilter() {
         if (homeAway === "home" && homeTeam !== selectedTeam) shouldShow = false;
         if (homeAway === "away" && awayTeam !== selectedTeam) shouldShow = false;
 
-        // ✅ Filter by Year
-        if (selectedYear !== "all" && !matchDate.includes(selectedYear)) {
+        // ✅ Extract Year from Match Date
+        const rowYear = new Date(matchDate).getFullYear().toString();
+        if (selectedYear !== "all" && rowYear !== selectedYear) {
             shouldShow = false;
         }
 
