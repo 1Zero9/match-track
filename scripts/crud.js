@@ -7,13 +7,13 @@ async function fetchItems(table) {
 
         console.log(`✅ Fetched ${table}:`, data);
 
-        const tbody = document.getElementById("resultsTableBody");
-        if (!tbody) return;
+        const tbody = document.getElementById(`${table}-table-body`);
+        if (!tbody) return console.warn(`⚠ Table body for ${table} not found.`);
 
-        tbody.innerHTML = ''; // Clear existing content
+        tbody.innerHTML = ""; // Clear existing content
 
         data.forEach(item => {
-            const row = document.createElement('tr');
+            const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${item.name}</td>
                 <td>
@@ -25,13 +25,17 @@ async function fetchItems(table) {
         });
     } catch (error) {
         console.error(`❌ Error fetching ${table}:`, error);
+        showMessage(`Error loading ${table}.`, "error");
     }
 }
 
 // ✅ Add a new item to the database
 async function insertItem(table) {
-    const itemName = document.getElementById(`${table}-name`).value;
-    if (!itemName) return alert("❌ Please enter a name!");
+    const itemName = document.getElementById(`${table}-name`).value.trim();
+    if (!itemName) {
+        showMessage("❌ Please enter a name!", "error");
+        return;
+    }
 
     try {
         const { error } = await supabase.from(table).insert([{ name: itemName }]);
@@ -39,10 +43,12 @@ async function insertItem(table) {
         if (error) throw error;
 
         console.log(`✅ ${itemName} added to ${table}`);
+        showMessage(`✅ ${itemName} added successfully!`, "success");
         fetchItems(table); // Refresh list
         document.getElementById(`${table}-name`).value = ""; // Clear input field
     } catch (error) {
         console.error(`❌ Error inserting into ${table}:`, error);
+        showMessage(`❌ Failed to add ${itemName}.`, "error");
     }
 }
 
@@ -62,9 +68,11 @@ async function updateItem(table, id, newName) {
         if (error) throw error;
 
         console.log(`✅ Updated item in ${table}: ${newName}`);
+        showMessage(`✅ ${newName} updated successfully!`, "success");
         fetchItems(table); // Refresh list
     } catch (error) {
         console.error(`❌ Error updating ${table}:`, error);
+        showMessage(`❌ Failed to update ${newName}.`, "error");
     }
 }
 
@@ -78,10 +86,26 @@ async function deleteItem(table, id) {
         if (error) throw error;
 
         console.log(`✅ Deleted item from ${table}`);
+        showMessage(`✅ Item deleted successfully.`, "success");
         fetchItems(table); // Refresh list
     } catch (error) {
         console.error(`❌ Error deleting from ${table}:`, error);
+        showMessage(`❌ Failed to delete item.`, "error");
     }
+}
+
+// ✅ Show success or error messages
+function showMessage(message, type) {
+    const messageBox = document.getElementById("message-box");
+    if (!messageBox) return console.warn("⚠ Message box not found.");
+    
+    messageBox.textContent = message;
+    messageBox.className = type === "success" ? "success-message" : "error-message";
+
+    // Hide message after 3 seconds
+    setTimeout(() => {
+        messageBox.textContent = "";
+    }, 3000);
 }
 
 // ✅ Attach event listeners when page loads
@@ -94,5 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 insertItem(table);
             });
         }
+
+        fetchItems(table); // Ensure tables load on page load
     });
 });

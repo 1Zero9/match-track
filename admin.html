@@ -3,94 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Match Tracker</title>
-    <link rel="icon" type="image/x-icon" href="rvr.ico">
+    <title>Log a Match</title>
     <link rel="stylesheet" href="style.css">
 
-        <!-- ✅ Load Scripts in Correct Order -->
-        <script defer src="scripts/supabase.js"></script>  <!-- ✅ Load first -->
-        <script defer src="scripts/auth.js"></script>
-        <script defer src="scripts/main.js"></script>
-        <script defer src="scripts/matches.js"></script>
-        <script defer src="scripts/filters.js"></script>
-        <script defer src="scripts/crud.js"></script>
-        
-
-    
-
+    <!-- ✅ Load Scripts -->
+    <script defer src="scripts/supabase.js"></script>
+    <script defer src="scripts/auth.js"></script>
+    <script defer src="scripts/crud.js"></script>
 </head>
 <body>
-    <!-- ✅ Header Section -->
+
+    <!-- ✅ Page Header -->
     <div class="header-container">
-        <img src="assets/rvr_logo.png" alt="Match Tracker Logo" class="logo">
-        <h1 class="main-title">Match Tracker Admin</h1>
-        <p class="sub-title">Manage Match Records</p>
-        <div class="buttons-container">
-            <a href="index.html"><button class="main-button">View Results</button></a>
-            <a href="admin.html"><button class="main-button">Log a Match</button></a>
-            <a href="setup.html"><button class="main-button">Setup</button></a>
-            <button class="small-button" onclick="logout()">Logout</button>
-        </div>
+        <a href="index.html">
+            <img src="assets/rvr_logo.png" alt="Home" class="header-logo">
+        </a>
+        <h2>Log a Match</h2>
     </div>
 
-    <!-- ✅ Match Entry Form -->
-    <div class="table-container">
-        <h2 class="page-title">Add New Match</h2>
+    <!-- ✅ Match Form -->
+    <div class="form-container">
         <form id="match-form">
-            <div class="form-group">
-                <label for="match-date">Date:</label>
-                <input type="date" id="match-date" required>
-            </div>
-            <div class="form-group">
-                <label for="home-team">Home Team:</label>
-                <input type="text" id="home-team" required>
-            </div>
-            <div class="form-group">
-                <label for="away-team">Away Team:</label>
-                <input type="text" id="away-team" required>
-            </div>
-            <div class="form-group">
-                <label for="home-score">Home Score:</label>
-                <input type="number" id="home-score" min="0" required>
-            </div>
-            <div class="form-group">
-                <label for="away-score">Away Score:</label>
-                <input type="number" id="away-score" min="0" required>
-            </div>
-            <div class="form-group">
-                <label for="competition">Competition:</label>
-                <select id="competition">
-                    <option value="League">League</option>
-                    <option value="Cup">Cup</option>
-                    <option value="Friendly">Friendly</option>
-                </select>
-            </div>
-            <button type="submit" class="main-button">Add Match</button>
+            <label for="match-date">Match Date:</label>
+            <input type="date" id="match-date" required>
+
+            <label for="home-team">Home Team:</label>
+            <select id="home-team" required></select>
+
+            <label for="away-team">Away Team:</label>
+            <select id="away-team" required></select>
+
+            <label for="home-score">Home Score:</label>
+            <input type="number" id="home-score" min="0" required>
+
+            <label for="away-score">Away Score:</label>
+            <input type="number" id="away-score" min="0" required>
+
+            <label for="competition">Competition:</label>
+            <select id="competition" required></select>
+
+            <button type="submit" class="main-button">Submit Match</button>
         </form>
-        <p id="status-message"></p>
+
+        <p id="match-message" class="success-message"></p>
     </div>
 
-    <!-- ✅ Existing Matches -->
-    <div class="table-container">
-        <h2 class="page-title">Existing Matches</h2>
-        <table class="results-table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Home Team</th>
-                    <th>Away Team</th>
-                    <th>Score</th>
-                    <th>Competition</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="adminResultsTableBody">
-                <!-- Matches loaded dynamically -->
-            </tbody>
-        </table>
-    </div>
-
-    <!-- ✅ Footer -->
-    <div id="footer"></div>
 </body>
 </html>

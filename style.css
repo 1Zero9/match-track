@@ -408,3 +408,70 @@ footer {
 }
 
 
+/* ✅ Header */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0B1E49;
+    color: white;
+    padding: 15px 20px;
+}
+
+.header-logo {
+    width: 60px;
+    cursor: pointer;
+}
+
+/* ✅ Form Container */
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ Form Inputs */
+form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* ✅ Submit Button */
+.main-button {
+    background-color: #FF7F32;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.main-button:hover {
+    background-color: #e56e2a;
+}
+
+/* ✅ Success/Error Messages */
+.success-message {
+    color: green;
+    margin-top: 10px;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
