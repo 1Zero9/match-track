@@ -52,6 +52,44 @@ async function insertItem(table) {
     }
 }
 
+// ✅ Edit an item (Prompt for new name)
+function editItem(table, id, currentName) {
+    const newName = prompt("Enter new name:", currentName);
+    if (newName && newName !== currentName) {
+        updateItem(table, id, newName);
+    }
+}
+
+// ✅ Update an item in the database
+async function updateItem(table, id, newName) {
+    try {
+        const { error } = await supabase.from(table).update({ name: newName }).eq("id", id);
+
+        if (error) throw error;
+
+        console.log(`✅ Updated item in ${table}: ${newName}`);
+        fetchItems(table); // Refresh list
+    } catch (error) {
+        console.error(`❌ Error updating ${table}:`, error);
+    }
+}
+
+// ✅ Delete an item from the database
+async function deleteItem(table, id) {
+    if (!confirm("Are you sure you want to delete this?")) return;
+
+    try {
+        const { error } = await supabase.from(table).delete().eq("id", id);
+
+        if (error) throw error;
+
+        console.log(`✅ Deleted item from ${table}`);
+        fetchItems(table); // Refresh list
+    } catch (error) {
+        console.error(`❌ Error deleting from ${table}:`, error);
+    }
+}
+
 // ✅ Populate Match Form Dropdowns
 async function populateMatchForm() {
     await populateDropdown("teams", "home-team");
@@ -62,7 +100,7 @@ async function populateMatchForm() {
 // ✅ Fetch and populate dropdowns
 async function populateDropdown(table, elementId) {
     try {
-        const { data, error } = await supabase.from(table).select("name");
+        const { data, error } = await supabase.from(table).select("name, id");
 
         if (error) throw error;
 
@@ -71,7 +109,7 @@ async function populateDropdown(table, elementId) {
 
         dropdown.innerHTML = `<option value="">Select...</option>`; // Default option
         data.forEach(item => {
-            dropdown.innerHTML += `<option value="${item.name}">${item.name}</option>`;
+            dropdown.innerHTML += `<option value="${item.id}">${item.name}</option>`;
         });
 
         console.log(`✅ Populated ${elementId} dropdown.`);

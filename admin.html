@@ -63,13 +63,13 @@
         <p id="match-message" class="success-message"></p>
     </div>
 
-    <!-- ✅ Management Sections -->
+    <!-- ✅ Manage Teams -->
     <div class="admin-tables">
         <h3>Manage Teams</h3>
-        <div class="form-inline">
+        <form id="teams-form">
             <input type="text" id="teams-name" placeholder="Add new team" required>
-            <button type="submit" class="small-button" onclick="insertItem('teams')">Add Team</button>
-        </div>
+            <button type="submit" class="small-button">Add Team</button>
+        </form>
         <table class="results-table">
             <thead>
                 <tr>
@@ -81,10 +81,10 @@
         </table>
 
         <h3>Manage Venues</h3>
-        <div class="form-inline">
+        <form id="venues-form">
             <input type="text" id="venues-name" placeholder="Add new venue" required>
-            <button type="submit" class="small-button" onclick="insertItem('venues')">Add Venue</button>
-        </div>
+            <button type="submit" class="small-button">Add Venue</button>
+        </form>
         <table class="results-table">
             <thead>
                 <tr>
@@ -96,10 +96,10 @@
         </table>
 
         <h3>Manage Competitions</h3>
-        <div class="form-inline">
+        <form id="competitions-form">
             <input type="text" id="competitions-name" placeholder="Add new competition" required>
-            <button type="submit" class="small-button" onclick="insertItem('competitions')">Add Competition</button>
-        </div>
+            <button type="submit" class="small-button">Add Competition</button>
+        </form>
         <table class="results-table">
             <thead>
                 <tr>
