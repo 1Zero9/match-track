@@ -5,63 +5,69 @@
     box-sizing: border-box;
 }
 
-/* ✅ Ensure full height usage */
+/* ✅ Full-page height & global styles */
 html, body {
     height: 100%;
-    display: flex;
-    flex-direction: column;
     font-family: Arial, sans-serif;
     background-color: #0B1E49;
     color: white;
     text-align: center;
 }
 
-/* ✅ Header Styling */
+/* ✅ Header Styling (Fixing Overlapping Issues) */
 .header-container {
-    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
     background-color: #0B1E49;
-    text-align: center;
+    color: white;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.logo {
-    width: 80px;
+/* ✅ Align Logo & Title */
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    width: 60px;
+    height: auto;
+    margin-right: 10px;
+    cursor: pointer;
 }
 
 .main-title {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
-    margin: 10px 0;
+    margin: 0;
 }
 
-.sub-title {
-    font-size: 18px;
-    margin-bottom: 15px;
-}
-
-/* ✅ Button Styles */
-.buttons-container {
+/* ✅ Buttons inside header */
+.header-buttons {
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 15px;
+    gap: 10px;
 }
 
+/* ✅ Compact Buttons */
 .main-button {
     background-color: #FF7F32;
     color: white;
-    padding: 12px 24px;
-    font-size: 16px;
+    padding: 10px 16px;
+    font-size: 14px;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.3s;
 }
 
 .main-button:hover {
     background-color: #e56e2a;
 }
 
-/* ✅ Form Styling */
+/* ✅ Form Input Styling */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -77,7 +83,7 @@ input, select {
     width: 250px;
 }
 
-/* ✅ Filter Section */
+/* ✅ Filter Section (Ensures it Matches Table Width) */
 .filter-container {
     background-color: white;
     padding: 15px;
@@ -92,26 +98,22 @@ input, select {
     margin: 10px auto;
 }
 
-/* ✅ Filter Input & Select Boxes */
-.filter-container select,
-.filter-container input {
-    padding: 8px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    min-width: 140px;
+/* ✅ Ensure Filters and Table Align */
+.container-wrapper {
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto; /* Centers both sections */
 }
 
-/* ✅ Results Table Box */
+/* ✅ Fix Results Table Layout */
 .table-container {
     flex-grow: 1;
-    max-height: calc(100vh - 280px); /* Ensures results do not overlap footer */
     overflow-y: auto;
     border-radius: 10px;
     background: white;
     padding: 15px;
     color: black;
-    width: 95%;
+    width: 95%; /* Matches filter width */
     max-width: 1200px;
     margin: 20px auto;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
@@ -128,14 +130,14 @@ input, select {
     border-bottom: 1px solid #ddd;
 }
 
-/* ✅ Highlight Match Rows on Hover */
+/* ✅ Highlight Rows on Hover */
 .results-table tr:hover {
-    background-color: #FF7F32; /* Orange hover effect */
+    background-color: #FF7F32;
     color: white;
     transition: background-color 0.3s ease-in-out;
 }
 
-/* ✅ Footer Fix */
+/* ✅ Footer Styling */
 footer {
     background-color: #0B1E49;
     color: white;
@@ -147,7 +149,7 @@ footer {
     z-index: 10;
 }
 
-/* ✅ Ensure Footer Image Fits */
+/* ✅ Fix Footer Image */
 .footer-image {
     width: 100%;
     display: block;
@@ -155,188 +157,7 @@ footer {
     padding: 0;
 }
 
-/* ✅ Make Filter & Results Box Same Width */
-.container-wrapper {
-    width: 95%;
-    max-width: 1200px;
-    margin: 0 auto; /* Centers both sections */
-}
-
-/* ✅ Fix Filter Section */
-.filter-container {
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
-    color: black;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    width: 100%; /* Matches results width */
-}
-
-/* ✅ Fix Results Table Box */
-.table-container {
-    flex-grow: 1;
-    max-height: calc(100vh - 280px);
-    overflow-y: auto;
-    border-radius: 10px;
-    background: white;
-    padding: 15px;
-    color: black;
-    width: 100%; /* Matches filter width */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* ✅ Smaller Add Buttons */
-.small-button {
-    background-color: #FF7F32;
-    color: white;
-    padding: 6px 12px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.small-button:hover {
-    background-color: #e56e2a;
-}
-
-/* ✅ Hide Elements by Default */
-.hidden {
-    display: none;
-}
-
-/* ✅ Wizard Buttons */
-.wizard-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
-}
-
-/* ✅ Back Button */
-.back-button {
-    margin-top: 15px;
-    background-color: #555;
-}
-
-.back-button:hover {
-    background-color: #444;
-}
-
-/* ✅ CRUD Buttons */
-.edit-button, .delete-button {
-    padding: 5px 10px;
-    font-size: 14px;
-    margin: 2px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-}
-
-.edit-button {
-    background-color: #007bff;
-    color: white;
-}
-
-.delete-button {
-    background-color: #dc3545;
-    color: white;
-}
-
-/* ✅ Login & Signup Forms */
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 15px;
-}
-
-.form-container input {
-    padding: 8px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 200px;
-}
-
-/* ✅ Login & Signup Buttons */
-.small-button {
-    background-color: #FF7F32;
-    color: white;
-    padding: 8px 16px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-}
-
-.small-button:hover {
-    background-color: #e56e2a;
-}
-
-
-/* ✅ Header Container (Compact Layout) */
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #0B1E49;
-    color: white;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* ✅ Align Logo & Title */
-.header-left {
-    display: flex;
-    align-items: center;
-}
-
-.logo {
-    width: 60px; /* Reduce size */
-    height: auto;
-    margin-right: 10px;
-}
-
-.main-title {
-    font-size: 22px;
-    font-weight: bold;
-    margin: 0;
-}
-
-/* ✅ Group Buttons Together */
-.header-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-/* ✅ Make Buttons More Compact */
-.main-button {
-    background-color: #FF7F32;
-    color: white;
-    padding: 8px 16px;
-    font-size: 14px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.main-button:hover {
-    background-color: #e56e2a;
-}
-
-
-
-/* ✅ Center Login Page */
+/* ✅ Fix Login Form */
 .login-container {
     width: 100%;
     max-width: 350px;
@@ -348,12 +169,13 @@ footer {
     text-align: center;
 }
 
-/* ✅ Logo Header */
+/* ✅ Login Header */
 .login-header {
     text-align: center;
     margin-bottom: 20px;
 }
 
+/* ✅ Login Logo */
 .login-logo {
     width: 80px;
     height: auto;
@@ -401,71 +223,7 @@ footer {
     background-color: #e56e2a;
 }
 
-/* ✅ Error Message */
-.error-message {
-    color: red;
-    margin-top: 10px;
-}
-
-
-/* ✅ Header */
-.header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #0B1E49;
-    color: white;
-    padding: 15px 20px;
-}
-
-.header-logo {
-    width: 60px;
-    cursor: pointer;
-}
-
-/* ✅ Form Container */
-.form-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 40px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* ✅ Form Inputs */
-form label {
-    display: block;
-    margin: 10px 0 5px;
-    font-weight: bold;
-}
-
-form input, form select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* ✅ Submit Button */
-.main-button {
-    background-color: #FF7F32;
-    color: white;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 15px;
-}
-
-.main-button:hover {
-    background-color: #e56e2a;
-}
-
-/* ✅ Success/Error Messages */
+/* ✅ Error Messages */
 .success-message {
     color: green;
     margin-top: 10px;
@@ -474,4 +232,24 @@ form input, form select {
 .error-message {
     color: red;
     margin-top: 10px;
+}
+
+/* ✅ Edit & Delete Buttons */
+.edit-button, .delete-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    margin: 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.edit-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
 }
