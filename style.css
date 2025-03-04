@@ -354,3 +354,39 @@ input, select {
         flex-direction: column;
     }
 }
+
+/* ✅ Tab Navigation */
+.tab-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.tab-button {
+    background-color: #FF7F32;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tab-button:hover {
+    background-color: #e56e2a;
+}
+
+.tab-button.active {
+    background-color: #e56e2a;
+}
+
+/* ✅ Hide all sections except active one */
+.tab-content {
+    display: none;
+}
+
+/* ✅ Show default active tab */
+.tab-content.active {
+    display: block;
+}

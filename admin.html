@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Log a Match</title>
+    <title>Admin - Match Management</title>
     <link rel="stylesheet" href="style.css">
 
     <!-- ✅ Load Scripts -->
     <script defer src="scripts/supabase.js"></script>
     <script defer src="scripts/auth.js"></script>
     <script defer src="scripts/crud.js"></script>
+    <script defer src="scripts/tabs.js"></script>
 </head>
 <body>
 
@@ -18,53 +19,54 @@
         <a href="index.html">
             <img src="assets/rvr_logo.png" alt="Home" class="header-logo">
         </a>
-        <h2>Admin - Log a Match</h2>
+        <h2>Admin - Match Management</h2>
     </div>
 
-    <!-- ✅ Log a Match Form -->
-    <div class="admin-container">
+    <!-- ✅ Tabbed Navigation -->
+    <div class="tab-container">
+        <button class="tab-button active" onclick="openTab('log-match')">Log a Match</button>
+        <button class="tab-button" onclick="openTab('manage-teams')">Manage Teams</button>
+        <button class="tab-button" onclick="openTab('manage-venues')">Manage Venues</button>
+        <button class="tab-button" onclick="openTab('manage-competitions')">Manage Competitions</button>
+    </div>
+
+    <!-- ✅ Log a Match Section -->
+    <div id="log-match" class="tab-content active">
         <h3>Log a Match</h3>
         <form id="match-form" class="grid-form">
             <div class="form-group">
                 <label for="match-date">Match Date:</label>
                 <input type="date" id="match-date" required>
             </div>
-
             <div class="form-group">
                 <label for="home-team">Home Team:</label>
                 <select id="home-team" required></select>
             </div>
-
             <div class="form-group">
                 <label for="away-team">Away Team:</label>
                 <select id="away-team" required></select>
             </div>
-
             <div class="form-group">
                 <label for="home-score">Home Score:</label>
                 <input type="number" id="home-score" min="0" required>
             </div>
-
             <div class="form-group">
                 <label for="away-score">Away Score:</label>
                 <input type="number" id="away-score" min="0" required>
             </div>
-
             <div class="form-group">
                 <label for="competition">Competition:</label>
                 <select id="competition" required></select>
             </div>
-
             <div class="form-group full-width">
                 <button type="submit" class="main-button">Submit Match</button>
             </div>
         </form>
-
         <p id="match-message" class="success-message"></p>
     </div>
 
-    <!-- ✅ Manage Teams -->
-    <div class="admin-tables">
+    <!-- ✅ Manage Teams Section -->
+    <div id="manage-teams" class="tab-content">
         <h3>Manage Teams</h3>
         <form id="teams-form">
             <input type="text" id="teams-name" placeholder="Add new team" required>
@@ -79,7 +81,10 @@
             </thead>
             <tbody id="teams-table-body"></tbody>
         </table>
+    </div>
 
+    <!-- ✅ Manage Venues Section -->
+    <div id="manage-venues" class="tab-content">
         <h3>Manage Venues</h3>
         <form id="venues-form">
             <input type="text" id="venues-name" placeholder="Add new venue" required>
@@ -94,7 +99,10 @@
             </thead>
             <tbody id="venues-table-body"></tbody>
         </table>
+    </div>
 
+    <!-- ✅ Manage Competitions Section -->
+    <div id="manage-competitions" class="tab-content">
         <h3>Manage Competitions</h3>
         <form id="competitions-form">
             <input type="text" id="competitions-name" placeholder="Add new competition" required>
