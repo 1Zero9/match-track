@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log a Match</title>
+    <title>Admin - Log a Match</title>
     <link rel="stylesheet" href="style.css">
 
     <!-- ✅ Load Scripts -->
@@ -18,11 +18,12 @@
         <a href="index.html">
             <img src="assets/rvr_logo.png" alt="Home" class="header-logo">
         </a>
-        <h2>Log a Match</h2>
+        <h2>Admin - Log a Match</h2>
     </div>
 
-    <!-- ✅ Match Form -->
+    <!-- ✅ Log a Match Form -->
     <div class="form-container">
+        <h3>Log a Match</h3>
         <form id="match-form">
             <label for="match-date">Match Date:</label>
             <input type="date" id="match-date" required>
@@ -46,6 +47,54 @@
         </form>
 
         <p id="match-message" class="success-message"></p>
+    </div>
+
+    <!-- ✅ Tables for Managing Teams, Venues, and Competitions -->
+    <div class="admin-tables">
+        <h3>Manage Teams</h3>
+        <form id="teams-form">
+            <input type="text" id="teams-name" placeholder="Add new team" required>
+            <button type="submit" class="small-button">Add Team</button>
+        </form>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Team Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="teams-table-body"></tbody>
+        </table>
+
+        <h3>Manage Venues</h3>
+        <form id="venues-form">
+            <input type="text" id="venues-name" placeholder="Add new venue" required>
+            <button type="submit" class="small-button">Add Venue</button>
+        </form>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Venue Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="venues-table-body"></tbody>
+        </table>
+
+        <h3>Manage Competitions</h3>
+        <form id="competitions-form">
+            <input type="text" id="competitions-name" placeholder="Add new competition" required>
+            <button type="submit" class="small-button">Add Competition</button>
+        </form>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Competition Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="competitions-table-body"></tbody>
+        </table>
     </div>
 
 </body>
