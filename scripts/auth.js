@@ -1,101 +1,73 @@
-// ✅ Ensure authentication only runs when Supabase is ready
-document.addEventListener("supabaseReady", checkAuth);
+// ✅ Custom Login Supporting Username or Email
+async function login(event) {
+    event.preventDefault();
 
-async function checkAuth() {
+    const identifier = document.getElementById("identifier").value.trim(); // Can be email or username
+    const password = document.getElementById("password").value.trim();
+
+    if (!identifier || !password) {
+        showError("Please enter a username/email and password.");
+        return;
+    }
+
     try {
-        const { data: { user } } = await supabase.auth.getUser();
+        // ✅ Query Supabase for either email or username
+        const { data, error } = await supabase
+            .from("users")
+            .select("*")
+            .or(`username.eq.${identifier},email.eq.${identifier}`)
+            .eq("password", password)
+            .single();
 
-        if (user) {
-            console.log("✅ User is logged in:", user);
+        if (error || !data) {
+            showError("Invalid username/email or password.");
+            return;
+        }
+
+        console.log("✅ Login successful:", data);
+
+        // ✅ Store user details in sessionStorage (to simulate authentication)
+        sessionStorage.setItem("user", JSON.stringify(data));
+
+        // ✅ Redirect to homepage or admin page based on role
+        if (data.role === "admin") {
+            window.location.href = "admin.html";
         } else {
-            console.warn("❌ No user logged in.");
+            window.location.href = "index.html";
         }
     } catch (error) {
-        console.error("❌ Error checking authentication:", error);
+        console.error("❌ Login Error:", error);
+        showError("Login failed. Please try again.");
     }
 }
 
+// ✅ Show error messages
+function showError(message) {
+    document.getElementById("error-message").textContent = message;
+}
 
-// ✅ Check if the user is logged in
-async function checkAuth() {
-    try {
-        const { data: { user } } = await supabase.auth.getUser();
+// ✅ Logout Function (Clears session)
+function logout() {
+    sessionStorage.removeItem("user");
+    window.location.href = "login.html";
+}
 
-        if (user) {
-            console.log("✅ User is logged in:", user);
+// ✅ Redirect to login if not authenticated
+function checkAuth() {
+    const user = JSON.parse(sessionStorage.getItem("user"));
 
-            // ✅ Update UI based on login status
-            if (document.getElementById("login-container")) {
-                document.getElementById("login-container").classList.add("hidden");
-            }
-            if (document.getElementById("signup-container")) {
-                document.getElementById("signup-container").classList.add("hidden");
-            }
-            if (document.getElementById("setup-container")) {
-                document.getElementById("setup-container").classList.remove("hidden");
-            }
-        } else {
-            console.warn("❌ No user logged in.");
-
-            // ✅ Redirect to login page if user is required
-            if (window.location.pathname.includes("admin.html") || window.location.pathname.includes("setup.html")) {
-                window.location.href = "login.html";
-            }
-        }
-    } catch (error) {
-        console.error("❌ Error checking authentication:", error);
+    if (!user) {
+        console.warn("❌ No user logged in. Redirecting to login...");
+        window.location.href = "login.html";
+    } else {
+        console.log("✅ User authenticated:", user);
     }
 }
 
-// ✅ Login Function
-document.getElementById("login-form")?.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    try {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-
-        if (error) {
-            alert("❌ Login failed: " + error.message);
-        } else {
-            console.log("✅ Login successful");
-            window.location.href = "index.html"; // Redirect on success
-        }
-    } catch (error) {
-        console.error("❌ Error during login:", error);
+// ✅ Attach event listener for login form
+document.addEventListener("DOMContentLoaded", () => {
+    const loginForm = document.getElementById("login-form");
+    if (loginForm) {
+        loginForm.addEventListener("submit", login);
     }
 });
-
-// ✅ Signup Function
-document.getElementById("signup-form")?.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const email = document.getElementById("signup-email").value;
-    const password = document.getElementById("signup-password").value;
-
-    try {
-        const { error } = await supabase.auth.signUp({ email, password });
-
-        if (error) {
-            alert("❌ Signup failed: " + error.message);
-        } else {
-            alert("✅ Signup successful! Please log in.");
-            window.location.href = "login.html";
-        }
-    } catch (error) {
-        console.error("❌ Error during signup:", error);
-    }
-});
-
-// ✅ Logout Function
-async function logout() {
-    try {
-        await supabase.auth.signOut();
-        console.log("✅ Logged out successfully");
-        window.location.href = "login.html"; // Redirect to login page
-    } catch (error) {
-        console.error("❌ Error during logout:", error);
-    }
-}

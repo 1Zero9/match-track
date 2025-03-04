@@ -333,3 +333,78 @@ footer {
 .main-button:hover {
     background-color: #e56e2a;
 }
+
+
+
+/* ✅ Center Login Page */
+.login-container {
+    width: 100%;
+    max-width: 350px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* ✅ Logo Header */
+.login-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-logo {
+    width: 80px;
+    height: auto;
+    cursor: pointer;
+}
+
+/* ✅ Input Fields with Icons */
+.input-group {
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+.input-group i {
+    color: #777;
+    margin-right: 10px;
+}
+
+.input-group input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    outline: none;
+}
+
+/* ✅ Login Button */
+.login-button {
+    background-color: #FF7F32;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #e56e2a;
+}
+
+/* ✅ Error Message */
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+
