@@ -253,3 +253,104 @@ footer {
     background-color: #dc3545;
     color: white;
 }
+
+
+/* ✅ Fix Admin Page Layout */
+.admin-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    color: black;
+}
+
+/* ✅ Align Form Inputs in Grid */
+.grid-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.grid-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-form .full-width {
+    grid-column: span 2;
+}
+
+/* ✅ Input and Select Styling */
+input, select {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+/* ✅ Button Styling */
+.main-button {
+    background-color: #FF7F32;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.main-button:hover {
+    background-color: #e56e2a;
+}
+
+/* ✅ Management Section */
+.admin-tables {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    color: black;
+}
+
+/* ✅ Inline Forms */
+.form-inline {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.form-inline input {
+    flex: 1;
+}
+
+/* ✅ Fix Table Display */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.results-table th, .results-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* ✅ Responsive Adjustments */
+@media screen and (max-width: 600px) {
+    .grid-form {
+        grid-template-columns: 1fr;
+    }
+
+    .form-inline {
+        flex-direction: column;
+    }
+}
