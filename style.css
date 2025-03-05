@@ -12,8 +12,8 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
+    background-color: #000080;
+    color: white;
     margin: 0;
     padding-top: 80px;
 }
@@ -21,14 +21,14 @@ body {
 .header-container {
     background: white;
     box-shadow: var(--shadow-sm);
-    padding: 1rem 2rem;
+    padding: 20px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
@@ -42,8 +42,9 @@ body {
 
 .header-logo {
     height: 40px;
-    width: auto;
+    width: 180px;  /* Increased from original size */
     cursor: pointer;
+    margin-right: 20px;
 }
 
 .main-title {
@@ -60,18 +61,18 @@ body {
 }
 
 .main-button {
-    background-color: var(--primary-color);
+    background-color: #000066;
     color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 5px;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .main-button:hover {
-    background-color: var(--secondary-color);
+    background-color: #000099;
     transform: translateY(-1px);
 }
 

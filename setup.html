@@ -3,103 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Setup - Match Tracker</title>
-    <link rel="icon" type="image/x-icon" href="rvr.ico">
+    <title>Match Tracker - Setup</title>
     <link rel="stylesheet" href="style.css">
-
-    <!-- ✅ Load Scripts in Correct Order -->
-    <script defer src="scripts/supabase.js"></script>  <!-- ✅ Load first -->
+    <link rel="icon" type="image/x-icon" href="rvr.ico">
+    <script defer src="scripts/supabase.js"></script>
     <script defer src="scripts/auth.js"></script>
-    <script defer src="scripts/main.js"></script>
-    <script defer src="scripts/matches.js"></script>
-    <script defer src="scripts/filters.js"></script>
-    <script defer src="scripts/crud.js"></script>
-    
-
-    
+    <script defer src="scripts/setup.js"></script>
 </head>
 <body>
-    <!-- ✅ Header Section -->
     <div class="header-container">
-        <img src="assets/rvr_logo.png" alt="Match Tracker Logo" class="logo">
-        <h1 class="main-title">Match Tracker Setup</h1>
-        <p class="sub-title">Manage Teams, Venues, and Competitions</p>
-        <div class="buttons-container">
-            <a href="index.html"><button class="main-button">View Results</button></a>
-            <a href="admin.html"><button class="main-button">Log a Match</button></a>
-            <a href="setup.html"><button class="main-button">Setup</button></a>
-            <button class="small-button" onclick="logout()">Logout</button>
+        <div class="header-left">
+            <a href="index.html">
+                <img src="assets/rvr_logo.png" alt="Match Tracker Logo" class="header-logo">
+            </a>
+            <h1 class="main-title">Team Setup</h1>
+        </div>
+        <div class="header-buttons">
+            <a href="index.html"><button class="main-button">Back to Results</button></a>
         </div>
     </div>
 
-    <!-- ✅ Login Section (Hidden if Logged In) -->
-    <div id="login-container" class="table-container hidden">
-        <h2 class="page-title">Login</h2>
-        <form id="login-form">
-            <label>Email:</label>
-            <input type="email" id="email" required>
-            
-            <label>Password:</label>
-            <input type="password" id="password" required>
-
-            <button type="submit" class="small-button">Login</button>
+    <div class="setup-container">
+        <form id="team-form" class="setup-form">
+            <div class="form-group">
+                <label for="team-name">Team Name</label>
+                <input type="text" id="team-name" required>
+            </div>
+            <button type="submit" class="main-button">Add Team</button>
         </form>
-        <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
     </div>
 
-    <!-- ✅ Signup Section (Hidden by Default) -->
-    <div id="signup-container" class="table-container hidden">
-        <h2 class="page-title">Sign Up</h2>
-        <form id="signup-form">
-            <label>Email:</label>
-            <input type="email" id="signup-email" required>
-
-            <label>Password:</label>
-            <input type="password" id="signup-password" required>
-
-            <button type="submit" class="small-button">Sign Up</button>
-        </form>
-        <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
-    </div>
-
-    <!-- ✅ Setup Wizard (Hidden by Default) -->
-    <div id="setup-container" class="table-container hidden">
-        <h2 class="page-title">Manage Teams, Venues, and Competitions</h2>
-        <div class="wizard-buttons">
-            <button class="small-button" onclick="showForm('teams')">Manage Teams</button>
-            <button class="small-button" onclick="showForm('venues')">Manage Venues</button>
-            <button class="small-button" onclick="showForm('competitions')">Manage Competitions</button>
-        </div>
-
-        <!-- ✅ Step 2: Forms & CRUD Table (Hidden by Default) -->
-        <div id="wizard-step-2" class="table-container hidden">
-            <h2 id="form-title" class="page-title"></h2>
-            <form id="setup-form">
-                <label id="form-label" for="setup-name"></label>
-                <div class="input-group">
-                    <input type="text" id="setup-name" required>
-                    <button type="submit" class="small-button">Add</button>
-                </div>
-            </form>
-            <button class="small-button back-button" onclick="showSelection()">⬅ Back</button>
-
-            <!-- ✅ CRUD Table -->
-            <h3 class="page-title">Existing Entries</h3>
-            <table class="results-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="resultsTableBody">
-                    <!-- JavaScript will insert rows here -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- ✅ Footer -->
-    <div id="footer"></div>
+    <footer class="footer">
+        <p>&copy; 2024 RVR Match Tracker. All rights reserved.</p>
+    </footer>
 </body>
 </html>
