@@ -192,3 +192,75 @@ footer {
         width: 100%;
     }
 }
+
+/* Admin and Setup Form Styles */
+.admin-container,
+.setup-container {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    width: 95%;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.admin-form,
+.setup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.score-inputs {
+    flex: 0 0 auto;
+}
+
+.score-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.score-group input {
+    width: 60px;
+}
+
+.score-group span {
+    font-weight: bold;
+}
+
+/* Make sure buttons inside forms match the theme */
+.admin-form .main-button,
+.setup-form .main-button {
+    align-self: center;
+    width: 200px;
+    margin-top: 10px;
+}
