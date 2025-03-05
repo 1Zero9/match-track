@@ -7,61 +7,72 @@
     <link rel="icon" type="image/x-icon" href="rvr.ico">
     <link rel="stylesheet" href="style.css">
 
-        <!-- ✅ Load Scripts in Correct Order -->
-
+    <!-- ✅ Load Scripts in Correct Order -->
     <script defer src="scripts/supabase.js"></script>  <!-- ✅ Load first -->
     <script defer src="scripts/auth.js"></script>
     <script defer src="scripts/main.js"></script>
     <script defer src="scripts/matches.js"></script>
     <script defer src="scripts/filters.js"></script>
     <script defer src="scripts/crud.js"></script>
-    
-    
-
 </head>
 <body>
-<!-- ✅ Compact Header Section -->
-<div class="header-container">
-    <div class="header-left">
-        <img src="assets/rvr_logo.png" alt="Match Tracker Logo" class="logo">
-        <h1 class="main-title">River Valley Rangers</h1>
+
+    <!-- ✅ Compact Header Section -->
+    <div class="header-container">
+        <div class="header-left">
+            <a href="index.html">
+                <img src="assets/rvr_logo.png" alt="Match Tracker Logo" class="header-logo">
+            </a>
+            <h1 class="main-title">River Valley Rangers</h1>
+        </div>
+
+        <div class="header-buttons">
+            <a href="index.html"><button class="main-button">View Results</button></a>
+            <a href="admin.html"><button class="main-button">Log a Match</button></a>
+            <a href="setup.html"><button class="main-button">Setup</button></a>
+        </div>
     </div>
 
-    <div class="header-buttons">
-        <a href="index.html"><button class="main-button">View Results</button></a>
-        <a href="admin.html"><button class="main-button">Log a Match</button></a>
-        <a href="setup.html"><button class="main-button">Setup</button></a>
-    </div>
-</div>
-
-    <!-- ✅ Filter Section -->
+    <!-- ✅ Filter Section (Reorganized & Aligned) -->
     <div class="filter-container">
-        <label for="team-filter">Team:</label>
-        <select id="team-filter">
-            <option value="all">Select Team</option>
-        </select>
+        <div class="filter-group">
+            <label for="team-filter">Team:</label>
+            <select id="team-filter">
+                <option value="all">Select Team</option>
+            </select>
+        </div>
 
-        <label for="home-away-filter">Home/Away:</label>
-        <select id="home-away-filter">
-            <option value="all">Home & Away</option>
-            <option value="home">Home Only</option>
-            <option value="away">Away Only</option>
-        </select>
+        <div class="filter-group">
+            <label for="home-away-filter">Home/Away:</label>
+            <select id="home-away-filter">
+                <option value="all">Home & Away</option>
+                <option value="home">Home Only</option>
+                <option value="away">Away Only</option>
+            </select>
+        </div>
 
-        <label for="year-filter">Year:</label>
-        <select id="year-filter">
-            <option value="all">All Years</option>
-        </select>
+        <div class="filter-group">
+            <label for="year-filter">Year:</label>
+            <select id="year-filter">
+                <option value="all">All Years</option>
+            </select>
+        </div>
 
-        <label for="date-filter">Date:</label>
-        <input type="date" id="date-filter">
+        <div class="filter-group">
+            <label for="date-filter">Date:</label>
+            <input type="date" id="date-filter">
+        </div>
 
-        <label for="competition-filter">Competition:</label>
-        <select id="competition-filter">
-            <option value="all">Filter by...</option>
-        </select>
+        <div class="filter-group">
+            <label for="competition-filter">Competition:</label>
+            <select id="competition-filter">
+                <option value="all">Filter by...</option>
+            </select>
+        </div>
 
-        <button type="button" class="main-button reset-button" onclick="resetFilters()">Reset Filters</button>
+        <div class="filter-group">
+            <button type="button" class="main-button reset-button" onclick="resetFilters()">Reset Filters</button>
+        </div>
     </div>
 
     <!-- ✅ Match Results Table -->

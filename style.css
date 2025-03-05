@@ -1,48 +1,27 @@
-/* ✅ Reset default browser styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* ✅ Full-page height & global styles */
-html, body {
-    height: 100%;
-    font-family: Arial, sans-serif;
-    background-color: #0B1E49;
-    color: white;
-    text-align: center;
-}
-
-/* ✅ Header Styling (Fixing Overlapping Issues) */
+/* ✅ Fix Header */
 .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 15px 20px;
     background-color: #0B1E49;
     color: white;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* ✅ Align Logo & Title */
-.header-left {
-    display: flex;
-    align-items: center;
-}
-
+/* ✅ Fix Logo Size */
 .header-logo {
-    width: 60px;
+    width: 50px;
     height: auto;
-    margin-right: 10px;
     cursor: pointer;
 }
 
+/* ✅ Title Font Size */
 .main-title {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
-    margin: 0;
+    margin-left: 10px;
 }
 
 /* ✅ Buttons inside header */
@@ -55,7 +34,7 @@ html, body {
 .main-button {
     background-color: #FF7F32;
     color: white;
-    padding: 10px 16px;
+    padding: 10px 12px;
     font-size: 14px;
     border: none;
     border-radius: 6px;
@@ -67,23 +46,7 @@ html, body {
     background-color: #e56e2a;
 }
 
-/* ✅ Form Input Styling */
-.form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-input, select {
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 250px;
-}
-
-/* ✅ Filter Section (Ensures it Matches Table Width) */
+/* ✅ Filter Section */
 .filter-container {
     background-color: white;
     padding: 15px;
@@ -91,18 +54,26 @@ input, select {
     color: black;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     max-width: 95%;
     margin: 10px auto;
+}
+
+/* ✅ Individual Filter Groups */
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
 }
 
 /* ✅ Ensure Filters and Table Align */
 .container-wrapper {
     width: 95%;
     max-width: 1200px;
-    margin: 0 auto; /* Centers both sections */
+    margin: 0 auto;
 }
 
 /* ✅ Fix Results Table Layout */
@@ -113,7 +84,7 @@ input, select {
     background: white;
     padding: 15px;
     color: black;
-    width: 95%; /* Matches filter width */
+    width: 95%;
     max-width: 1200px;
     margin: 20px auto;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
@@ -137,319 +108,24 @@ input, select {
     transition: background-color 0.3s ease-in-out;
 }
 
-/* ✅ Footer Styling */
-footer {
-    background-color: #0B1E49;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    z-index: 10;
-}
-
-/* ✅ Fix Footer Image */
-.footer-image {
-    width: 100%;
-    display: block;
-    margin: 0;
-    padding: 0;
-}
-
-/* ✅ Fix Login Form */
-.login-container {
-    width: 100%;
-    max-width: 350px;
-    margin: 40px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-/* ✅ Login Header */
-.login-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* ✅ Login Logo */
-.login-logo {
-    width: 80px;
-    height: auto;
-    cursor: pointer;
-}
-
-/* ✅ Input Fields with Icons */
-.input-group {
-    display: flex;
-    align-items: center;
-    background: #f5f5f5;
-    padding: 10px;
-    border-radius: 6px;
-    margin: 10px 0;
-}
-
-.input-group i {
-    color: #777;
-    margin-right: 10px;
-}
-
-.input-group input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    outline: none;
-}
-
-/* ✅ Login Button */
-.login-button {
-    background-color: #FF7F32;
-    color: white;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-}
-
-.login-button:hover {
-    background-color: #e56e2a;
-}
-
-/* ✅ Error Messages */
-.success-message {
-    color: green;
-    margin-top: 10px;
-}
-
-.error-message {
-    color: red;
-    margin-top: 10px;
-}
-
-/* ✅ Edit & Delete Buttons */
-.edit-button, .delete-button {
-    padding: 5px 10px;
-    font-size: 14px;
-    margin: 2px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-}
-
-.edit-button {
-    background-color: #007bff;
-    color: white;
-}
-
-.delete-button {
-    background-color: #dc3545;
-    color: white;
-}
-
-
-/* ✅ Fix Admin Page Layout */
-.admin-container {
-    width: 90%;
-    max-width: 800px;
-    margin: 20px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-    color: black;
-}
-
-/* ✅ Align Form Inputs in Grid */
-.grid-form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.grid-form .form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.grid-form .full-width {
-    grid-column: span 2;
-}
-
-/* ✅ Input and Select Styling */
-input, select {
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%;
-}
-
-/* ✅ Button Styling */
-.main-button {
-    background-color: #FF7F32;
-    color: white;
-    padding: 12px;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 100%;
-}
-
-.main-button:hover {
-    background-color: #e56e2a;
-}
-
-/* ✅ Management Section */
-.admin-tables {
-    width: 90%;
-    max-width: 800px;
-    margin: 20px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-    color: black;
-}
-
-/* ✅ Inline Forms */
-.form-inline {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.form-inline input {
-    flex: 1;
-}
-
-/* ✅ Fix Table Display */
-.results-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-.results-table th, .results-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-/* ✅ Responsive Adjustments */
-@media screen and (max-width: 600px) {
-    .grid-form {
-        grid-template-columns: 1fr;
-    }
-
-    .form-inline {
+/* ✅ Responsive Fix for Small Screens */
+@media screen and (max-width: 768px) {
+    .header-container {
         flex-direction: column;
+        text-align: center;
     }
-}
 
-/* ✅ Tab Navigation */
-.tab-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 20px 0;
-}
+    .header-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
 
-.tab-button {
-    background-color: #FF7F32;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+    .filter-container {
+        flex-direction: column;
+        align-items: center;
+    }
 
-.tab-button:hover {
-    background-color: #e56e2a;
-}
-
-.tab-button.active {
-    background-color: #e56e2a;
-}
-
-/* ✅ Hide all sections except active one */
-.tab-content {
-    display: none;
-}
-
-/* ✅ Show default active tab */
-.tab-content.active {
-    display: block;
-}
-
-
-/* ✅ Match Form Table */
-.match-form-table {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    border-spacing: 10px;
-}
-
-.match-form-table td {
-    padding: 8px;
-}
-
-/* ✅ Ensure form fields fit */
-.match-form-table input, .match-form-table select {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-/* ✅ Full-width buttons */
-.full-width {
-    width: 100%;
-}
-
-/* ✅ Tab Navigation */
-.tab-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 20px 0;
-}
-
-.tab-button {
-    background-color: #FF7F32;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.tab-button:hover {
-    background-color: #e56e2a;
-}
-
-.tab-button.active {
-    background-color: #e56e2a;
-}
-
-/* ✅ Hide all sections except active one */
-.tab-content {
-    display: none;
-}
-
-/* ✅ Show default active tab */
-.tab-content.active {
-    display: block;
+    .filter-group {
+        width: 100%;
+    }
 }
