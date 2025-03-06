@@ -281,3 +281,97 @@ footer {
     width: 200px;
     margin-top: 10px;
 }
+
+/* Mobile Specific Styles (400px and below) */
+@media screen and (max-width: 400px) {
+    /* Header adjustments */
+    .header-container {
+        padding: 10px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .main-title {
+        font-size: 16px;
+        margin: 5px 0;
+    }
+
+    .header-logo {
+        width: 40px;
+    }
+
+    .header-buttons {
+        margin: 10px 0;
+        padding: 0;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .main-button {
+        width: 100%;
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    /* Filter container adjustments */
+    .filter-container {
+        margin: 10px;
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .filter-group {
+        width: 100%;
+        margin: 0;
+    }
+
+    .filter-group select,
+    .filter-group input {
+        width: 100%;
+        min-width: unset;
+        font-size: 12px;
+    }
+
+    /* Table adjustments */
+    .table-container {
+        margin: 10px;
+        padding: 10px;
+        overflow-x: auto;
+    }
+
+    .results-table {
+        font-size: 12px;
+    }
+
+    .results-table th,
+    .results-table td {
+        padding: 6px;
+        white-space: nowrap;
+    }
+
+    /* Form adjustments */
+    .admin-container,
+    .setup-container {
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .score-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .score-group input {
+        width: 50px;
+    }
+
+    /* Ensure footer stays at bottom */
+    footer {
+        margin-top: auto;
+    }
+}
