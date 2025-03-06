@@ -45,7 +45,9 @@ html, body {
 /* ✅ Buttons inside header */
 .header-buttons {
     display: flex;
-    gap: 10px;
+    gap: 20px;  /* Increased from default/previous value */
+    margin-left: auto;  /* This pushes the buttons to the right */
+    padding-right: 20px;  /* Add some padding from the right edge */
 }
 
 /* ✅ Compact Buttons */
@@ -66,25 +68,26 @@ html, body {
 
 /* ✅ Filter Section */
 .filter-container {
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
+    background-color: var(--secondary-bg-color);
+    padding: 20px;
+    border-radius: 8px;
     color: black;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    gap: 15px;
+    align-items: flex-start;  /* Change from center to flex-start to align tops */
+    gap: 20px;
     max-width: 95%;
-    margin: 10px auto;
+    margin: 20px;
 }
 
 /* ✅ Individual Filter Groups */
 .filter-group {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;  /* Ensures consistent alignment */
     min-width: 120px;
+    gap: 5px;
 }
 
 /* ✅ Filter Inputs */
@@ -101,6 +104,11 @@ html, body {
     border-radius: 5px;
     border: 1px solid #ccc;
     min-width: 140px;
+}
+
+/* Specific adjustment for the reset button to align with other filters */
+.filter-group .reset-button {
+    margin-top: 19px;  /* This matches the height of the label to align with other inputs */
 }
 
 /* ✅ Reset Filter Button */
