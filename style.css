@@ -1,3 +1,8 @@
+:root {
+    --primary-bg-color: #0B1E49;
+    --secondary-bg-color: #f0f0f0;
+}
+
 /* ✅ Reset Styles */
 * {
     margin: 0;
@@ -48,6 +53,8 @@ html, body {
     gap: 20px;  /* Increased from default/previous value */
     margin-left: auto;  /* This pushes the buttons to the right */
     padding-right: 20px;  /* Add some padding from the right edge */
+    margin-right: 40px;  /* Add more right margin */
+    justify-content: flex-end;  /* Ensure buttons are aligned to the right */
 }
 
 /* ✅ Compact Buttons */
@@ -79,6 +86,8 @@ html, body {
     gap: 20px;
     max-width: 95%;
     margin: 20px;
+    margin: 20px auto;  /* Center the container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Add subtle shadow */
 }
 
 /* ✅ Individual Filter Groups */
