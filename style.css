@@ -375,3 +375,121 @@ footer {
         margin-top: auto;
     }
 }
+
+/* Enhanced Table Styling */
+.results-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.results-table th {
+    background-color: #0B1E49;
+    color: white;
+    padding: 15px 10px;
+    font-size: 14px;
+    text-align: left;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+}
+
+.results-table td {
+    padding: 12px 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+.results-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Zebra striping for rows */
+.results-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Improved hover effect */
+.results-table tbody tr:hover {
+    background-color: rgba(255, 127, 50, 0.1);
+    cursor: pointer;
+}
+
+/* Result highlighting */
+.results-table .win {
+    border-left: 4px solid #4CAF50;
+}
+
+.results-table .loss {
+    border-left: 4px solid #F44336;
+}
+
+.results-table .draw {
+    border-left: 4px solid #FFC107;
+}
+
+/* Match Date Column */
+.results-table td:first-child {
+    white-space: nowrap;
+}
+
+/* Score Column */
+.results-table .score-column {
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Enhanced Filter Container */
+.filter-container {
+    background-color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+/* Filter header */
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.filter-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+}
+
+/* Results counter */
+.results-counter {
+    margin: 15px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.match-count {
+    font-weight: 600;
+    color: #0B1E49;
+}
+
+/* No results message */
+.no-results {
+    text-align: center;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 20px;
+    color: #666;
+}
+
+

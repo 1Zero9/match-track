@@ -1,12 +1,10 @@
-// matches.js - Updated for card-based layout
-
-// Fetch match results and display them in the cards
+// Fetch match results and display them in the table
 async function fetchMatches() {
     console.log("📊 Fetching match results...");
 
-    const resultsGrid = document.getElementById("results-grid");
-    if (!resultsGrid) {
-        console.warn("⚠ No results grid found. Skipping fetch.");
+    const tbody = document.getElementById("resultsTableBody");
+    if (!tbody) {
+        console.warn("⚠ No results table found. Skipping fetch.");
         return;
     }
 
@@ -31,80 +29,63 @@ async function fetchMatches() {
     }
 }
 
-// Display match results as cards
+// Display match results in the table with enhanced styling
 function displayMatches(results) {
-    const resultsGrid = document.getElementById("results-grid");
+    const tbody = document.getElementById("resultsTableBody");
     const matchCount = document.getElementById("match-count");
     const noResults = document.getElementById("no-results");
     
-    if (!resultsGrid) return console.error("❌ Error: results-grid not found.");
+    if (!tbody) return console.error("❌ Error: resultsTableBody not found.");
     
     // Update match count
-    matchCount.textContent = results.length;
+    if (matchCount) matchCount.textContent = results.length;
     
     // Show/hide no results message
-    if (results.length === 0) {
-        resultsGrid.innerHTML = '';
-        noResults.style.display = 'block';
-        return;
-    } else {
-        noResults.style.display = 'none';
+    if (noResults) {
+        noResults.style.display = results.length === 0 ? 'block' : 'none';
     }
 
-    // Create cards for each match
-    resultsGrid.innerHTML = results.map(match => {
+    if (results.length === 0) {
+        tbody.innerHTML = '';
+        return;
+    }
+
+    tbody.innerHTML = results.map(match => {
         // Format date nicely
         const matchDate = new Date(match.date);
         const formattedDate = matchDate.toLocaleDateString('en-GB', {
-            weekday: 'long',
+            weekday: 'short',
             day: 'numeric', 
-            month: 'long', 
+            month: 'short', 
             year: 'numeric'
         });
         
-        // Determine result class (for potential win/loss/draw styling)
+        // Determine result class (win/loss/draw) if one of the teams is RVR
         let resultClass = '';
-        if (match.home_team.name === 'River Valley Rangers') {
+        if (match.home_team.name.includes('River Valley') || match.home_team.name.includes('RVR')) {
             if (match.home_score > match.away_score) resultClass = 'win';
             else if (match.home_score < match.away_score) resultClass = 'loss';
             else resultClass = 'draw';
-        } else if (match.away_team.name === 'River Valley Rangers') {
+        } else if (match.away_team.name.includes('River Valley') || match.away_team.name.includes('RVR')) {
             if (match.away_score > match.home_score) resultClass = 'win';
             else if (match.away_score < match.home_score) resultClass = 'loss';
             else resultClass = 'draw';
         }
         
         return `
-            <div class="match-card ${resultClass}" data-id="${match.id}">
-                <div class="match-date">${formattedDate}</div>
-                <div class="match-competition">${match.competition?.name || "Unknown Competition"}</div>
-                
-                <div class="match-details">
-                    <div class="team home-team">
-                        <div class="team-name">${match.home_team?.name || "Unknown Team"}</div>
-                    </div>
-                    
-                    <div class="match-score">
-                        <span class="score">${match.home_score}</span>
-                        <span class="score-divider">-</span>
-                        <span class="score">${match.away_score}</span>
-                    </div>
-                    
-                    <div class="team away-team">
-                        <div class="team-name">${match.away_team?.name || "Unknown Team"}</div>
-                    </div>
-                </div>
-                
-                <div class="match-venue">
-                    <span class="venue-label">Venue:</span>
-                    <span class="venue-name">${match.venue?.name || "Unknown Venue"}</span>
-                </div>
-            </div>
+            <tr class="${resultClass}" data-id="${match.id}">
+                <td>${formattedDate}</td>
+                <td>${match.home_team?.name || "Unknown Team"}</td>
+                <td class="score-column">${match.home_score} - ${match.away_score}</td>
+                <td>${match.away_team?.name || "Unknown Team"}</td>
+                <td>${match.competition?.name || "Unknown Competition"}</td>
+                <td>${match.venue?.name || "Unknown Venue"}</td>
+            </tr>
         `;
     }).join('');
 }
 
-// Handle filtering for card-based layout
+// Update filter function to work with enhanced table
 function applyFilter() {
     const selectedTeam = document.getElementById("team-filter")?.value || "all";
     const homeAway = document.getElementById("home-away-filter")?.value || "all";
@@ -115,13 +96,13 @@ function applyFilter() {
     console.log("🔍 Applying filters:", { selectedTeam, homeAway, selectedYear, selectedDate, selectedCompetition });
 
     let visibleCount = 0;
-    const cards = document.querySelectorAll(".match-card");
+    const rows = document.querySelectorAll("#resultsTableBody tr");
     
-    cards.forEach(card => {
-        const matchDate = card.querySelector(".match-date")?.textContent || "";
-        const homeTeam = card.querySelector(".home-team .team-name")?.textContent || "";
-        const awayTeam = card.querySelector(".away-team .team-name")?.textContent || "";
-        const competition = card.querySelector(".match-competition")?.textContent || "";
+    rows.forEach(row => {
+        const matchDate = row.cells[0]?.textContent || "";
+        const homeTeam = row.cells[1]?.textContent || "";
+        const awayTeam = row.cells[3]?.textContent || "";
+        const competition = row.cells[4]?.textContent || "";
 
         let shouldShow = true;
 
@@ -135,19 +116,27 @@ function applyFilter() {
         if (homeAway === "away" && awayTeam !== selectedTeam) shouldShow = false;
 
         // Extract Year from Match Date
-        const rowYear = new Date(matchDate).getFullYear().toString();
+        const rowYear = matchDate.split(' ').pop(); // Get the last part which should be the year
         if (selectedYear !== "all" && rowYear !== selectedYear) {
             shouldShow = false;
         }
 
-        // Filter by Date (using formatted date, need to match formats)
+        // Filter by Date
         if (selectedDate !== "all" && selectedDate !== "") {
             const filterDate = new Date(selectedDate);
-            const cardDateStr = matchDate.split(',')[1].trim(); // Extract just the date part
-            const cardDate = new Date(cardDateStr);
-            
-            if (filterDate.toDateString() !== cardDate.toDateString()) {
-                shouldShow = false;
+            const rowDateParts = matchDate.split(', ')[1]?.split(' ') || [];
+            if (rowDateParts.length >= 3) {
+                // Try to create a date from the parts
+                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                const day = parseInt(rowDateParts[0]);
+                const month = monthNames.indexOf(rowDateParts[1]);
+                const year = parseInt(rowDateParts[2]);
+                if (!isNaN(day) && month !== -1 && !isNaN(year)) {
+                    const rowDate = new Date(year, month, day);
+                    if (filterDate.toDateString() !== rowDate.toDateString()) {
+                        shouldShow = false;
+                    }
+                }
             }
         }
 
@@ -156,11 +145,16 @@ function applyFilter() {
             shouldShow = false;
         }
 
-        card.style.display = shouldShow ? "" : "none";
+        row.style.display = shouldShow ? "" : "none";
         if (shouldShow) visibleCount++;
     });
     
     // Update match count and show/hide no results message
-    document.getElementById("match-count").textContent = visibleCount;
-    document.getElementById("no-results").style.display = visibleCount === 0 ? "block" : "none";
+    const matchCount = document.getElementById("match-count");
+    if (matchCount) matchCount.textContent = visibleCount;
+    
+    const noResults = document.getElementById("no-results");
+    if (noResults) {
+        noResults.style.display = visibleCount === 0 ? "block" : "none";
+    }
 }

@@ -1,3 +1,30 @@
+// Add this to the top of your existing filters.js file
+document.addEventListener("DOMContentLoaded", () => {
+    // Attach event listeners to filters
+    const filterElements = [
+        "team-filter", 
+        "home-away-filter", 
+        "year-filter", 
+        "date-filter", 
+        "competition-filter"
+    ];
+    
+    filterElements.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener("change", () => {
+                applyFilter();
+            });
+        }
+    });
+    
+    // Initialize filters
+    populateFilters();
+});
+
+
+
+
 // ✅ Populate filter dropdowns from Supabase
 async function populateFilters() {
     await populateDropdown("teams", "team-filter");
