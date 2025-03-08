@@ -503,5 +503,20 @@ footer {
     background-color: #FFC107;
 }
 
+/* Table Row Hover Effect */
+.results-table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.15); /* Soft blue hover effect */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Optional: Slight Scale Effect on Hover */
+.results-table tbody tr:hover td {
+    transform: scale(1.02);
+    transition: transform 0.2s ease-in-out;
+}
+
+
+
 
 
