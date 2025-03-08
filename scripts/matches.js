@@ -16,7 +16,8 @@ async function fetchMatches() {
                 home_team:home_team_id (name),
                 away_team:away_team_id (name),
                 competition:competition_id (name),
-                venue:venue_id (name)
+                venue:venue_id (name),
+                match_notes
             `)
             .order("date", { ascending: false });
 
@@ -29,7 +30,7 @@ async function fetchMatches() {
     }
 }
 
-// Display match results in the table with styled scores
+// Display match results in the table with expandable details
 function displayMatches(results) {
     const tbody = document.getElementById("resultsTableBody");
     if (!tbody) return console.error("❌ Error: resultsTableBody not found.");
@@ -40,22 +41,14 @@ function displayMatches(results) {
                 day: 'numeric', month: 'short', year: 'numeric'
             });
 
-            let homeScoreClass = '';
-            let awayScoreClass = '';
+            let homeScoreClass = match.home_score > match.away_score ? 'win-score' : 
+                                 match.home_score < match.away_score ? 'loss-score' : 'draw-score';
 
-            if (match.home_score > match.away_score) {
-                homeScoreClass = 'win-score';
-                awayScoreClass = 'loss-score';
-            } else if (match.home_score < match.away_score) {
-                homeScoreClass = 'loss-score';
-                awayScoreClass = 'win-score';
-            } else {
-                homeScoreClass = 'draw-score';
-                awayScoreClass = 'draw-score';
-            }
+            let awayScoreClass = match.away_score > match.home_score ? 'win-score' : 
+                                 match.away_score < match.home_score ? 'loss-score' : 'draw-score';
 
             return `
-                <tr>
+                <tr class="match-row" data-match-id="${match.id}">
                     <td>${matchDate}</td>
                     <td>${match.home_team?.name || "Unknown Team"}</td>
                     <td class="score-column">
@@ -66,9 +59,28 @@ function displayMatches(results) {
                     <td>${match.competition?.name || "Unknown Competition"}</td>
                     <td>${match.venue?.name || "Unknown Venue"}</td>
                 </tr>
+                <tr class="match-details hidden" id="match-details-${match.id}">
+                    <td colspan="6">
+                        <div class="match-stats">
+                            <h3>Match Details</h3>
+                            <p><strong>Competition:</strong> ${match.competition?.name || "N/A"}</p>
+                            <p><strong>Venue:</strong> ${match.venue?.name || "N/A"}</p>
+                            <p><strong>Match Notes:</strong> ${match.match_notes || "No additional details yet."}</p>
+                        </div>
+                    </td>
+                </tr>
             `;
         }).join('')
         : `<tr><td colspan="6" style="text-align: center;">No matches found</td></tr>`;
+
+    // Attach click events to each match row
+    document.querySelectorAll(".match-row").forEach(row => {
+        row.addEventListener("click", function () {
+            const matchId = this.dataset.matchId;
+            const detailsRow = document.getElementById(`match-details-${matchId}`);
+            detailsRow.classList.toggle("hidden");
+        });
+    });
 }
 
 // Call fetchMatches() when the page loads

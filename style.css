@@ -525,5 +525,32 @@ footer {
     transform: scale(1.01);
 }
 
+/* Hidden match details */
+.hidden {
+    display: none;
+}
+
+/* Expanded match details */
+.match-details td {
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-top: 2px solid rgba(255, 153, 51, 0.5);
+}
+
+/* Stats box inside expanded row */
+.match-stats {
+    background: rgba(0, 123, 255, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* Highlight when row is clicked */
+.match-row:hover {
+    background-color: rgba(255, 153, 51, 0.4) !important;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
 
 
