@@ -36,39 +36,31 @@ function displayMatches(results) {
 
     tbody.innerHTML = results.length
         ? results.map(match => {
-            // Format date nicely
-            const matchDate = new Date(match.date);
-            const formattedDate = matchDate.toLocaleDateString('en-GB', {
-                day: 'numeric', 
-                month: 'short', 
-                year: 'numeric'
+            const matchDate = new Date(match.date).toLocaleDateString('en-GB', {
+                day: 'numeric', month: 'short', year: 'numeric'
             });
-            
-            // Determine if this is a River Valley Rangers match and get result
-            let resultClass = '';
-            const isRVRHomeTeam = match.home_team?.name.includes('River Valley') || match.home_team?.name.includes('RVR');
-            const isRVRAwayTeam = match.away_team?.name.includes('River Valley') || match.away_team?.name.includes('RVR');
-            
-            if (isRVRHomeTeam) {
-                if (match.home_score > match.away_score) resultClass = 'win';
-                else if (match.home_score < match.away_score) resultClass = 'loss';
-                else resultClass = 'draw';
-            } else if (isRVRAwayTeam) {
-                if (match.away_score > match.home_score) resultClass = 'win';
-                else if (match.away_score < match.home_score) resultClass = 'loss';
-                else resultClass = 'draw';
+
+            let resultIndicator = '';
+
+            if (match.home_score > match.away_score) {
+                resultIndicator = `<span class="result-indicator win-indicator">✔</span>`;
+            } else if (match.home_score < match.away_score) {
+                resultIndicator = `<span class="result-indicator loss-indicator">✘</span>`;
+            } else {
+                resultIndicator = `<span class="result-indicator draw-indicator">≡</span>`;
             }
-            
+
             return `
-                <tr class="${resultClass}">
-                    <td>${formattedDate}</td>
+                <tr>
+                    <td>${matchDate}</td>
                     <td>${match.home_team?.name || "Unknown Team"}</td>
                     <td class="score-column">${match.home_score} - ${match.away_score}</td>
                     <td>${match.away_team?.name || "Unknown Team"}</td>
                     <td>${match.competition?.name || "Unknown Competition"}</td>
                     <td>${match.venue?.name || "Unknown Venue"}</td>
+                    <td>${resultIndicator}</td>
                 </tr>
             `;
         }).join('')
-        : `<tr><td colspan="6" style="text-align: center;">No matches found</td></tr>`;
+        : `<tr><td colspan="7" style="text-align: center;">No matches found</td></tr>`;
 }

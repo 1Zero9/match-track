@@ -469,3 +469,34 @@ footer {
         width: 50px;
     }
 }
+
+
+.result-indicator {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    font-weight: bold;
+    line-height: 20px;
+    color: white;
+    font-size: 14px;
+}
+
+/* Green for wins */
+.win-indicator {
+    background-color: #4CAF50;
+}
+
+/* Red for losses */
+.loss-indicator {
+    background-color: #F44336;
+}
+
+/* Yellow for draws */
+.draw-indicator {
+    background-color: #FFC107;
+}
+
+
+
