@@ -17,7 +17,7 @@
 </head>
 <body>
 
-    <!-- Header Section -->
+    <!-- Simple Header Section -->
     <div class="header-container">
         <div class="header-left">
             <a href="index.html">
@@ -27,65 +27,57 @@
         </div>
 
         <div class="header-buttons">
-            <a href="index.html"><button class="main-button">View Results</button></a>
-            <a href="admin.html"><button class="main-button">Log a Match</button></a>
+            <a href="index.html"><button class="main-button active">Results</button></a>
+            <a href="admin.html"><button class="main-button">Add Match</button></a>
             <a href="setup.html"><button class="main-button">Setup</button></a>
         </div>
     </div>
 
-    <!-- Enhanced Filter Section -->
+    <!-- Simplified Filter Section -->
     <div class="filter-container">
-        <div class="filter-header">
-            <h3>Filter Matches</h3>
-            <button type="button" class="main-button reset-button" onclick="resetFilters()">Reset Filters</button>
+        <div class="filter-group">
+            <label for="team-filter">Team</label>
+            <select id="team-filter">
+                <option value="all">All Teams</option>
+            </select>
         </div>
-        
-        <div class="filter-controls">
-            <div class="filter-group">
-                <label for="team-filter">Team:</label>
-                <select id="team-filter">
-                    <option value="all">Select Team</option>
-                </select>
-            </div>
 
-            <div class="filter-group">
-                <label for="home-away-filter">Home/Away:</label>
-                <select id="home-away-filter">
-                    <option value="all">Home & Away</option>
-                    <option value="home">Home Only</option>
-                    <option value="away">Away Only</option>
-                </select>
-            </div>
+        <div class="filter-group">
+            <label for="home-away-filter">Home/Away</label>
+            <select id="home-away-filter">
+                <option value="all">Both</option>
+                <option value="home">Home</option>
+                <option value="away">Away</option>
+            </select>
+        </div>
 
-            <div class="filter-group">
-                <label for="year-filter">Year:</label>
-                <select id="year-filter">
-                    <option value="all">All Years</option>
-                </select>
-            </div>
+        <div class="filter-group">
+            <label for="year-filter">Year</label>
+            <select id="year-filter">
+                <option value="all">All Years</option>
+            </select>
+        </div>
 
-            <div class="filter-group">
-                <label for="date-filter">Date:</label>
-                <input type="date" id="date-filter">
-            </div>
+        <div class="filter-group">
+            <label for="date-filter">Date</label>
+            <input type="date" id="date-filter">
+        </div>
 
-            <div class="filter-group">
-                <label for="competition-filter">Competition:</label>
-                <select id="competition-filter">
-                    <option value="all">Filter by...</option>
-                </select>
-            </div>
+        <div class="filter-group">
+            <label for="competition-filter">Competition</label>
+            <select id="competition-filter">
+                <option value="all">All</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <button type="button" class="main-button reset-button" onclick="resetFilters()">Reset</button>
         </div>
     </div>
 
-    <!-- Match Results Table Container -->
+    <!-- Match Results Table - Main Focus -->
     <div class="table-container">
-        <h2 class="page-title">Match Results</h2>
-        
-        <div class="results-counter">
-            Showing <span id="match-count" class="match-count">0</span> matches
-        </div>
-        
+        <h2 class="results-heading">Match Results</h2>
         <table class="results-table">
             <thead>
                 <tr>
@@ -101,15 +93,10 @@
                 <!-- JavaScript will insert rows here -->
             </tbody>
         </table>
-        
-        <div id="no-results" class="no-results" style="display: none;">
-            <p>No matches found matching your filters</p>
-            <button class="main-button" onclick="resetFilters()">Clear Filters</button>
-        </div>
     </div>
 
-    <!-- Footer -->
-    <div id="footer"></div>
+    <!-- Simple Fixed Footer -->
+    <div id="footer" class="footer-fixed"></div>
 
 </body>
 </html>
