@@ -1,67 +1,76 @@
 :root {
     --primary-bg-color: #0B1E49;
-    --secondary-bg-color: #f0f0f0;
+    --secondary-bg-color: #f5f5f5;
+    --accent-color: #FF7F32;
+    --accent-hover: #e56e2a;
+    --error-color: #d9534f;
+    --error-hover: #c9302c;
+    --win-color: #4CAF50;
+    --loss-color: #F44336;
+    --draw-color: #FFC107;
+    --text-dark: #333;
+    --text-light: white;
+    --border-color: #eee;
 }
 
-/* ✅ Reset Styles */
+/* Reset Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* ✅ Set Full Page Height */
+/* Base Layout */
 html, body {
     height: 100%;
     display: flex;
     flex-direction: column;
     font-family: Arial, sans-serif;
-    background-color: #0B1E49;
-    color: white;
-    text-align: center;
+    background-color: var(--primary-bg-color);
+    color: var(--text-light);
 }
 
-/* ✅ Fix Header */
+/* Header Styles */
 .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 15px 20px;
-    background-color: #0B1E49;
-    color: white;
+    background-color: var(--primary-bg-color);
+    color: var(--text-light);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* ✅ Fix Logo Size */
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
 .header-logo {
-    width: 60px;
+    width: 50px;
     height: auto;
     cursor: pointer;
 }
 
-/* ✅ Title Font Size */
 .main-title {
     font-size: 20px;
     font-weight: bold;
-    margin-left: 10px;
+    margin-left: 15px;
 }
 
-/* ✅ Buttons inside header */
 .header-buttons {
     display: flex;
-    gap: 20px;  /* Increased from default/previous value */
-    margin-left: auto;  /* This pushes the buttons to the right */
-    padding-right: 20px;  /* Add some padding from the right edge */
-    margin-right: 40px;  /* Add more right margin */
-    justify-content: flex-end;  /* Ensure buttons are aligned to the right */
+    gap: 15px;
+    justify-content: flex-end;
 }
 
-/* ✅ Compact Buttons */
+/* Button Styles */
 .main-button {
-    background-color: #FF7F32;
-    color: white;
-    padding: 10px 12px;
+    background-color: var(--accent-color);
+    color: var(--text-light);
+    padding: 8px 15px;
     font-size: 14px;
     border: none;
     border-radius: 6px;
@@ -70,157 +79,208 @@ html, body {
 }
 
 .main-button:hover {
-    background-color: #e56e2a;
+    background-color: var(--accent-hover);
 }
 
-/* ✅ Filter Section */
+.main-button.active {
+    background-color: var(--accent-hover);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.reset-button {
+    background-color: var(--error-color);
+    margin-top: 17px; /* Align with inputs */
+}
+
+.reset-button:hover {
+    background-color: var(--error-hover);
+}
+
+/* Container Styles */
+.container-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Filter Section */
 .filter-container {
-    background-color: var(--secondary-bg-color);
-    padding: 20px;
-    border-radius: 8px;
-    color: black;
     display: flex;
     flex-wrap: wrap;
+    gap: 15px;
+    background-color: var(--secondary-bg-color);
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: var(--text-dark);
     justify-content: center;
-    align-items: flex-start;  /* Change from center to flex-start to align tops */
-    gap: 20px;
-    max-width: 95%;
-    margin: 20px;
-    margin: 20px auto;  /* Center the container */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Add subtle shadow */
+    align-items: flex-end;
+    width: 90%;
+    max-width: 1200px;
+    margin: 15px auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* ✅ Individual Filter Groups */
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.filter-header h3 {
+    margin: 0;
+    color: var(--text-dark);
+    font-size: 16px;
+}
+
 .filter-group {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;  /* Ensures consistent alignment */
-    min-width: 120px;
     gap: 5px;
+    min-width: 120px;
 }
 
-/* ✅ Filter Inputs */
 .filter-group label {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
+    color: var(--text-dark);
     margin-bottom: 5px;
 }
 
 .filter-group select,
 .filter-group input {
-    padding: 8px;
+    padding: 8px 10px;
     font-size: 14px;
-    border-radius: 5px;
+    border-radius: 4px;
     border: 1px solid #ccc;
-    min-width: 140px;
+    width: 140px;
 }
 
-/* Specific adjustment for the reset button to align with other filters */
-.filter-group .reset-button {
-    margin-top: 19px;  /* This matches the height of the label to align with other inputs */
-}
-
-/* ✅ Reset Filter Button */
-.reset-button {
-    background-color: #d9534f;
-}
-
-.reset-button:hover {
-    background-color: #c9302c;
-}
-
-/* ✅ Ensure Filters and Table Align */
-.container-wrapper {
-    width: 95%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* ✅ Fix Results Table Layout */
+/* Results Section */
 .table-container {
-    flex-grow: 1;
-    overflow-y: auto;
-    border-radius: 10px;
-    background: white;
-    padding: 15px;
-    color: black;
-    width: 95%;
+    flex: 1;
+    background-color: white;
+    color: var(--text-dark);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+    width: 90%;
     max-width: 1200px;
-    margin: 20px auto;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    margin: 0 auto 20px;
 }
 
-/* ✅ Match Table */
+.results-heading {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: var(--primary-bg-color);
+    text-align: left;
+}
+
+.results-counter {
+    margin: 15px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.match-count {
+    font-weight: 600;
+    color: var(--primary-bg-color);
+}
+
+/* Table Styling */
 .results-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.results-table th, .results-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+.results-table th {
+    background-color: var(--primary-bg-color);
+    color: var(--text-light);
+    padding: 15px 10px;
+    font-size: 14px;
+    text-align: left;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
 }
 
-/* ✅ Highlight Rows on Hover */
-.results-table tr:hover {
-    background-color: #FF7F32;
-    color: white;
-    transition: background-color 0.3s ease-in-out;
+.results-table td {
+    padding: 12px 10px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-dark);
 }
 
-/* ✅ Footer */
-footer {
-    background-color: #0B1E49;
-    color: white;
+.results-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Zebra striping */
+.results-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Result highlighting */
+.results-table .win {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-left: 4px solid var(--win-color);
+}
+
+.results-table .loss {
+    background-color: rgba(244, 67, 54, 0.1);
+    border-left: 4px solid var(--loss-color);
+}
+
+.results-table .draw {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid var(--draw-color);
+}
+
+.results-table tbody tr:hover {
+    background-color: rgba(255, 127, 50, 0.1);
+    cursor: pointer;
+}
+
+.results-table td:first-child {
+    white-space: nowrap;
+}
+
+.score-column {
+    font-weight: bold;
     text-align: center;
-    padding: 10px;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    z-index: 10;
+    white-space: nowrap;
 }
 
-/* ✅ Footer Image */
-.footer-image {
-    width: 100%;
-    display: block;
-    margin: 0;
-    padding: 0;
+/* No results message */
+.no-results {
+    text-align: center;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 20px;
+    color: #666;
 }
 
-/* ✅ Responsive Fix for Small Screens */
-@media screen and (max-width: 768px) {
-    .header-container {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .header-buttons {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .filter-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .filter-group {
-        width: 100%;
-    }
-}
-
-/* Admin and Setup Form Styles */
+/* Admin and Setup Forms */
 .admin-container,
 .setup-container {
     background-color: white;
-    color: black;
+    color: var(--text-dark);
     padding: 20px;
     border-radius: 10px;
-    width: 95%;
+    width: 90%;
     max-width: 800px;
     margin: 20px auto;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .admin-form,
@@ -274,7 +334,6 @@ footer {
     font-weight: bold;
 }
 
-/* Make sure buttons inside forms match the theme */
 .admin-form .main-button,
 .setup-form .main-button {
     align-self: center;
@@ -282,12 +341,62 @@ footer {
     margin-top: 10px;
 }
 
-/* Mobile Specific Styles (400px and below) */
+/* Footer Styles */
+.footer-fixed, 
+footer {
+    background-color: var(--primary-bg-color);
+    color: var(--text-light);
+    text-align: center;
+    padding: 15px;
+    margin-top: auto;
+    width: 100%;
+}
+
+.footer-image {
+    width: 100%;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .filter-container,
+    .table-container {
+        width: 95%;
+        padding: 15px 10px;
+    }
+    
+    .header-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .header-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .filter-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-group select,
+    .filter-group input {
+        width: 100%;
+    }
+}
+
+/* Small Mobile Styles (400px and below) */
 @media screen and (max-width: 400px) {
-    /* Header adjustments */
     .header-container {
         padding: 10px;
-        flex-direction: column;
         gap: 10px;
     }
 
@@ -303,7 +412,6 @@ footer {
     .header-buttons {
         margin: 10px 0;
         padding: 0;
-        width: 100%;
         gap: 10px;
     }
 
@@ -313,26 +421,18 @@ footer {
         font-size: 12px;
     }
 
-    /* Filter container adjustments */
     .filter-container {
         margin: 10px;
         padding: 10px;
         gap: 10px;
     }
 
-    .filter-group {
-        width: 100%;
-        margin: 0;
-    }
-
     .filter-group select,
     .filter-group input {
-        width: 100%;
         min-width: unset;
         font-size: 12px;
     }
 
-    /* Table adjustments */
     .table-container {
         margin: 10px;
         padding: 10px;
@@ -349,7 +449,6 @@ footer {
         white-space: nowrap;
     }
 
-    /* Form adjustments */
     .admin-container,
     .setup-container {
         margin: 10px;
@@ -368,335 +467,5 @@ footer {
 
     .score-group input {
         width: 50px;
-    }
-
-    /* Ensure footer stays at bottom */
-    footer {
-        margin-top: auto;
-    }
-}
-
-/* Enhanced Table Styling */
-.results-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background-color: white;
-}
-
-.results-table th {
-    background-color: #0B1E49;
-    color: white;
-    padding: 15px 10px;
-    font-size: 14px;
-    text-align: left;
-    font-weight: 600;
-    position: sticky;
-    top: 0;
-}
-
-.results-table td {
-    padding: 12px 10px;
-    font-size: 14px;
-    border-bottom: 1px solid #eee;
-    color: #333;
-}
-
-.results-table tr:last-child td {
-    border-bottom: none;
-}
-
-/* Zebra striping for rows */
-.results-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-/* Improved hover effect */
-.results-table tbody tr:hover {
-    background-color: rgba(255, 127, 50, 0.1);
-    cursor: pointer;
-}
-
-/* Result highlighting */
-.results-table .win {
-    border-left: 4px solid #4CAF50;
-}
-
-.results-table .loss {
-    border-left: 4px solid #F44336;
-}
-
-.results-table .draw {
-    border-left: 4px solid #FFC107;
-}
-
-/* Match Date Column */
-.results-table td:first-child {
-    white-space: nowrap;
-}
-
-/* Score Column */
-.results-table .score-column {
-    font-weight: 600;
-    text-align: center;
-    white-space: nowrap;
-}
-
-/* Enhanced Filter Container */
-.filter-container {
-    background-color: white;
-    padding: 15px 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-}
-
-/* Filter header */
-.filter-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-}
-
-.filter-header h3 {
-    margin: 0;
-    color: #333;
-    font-size: 16px;
-}
-
-/* Results counter */
-.results-counter {
-    margin: 15px 0;
-    font-size: 14px;
-    color: #555;
-}
-
-.match-count {
-    font-weight: 600;
-    color: #0B1E49;
-}
-
-/* No results message */
-.no-results {
-    text-align: center;
-    padding: 30px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    margin-top: 20px;
-    color: #666;
-}
-
-
-/* Add these styles to your existing style.css file */
-
-/* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    font-family: Arial, sans-serif;
-    background-color: #0B1E49;
-    color: white;
-}
-
-/* Header Container */
-.header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 20px;
-    background-color: #0B1E49;
-    color: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-}
-
-.header-logo {
-    width: 50px;
-    height: auto;
-}
-
-.main-title {
-    font-size: 18px;
-    margin-left: 15px;
-}
-
-.header-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.main-button {
-    background-color: #FF7F32;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.main-button:hover {
-    background-color: #e56e2a;
-}
-
-.main-button.active {
-    background-color: #e56e2a;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-/* Filter Container */
-.filter-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    background-color: #f5f5f5;
-    padding: 15px 20px;
-    margin: 15px 20px;
-    border-radius: 6px;
-    justify-content: center;
-    align-items: flex-end;
-}
-
-.filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.filter-group label {
-    font-size: 12px;
-    font-weight: bold;
-    color: #555;
-}
-
-.filter-group select,
-.filter-group input {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 140px;
-    font-size: 14px;
-}
-
-.reset-button {
-    background-color: #d9534f;
-    margin-top: 17px; /* Align with inputs */
-}
-
-.reset-button:hover {
-    background-color: #c9302c;
-}
-
-/* Table Container */
-.table-container {
-    flex: 1;
-    background-color: white;
-    color: #333;
-    margin: 0 20px 20px;
-    padding: 20px;
-    border-radius: 6px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow: auto;
-}
-
-.results-heading {
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: #0B1E49;
-}
-
-/* Enhanced Table Styling */
-.results-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.results-table th {
-    background-color: #0B1E49;
-    color: white;
-    padding: 10px;
-    text-align: left;
-    font-size: 14px;
-    position: sticky;
-    top: 0;
-}
-
-.results-table td {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-}
-
-/* Highlight rows based on result */
-.results-table .win {
-    background-color: rgba(76, 175, 80, 0.1);
-    border-left: 4px solid #4CAF50;
-}
-
-.results-table .loss {
-    background-color: rgba(244, 67, 54, 0.1);
-    border-left: 4px solid #F44336;
-}
-
-.results-table .draw {
-    background-color: rgba(255, 193, 7, 0.1);
-    border-left: 4px solid #FFC107;
-}
-
-.results-table tr:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-/* Score Column */
-.score-column {
-    font-weight: bold;
-    text-align: center;
-}
-
-/* Footer */
-.footer-fixed {
-    background-color: #0B1E49;
-    padding: 15px;
-    color: white;
-    text-align: center;
-    margin-top: auto;
-}
-
-/* Responsive Adjustments */
-@media screen and (max-width: 768px) {
-    .filter-container {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .filter-group select,
-    .filter-group input {
-        width: 100%;
-    }
-    
-    .header-container {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .header-buttons {
-        width: 100%;
-        justify-content: center;
     }
 }
