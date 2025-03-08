@@ -474,34 +474,34 @@ footer {
 
 
 
-.result-indicator {
+/* Score Badges */
+.score-badge {
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     text-align: center;
     font-weight: bold;
-    line-height: 20px;
+    line-height: 30px;
     color: white;
-    font-size: 14px;
-    margin-right: 5px;
+    font-size: 16px;
+    margin: 0 5px;
 }
 
-/* Green for wins */
-.win-indicator {
+/* Green for Wins */
+.win-score {
     background-color: #4CAF50;
 }
 
-/* Red for losses */
-.loss-indicator {
+/* Red for Losses */
+.loss-score {
     background-color: #F44336;
 }
 
-/* Yellow for draws */
-.draw-indicator {
+/* Yellow for Draws */
+.draw-score {
     background-color: #FFC107;
 }
-
 
 
 
