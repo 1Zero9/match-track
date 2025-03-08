@@ -517,6 +517,13 @@ footer {
 }
 
 
+/* 🚀 Vibrant Hover Effect */
+.results-table tbody tr:hover {
+    background-color: rgba(255, 153, 51, 0.3); /* Stronger orange pop */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    transform: scale(1.01);
+}
 
 
 

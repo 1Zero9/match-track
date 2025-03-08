@@ -29,7 +29,7 @@ async function fetchMatches() {
     }
 }
 
-// Display match results in the table with styled score indicators
+// Display match results in the table with styled scores
 function displayMatches(results) {
     const tbody = document.getElementById("resultsTableBody");
     if (!tbody) return console.error("❌ Error: resultsTableBody not found.");
