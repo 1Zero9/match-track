@@ -29,7 +29,7 @@ async function fetchMatches() {
     }
 }
 
-// Display match results in the table with result indicators
+// Display match results in the table with team-specific indicators
 function displayMatches(results) {
     const tbody = document.getElementById("resultsTableBody");
     if (!tbody) return console.error("❌ Error: resultsTableBody not found.");
@@ -40,27 +40,33 @@ function displayMatches(results) {
                 day: 'numeric', month: 'short', year: 'numeric'
             });
 
-            let resultIndicator = '';
+            let homeIndicator = '';
+            let awayIndicator = '';
 
             if (match.home_score > match.away_score) {
-                resultIndicator = `<span class="result-indicator win-indicator">✔</span>`;
+                homeIndicator = `<span class="result-indicator win-indicator">✔</span>`;
+                awayIndicator = `<span class="result-indicator loss-indicator">✘</span>`;
             } else if (match.home_score < match.away_score) {
-                resultIndicator = `<span class="result-indicator loss-indicator">✘</span>`;
+                homeIndicator = `<span class="result-indicator loss-indicator">✘</span>`;
+                awayIndicator = `<span class="result-indicator win-indicator">✔</span>`;
             } else {
-                resultIndicator = `<span class="result-indicator draw-indicator">≡</span>`;
+                homeIndicator = `<span class="result-indicator draw-indicator">≡</span>`;
+                awayIndicator = `<span class="result-indicator draw-indicator">≡</span>`;
             }
 
             return `
                 <tr>
                     <td>${matchDate}</td>
-                    <td>${match.home_team?.name || "Unknown Team"}</td>
+                    <td>${homeIndicator} ${match.home_team?.name || "Unknown Team"}</td>
                     <td class="score-column">${match.home_score} - ${match.away_score}</td>
-                    <td>${match.away_team?.name || "Unknown Team"}</td>
+                    <td>${awayIndicator} ${match.away_team?.name || "Unknown Team"}</td>
                     <td>${match.competition?.name || "Unknown Competition"}</td>
                     <td>${match.venue?.name || "Unknown Venue"}</td>
-                    <td>${resultIndicator}</td>
                 </tr>
             `;
         }).join('')
-        : `<tr><td colspan="7" style="text-align: center;">No matches found</td></tr>`;
+        : `<tr><td colspan="6" style="text-align: center;">No matches found</td></tr>`;
 }
+
+// Call fetchMatches() when the page loads
+document.addEventListener("DOMContentLoaded", fetchMatches);

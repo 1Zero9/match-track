@@ -471,6 +471,9 @@ footer {
 }
 
 
+
+
+
 .result-indicator {
     display: inline-block;
     width: 20px;
@@ -481,6 +484,7 @@ footer {
     line-height: 20px;
     color: white;
     font-size: 14px;
+    margin-right: 5px;
 }
 
 /* Green for wins */
@@ -497,6 +501,7 @@ footer {
 .draw-indicator {
     background-color: #FFC107;
 }
+
 
 
 
