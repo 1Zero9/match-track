@@ -33,11 +33,11 @@ html, body {
     color: var(--text-light);
 }
 
-/* Header Styles */
+/* Header Container */
 .header-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; /* Left, Center, Right alignment */
     padding: 15px 20px;
     background-color: var(--primary-bg-color);
     color: var(--text-light);
@@ -46,19 +46,42 @@ html, body {
     margin: 0 auto;
 }
 
+/* Logo on the Left */
 .header-logo {
     width: 45px;
     height: auto;
     cursor: pointer;
+    margin-right: 15px; /* Space between logo and title */
 }
 
-/* Ensure all main sections are visible */
-.container-wrapper {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    display: block;
+/* Title in the Center */
+.header-title {
+    flex-grow: 1; /* Takes up remaining space */
+    text-align: left;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Buttons on the Right */
+.header-buttons {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+}
+
+/* Button Styles */
+.main-button {
+    background-color: var(--accent-color);
+    color: var(--text-light);
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.main-button:hover {
+    background-color: var(--accent-hover);
 }
 
 /* Filters Section */
@@ -94,22 +117,6 @@ html, body {
     outline: none;
     border-color: var(--accent-hover);
     box-shadow: 0 0 5px rgba(38, 166, 154, 0.5);
-}
-
-/* Button Styles */
-.main-button {
-    background-color: var(--accent-color);
-    color: var(--text-light);
-    padding: 10px 15px;
-    font-size: 14px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.main-button:hover {
-    background-color: var(--accent-hover);
 }
 
 /* Results Table */
@@ -151,6 +158,19 @@ html, body {
     margin: 0 5px;
 }
 
+/* Dynamic Win/Loss/Draw Colours */
+.win-score {
+    background-color: var(--win-color);
+}
+
+.loss-score {
+    background-color: var(--loss-color);
+}
+
+.draw-score {
+    background-color: var(--draw-color);
+}
+
 /* Match Details (Pop-down Card Style) */
 .match-details {
     display: none;
@@ -177,7 +197,6 @@ html, body {
     transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
-/* 🎯 When selected, increase size and change colour */
 .match-row.selected {
     background-color: rgba(38, 166, 154, 0.5);
     transform: scale(1.05);
@@ -186,7 +205,7 @@ html, body {
 
 /* 📌 Ensure match details don't zoom with the row */
 .match-details.show {
-    transform: scale(1); /* Prevents double zoom */
+    transform: scale(1);
     transition: opacity 0.3s ease-in-out;
 }
 
@@ -212,5 +231,20 @@ html, body {
     .table-container {
         width: 95%;
         padding: 15px 10px;
+    }
+
+    /* Stack header elements in mobile view */
+    .header-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .header-title {
+        text-align: center;
+    }
+
+    .header-buttons {
+        margin-top: 10px;
     }
 }
