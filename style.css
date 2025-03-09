@@ -33,11 +33,11 @@ html, body {
     color: var(--text-light);
 }
 
-/* HEADER FIX: LOGO LEFT, TITLE CENTER, BUTTONS RIGHT */
+/* HEADER: Logo Left, Title Center, Buttons Right */
 .header-container {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Ensures left, center, right alignment */
+    justify-content: space-between;
     padding: 15px 20px;
     background-color: var(--primary-bg-color);
     color: var(--text-light);
@@ -66,7 +66,7 @@ html, body {
 /* Buttons on the Right */
 .header-buttons {
     display: flex;
-    gap: 10px; /* Space between buttons */
+    gap: 10px;
     flex-shrink: 0;
 }
 
@@ -121,25 +121,7 @@ html, body {
     box-shadow: 0 0 5px rgba(38, 166, 154, 0.5);
 }
 
-/* TABLE FIX: ENSURE MATCH RESULTS SHOW PROPERLY */
-.results-container {
-    display: block;
-    width: 100%;
-}
-
-.table-container {
-    flex: 1;
-    background-color: white;
-    color: var(--text-dark);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto 20px;
-    display: block;
-}
-
+/* TABLE: Ensure match results display correctly */
 .results-table {
     width: 100%;
     border-collapse: collapse;
@@ -151,34 +133,47 @@ html, body {
 .results-table th {
     background-color: var(--primary-bg-color);
     color: var(--text-light);
-    padding: 15px 10px;
+    padding: 12px 8px;
     font-size: 14px;
     text-align: left;
     font-weight: 600;
 }
 
 .results-table td {
-    padding: 12px 10px;
+    padding: 10px 8px;
     font-size: 14px;
     border-bottom: 1px solid var(--border-color);
     color: var(--text-dark);
 }
 
-/* Score Bubbles */
+/* SCORE BUBBLES: Ensuring Proper Display */
 .score-badge {
     display: inline-block;
-    width: 30px;
-    height: 30px;
+    width: 28px; /* Slightly smaller */
+    height: 28px;
     border-radius: 50%;
     text-align: center;
     font-weight: bold;
-    line-height: 30px;
+    line-height: 28px;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     margin: 0 5px;
 }
 
-/* Match Details */
+/* Dynamic Win/Loss/Draw Colours */
+.win-score {
+    background-color: var(--win-color);
+}
+
+.loss-score {
+    background-color: var(--loss-color);
+}
+
+.draw-score {
+    background-color: var(--draw-color);
+}
+
+/* MATCH DETAILS */
 .match-details {
     display: none;
     background-color: rgba(255, 253, 208, 0.95);
@@ -197,16 +192,17 @@ html, body {
     opacity: 1;
 }
 
-/* Match Row Hover Effect */
+/* MOUSEOVER FIX: Reduce or Remove Zoom */
 .match-row:hover {
     background-color: var(--hover-bg);
-    transform: scale(1.02);
+    transform: scale(1.02); /* Slight zoom, change to (1) to disable */
     transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
+/* Ensure selected row is highlighted without excessive zoom */
 .match-row.selected {
     background-color: rgba(38, 166, 154, 0.5);
-    transform: scale(1.05);
+    transform: scale(1.02); /* Reduce zoom effect */
     transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
@@ -226,9 +222,8 @@ html, body {
     transform: rotate(180deg);
 }
 
-/* RESPONSIVE FIX: KEEP EVERYTHING ALIGNED */
+/* RESPONSIVE FIX: Keep everything aligned */
 @media screen and (max-width: 768px) {
-    .filter-container,
     .table-container {
         width: 95%;
         padding: 15px 10px;
