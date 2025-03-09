@@ -94,6 +94,14 @@ function displayMatches(results) {
             // Toggle match details visibility
             detailsRow.classList.toggle("show");
 
+            // Highlight selected row
+            document.querySelectorAll(".match-row").forEach(r => r.classList.remove("selected"));
+            if (detailsRow.classList.contains("show")) {
+                row.classList.add("selected");
+            } else {
+                row.classList.remove("selected");
+            }
+
             // Toggle button text (+/-)
             this.textContent = detailsRow.classList.contains("show") ? "−" : "+";
         });
@@ -104,6 +112,7 @@ function displayMatches(results) {
         if (!event.target.closest(".match-row") && !event.target.closest(".match-details")) {
             document.querySelectorAll(".match-details").forEach(detail => detail.classList.remove("show"));
             document.querySelectorAll(".match-toggle").forEach(button => button.textContent = "+");
+            document.querySelectorAll(".match-row").forEach(row => row.classList.remove("selected"));
         }
     });
 }
