@@ -74,3 +74,59 @@ function displayMatches(results) {
 
 // Run fetchMatches() on page load
 document.addEventListener("DOMContentLoaded", fetchMatches);
+
+/* Filter Container Fixes */
+.filter-container {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 1100px;
+    margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.filter-group {
+    flex: 1 1 200px;
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Results Table Container Fixes */
+.table-container {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 1100px;
+    margin: 20px auto;
+    color: var(--text-dark);
+}
+
+/* Table Row Color Fix */
+.results-table td {
+    background-color: white;
+    color: var(--text-dark);
+    padding: 12px 10px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Match Details Row Fix */
+.match-details {
+    background-color: var(--secondary-bg-color);
+    color: var(--text-dark);
+}
+
+.match-details.hidden {
+    display: none;
+}
+
+.match-details.show {
+    display: table-row;
+}
