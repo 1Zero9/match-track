@@ -10,7 +10,7 @@
     --draw-color: #FFC107;
     --text-dark: #333;
     --text-light: white;
-    --border-color: #eee;
+    --border-color: #ccc;
     --transition-speed: 0.2s;
     --transition-timing: ease-in-out;
     --hover-bg: rgba(38, 166, 154, 0.2);
@@ -103,6 +103,33 @@ html, body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* FILTER INPUTS & DROPDOWNS */
+.filter-group label {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+}
+
+.filter-group select,
+.filter-group input {
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 2px solid var(--accent-color);
+    background-color: white;
+    color: var(--text-dark);
+    transition: border-color 0.3s;
+    width: 160px;
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+    outline: none;
+    border-color: var(--accent-hover);
+    box-shadow: 0 0 5px rgba(38, 166, 154, 0.5);
+}
+
 /* MATCH RESULTS TABLE */
 .results-container {
     display: block !important;
@@ -144,7 +171,7 @@ html, body {
     font-size: 14px;
     border-bottom: 1px solid var(--border-color);
     color: var(--text-dark);
-    position: relative;
+    text-align: center;
 }
 
 /* SCORE BUBBLES */
@@ -174,23 +201,23 @@ html, body {
     background-color: var(--draw-color);
 }
 
-/* MATCH DETAILS: Card Style Below Row */
+/* MATCH DETAILS: LARGER CARD WITH CLEARER BORDER */
 .match-details {
     display: none;
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    margin-top: 5px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    margin-top: 8px;
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
     opacity: 0;
     transform: translateY(-5px);
     position: absolute;
     left: 50%;
-    width: 600px;
+    width: 700px;
     max-width: 90%;
     transform: translateX(-50%);
-    border-left: 5px solid var(--draw-color);
+    border-left: 8px solid var(--accent-color);
     z-index: 10;
 }
 
@@ -201,31 +228,27 @@ html, body {
     transform: translateY(0) translateX(-50%);
 }
 
-/* MATCH ROW HOVER FIX */
-.match-row:hover {
-    background-color: var(--hover-bg);
-    transition: background-color 0.2s ease-in-out;
-}
-
-/* + / - ICON FIX */
-.expand-toggle {
+/* TOGGLE BUTTON ( + / - ) AT END OF ROW */
+.match-toggle {
+    cursor: pointer;
     font-size: 18px;
     font-weight: bold;
-    cursor: pointer;
+    background: none;
+    border: none;
     color: var(--accent-color);
     transition: color 0.2s ease-in-out;
-    margin-right: 10px;
-    display: inline-block;
-    width: 20px;
-    text-align: center;
+}
+
+.match-toggle:hover {
+    color: var(--accent-hover);
 }
 
 /* Ensure + Turns to - When Open */
-.match-row .expand-toggle::before {
+.match-toggle::before {
     content: "+";
 }
 
-.match-details.show + .match-row .expand-toggle::before {
+.match-details.show ~ .match-toggle::before {
     content: "−";
 }
 
