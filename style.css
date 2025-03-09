@@ -3,16 +3,12 @@
     --secondary-bg-color: #f5f5f5;
     --accent-color: #26A69A;
     --accent-hover: #1E8877;
-    --error-color: #d9534f;
-    --error-hover: #c9302c;
     --win-color: #4CAF50;
     --loss-color: #F44336;
     --draw-color: #FFC107;
     --text-dark: #333;
     --text-light: white;
     --border-color: #ccc;
-    --transition-speed: 0.2s;
-    --transition-timing: ease-in-out;
     --hover-bg: rgba(38, 166, 154, 0.2);
 }
 
@@ -26,8 +22,6 @@
 /* Base Layout */
 html, body {
     height: 100%;
-    display: flex;
-    flex-direction: column;
     font-family: Arial, sans-serif;
     background-color: var(--primary-bg-color);
     color: var(--text-light);
@@ -152,8 +146,6 @@ html, body {
 .results-table {
     width: 100%;
     border-collapse: collapse;
-    border-radius: 8px;
-    overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -189,113 +181,58 @@ html, body {
     margin: 0 5px;
 }
 
-/* WIN/LOSS/DRAW COLORS */
-.win-score {
-    background-color: var(--win-color);
-}
+.win-score { background-color: var(--win-color); }
+.loss-score { background-color: var(--loss-color); }
+.draw-score { background-color: var(--draw-color); }
 
-.loss-score {
-    background-color: var(--loss-color);
-}
-
-.draw-score {
-    background-color: var(--draw-color);
-}
-
-/* MATCH DETAILS: BIGGER & CLEARLY DEFINED CARD */
+/* MATCH DETAILS CARD */
 .match-details {
     display: none;
     background-color: white;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    margin-top: 8px;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    opacity: 0;
-    position: absolute;
-    left: 50%;
+    padding: 15px;
     width: 750px;
     max-width: 90%;
-    transform: translateX(-50%);
+    margin: auto;
     border-left: 8px solid var(--accent-color);
-    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Show Match Details */
-.match-details.show {
-    display: block;
-    opacity: 1;
-}
+.match-details.show { display: block; }
 
-/* MATCH DETAILS TOGGLE BUTTON AT END OF ROW */
+/* MATCH TOGGLE BUTTON */
 .match-toggle {
     cursor: pointer;
-    font-size: 18px;
+    font-size: 22px; /* Bigger */
     font-weight: bold;
     background: none;
     border: none;
     color: var(--accent-color);
-    transition: color 0.2s ease-in-out;
+    transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    width: 40px;
 }
 
+/* Pulsing animation on + button */
 .match-toggle:hover {
     color: var(--accent-hover);
+    transform: scale(1.2);
+}
+
+/* MATCH ROW HIGHLIGHT WHEN SELECTED */
+.match-row.selected {
+    background-color: rgba(38, 166, 154, 0.2); /* Light greenish highlight */
+    transition: background-color 0.3s ease-in-out;
 }
 
 /* Ensure + Turns to - When Open */
-.match-toggle::before {
-    content: "+";
-}
+.match-toggle::before { content: "+"; }
+.match-details.show ~ .match-toggle::before { content: "−"; }
 
-.match-details.show ~ .match-toggle::before {
-    content: "−";
-}
-
-/* RESPONSIVE FIX */
-@media screen and (max-width: 768px) {
-    .table-container {
-        width: 95%;
-        padding: 15px 10px;
-    }
-
-    .header-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .header-title {
-        text-align: center;
-        flex-grow: unset;
-        margin-bottom: 10px;
-    }
-
-    .header-buttons {
-        margin-top: 10px;
-    }
-
-    .match-details {
-        width: 90%;
-    }
-}
-
-/* Match Toggle Button */
-.match-toggle {
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    background: none;
-    border: none;
-    color: var(--accent-color);
-    transition: color 0.2s ease-in-out;
-    width: 30px;
-}
-
-.match-toggle:hover {
-    color: var(--accent-hover);
-}
-
-/* Ensure + Turns to - When Open */
-.match-details.show ~ .match-toggle::before {
-    content: "−";
+/* FOOTER */
+.footer-fixed {
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    color: var(--text-light);
+    background-color: var(--primary-bg-color);
 }
