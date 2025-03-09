@@ -33,31 +33,32 @@ html, body {
     color: var(--text-light);
 }
 
-/* Header Container */
+/* HEADER FIX: LOGO LEFT, TITLE CENTER, BUTTONS RIGHT */
 .header-container {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Left, Center, Right alignment */
+    justify-content: space-between; /* Ensures left, center, right alignment */
     padding: 15px 20px;
     background-color: var(--primary-bg-color);
     color: var(--text-light);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
 }
 
 /* Logo on the Left */
 .header-logo {
-    width: 45px;
+    width: 50px;
     height: auto;
     cursor: pointer;
-    margin-right: 15px; /* Space between logo and title */
+    flex-shrink: 0;
 }
 
 /* Title in the Center */
 .header-title {
-    flex-grow: 1; /* Takes up remaining space */
-    text-align: left;
+    flex-grow: 1;
+    text-align: center;
     font-size: 24px;
     font-weight: bold;
 }
@@ -66,6 +67,7 @@ html, body {
 .header-buttons {
     display: flex;
     gap: 10px; /* Space between buttons */
+    flex-shrink: 0;
 }
 
 /* Button Styles */
@@ -119,7 +121,25 @@ html, body {
     box-shadow: 0 0 5px rgba(38, 166, 154, 0.5);
 }
 
-/* Results Table */
+/* TABLE FIX: ENSURE MATCH RESULTS SHOW PROPERLY */
+.results-container {
+    display: block;
+    width: 100%;
+}
+
+.table-container {
+    flex: 1;
+    background-color: white;
+    color: var(--text-dark);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    display: block;
+}
+
 .results-table {
     width: 100%;
     border-collapse: collapse;
@@ -158,20 +178,7 @@ html, body {
     margin: 0 5px;
 }
 
-/* Dynamic Win/Loss/Draw Colours */
-.win-score {
-    background-color: var(--win-color);
-}
-
-.loss-score {
-    background-color: var(--loss-color);
-}
-
-.draw-score {
-    background-color: var(--draw-color);
-}
-
-/* Match Details (Pop-down Card Style) */
+/* Match Details */
 .match-details {
     display: none;
     background-color: rgba(255, 253, 208, 0.95);
@@ -190,7 +197,7 @@ html, body {
     opacity: 1;
 }
 
-/* 🎯 Fix Double Zoom: Only the row enlarges, not the match details */
+/* Match Row Hover Effect */
 .match-row:hover {
     background-color: var(--hover-bg);
     transform: scale(1.02);
@@ -203,13 +210,7 @@ html, body {
     transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-/* 📌 Ensure match details don't zoom with the row */
-.match-details.show {
-    transform: scale(1);
-    transition: opacity 0.3s ease-in-out;
-}
-
-/* Expand Indicator (Moved to Right) */
+/* Expand Indicator */
 .expand-indicator {
     font-size: 16px;
     font-weight: bold;
@@ -225,7 +226,7 @@ html, body {
     transform: rotate(180deg);
 }
 
-/* Responsive Fixes */
+/* RESPONSIVE FIX: KEEP EVERYTHING ALIGNED */
 @media screen and (max-width: 768px) {
     .filter-container,
     .table-container {
@@ -233,7 +234,6 @@ html, body {
         padding: 15px 10px;
     }
 
-    /* Stack header elements in mobile view */
     .header-container {
         flex-direction: column;
         align-items: center;
@@ -242,6 +242,8 @@ html, body {
 
     .header-title {
         text-align: center;
+        flex-grow: unset;
+        margin-bottom: 10px;
     }
 
     .header-buttons {
