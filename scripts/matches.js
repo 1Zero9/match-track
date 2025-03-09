@@ -30,73 +30,44 @@ async function fetchMatches() {
     }
 }
 
-// Display match results in the table with expandable details
+// Display match results
 function displayMatches(results) {
     const tbody = document.getElementById("resultsTableBody");
     if (!tbody) return console.error("❌ Error: resultsTableBody not found.");
 
-    tbody.innerHTML = results.length
-        ? results.map(match => {
-            const matchDate = new Date(match.date).toLocaleDateString('en-GB', {
-                day: 'numeric', month: 'short', year: 'numeric'
-            });
+    tbody.innerHTML = results.map(match => {
+        return `
+            <tr class="match-row" data-match-id="${match.id}">
+                <td>${match.date}</td>
+                <td>${match.home_team?.name || "Unknown Team"}</td>
+                <td class="score-column">${match.home_score} - ${match.away_score}</td>
+                <td>${match.away_team?.name || "Unknown Team"}</td>
+                <td>${match.competition?.name || "Unknown Competition"}</td>
+                <td>${match.venue?.name || "Unknown Venue"} 
+                    <span class="expand-indicator">⬇</span>
+                </td>
+            </tr>
+            <tr class="match-details hidden" id="match-details-${match.id}">
+                <td colspan="6">
+                    <div class="match-stats">
+                        <h3>Match Details</h3>
+                        <p><strong>Competition:</strong> ${match.competition?.name || "N/A"}</p>
+                        <p><strong>Venue:</strong> ${match.venue?.name || "N/A"}</p>
+                        <p><strong>Match Notes:</strong> ${match.match_notes || "No additional details yet."}</p>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
 
-            let matchClass = 'draw-match';
-            if (match.home_score > match.away_score) matchClass = 'win-match';
-            if (match.home_score < match.away_score) matchClass = 'loss-match';
-
-            let homeScoreClass = match.home_score > match.away_score ? 'win-score' : 
-                                 match.home_score < match.away_score ? 'loss-score' : 'draw-score';
-
-            let awayScoreClass = match.away_score > match.home_score ? 'win-score' : 
-                                 match.away_score < match.home_score ? 'loss-score' : 'draw-score';
-
-            return `
-                <tr class="match-row" data-match-id="${match.id}">
-                    <td>${matchDate}</td>
-                    <td>${match.home_team?.name || "Unknown Team"}</td>
-                    <td class="score-column">
-                        <span class="score-badge ${homeScoreClass}">${match.home_score}</span> - 
-                        <span class="score-badge ${awayScoreClass}">${match.away_score}</span>
-                    </td>
-                    <td>${match.away_team?.name || "Unknown Team"}</td>
-                    <td>${match.competition?.name || "Unknown Competition"}</td>
-                    <td>${match.venue?.name || "Unknown Venue"} 
-                        <span class="expand-indicator">⬇</span>
-                    </td>
-                </tr>
-                <tr class="match-details hidden ${matchClass}" id="match-details-${match.id}">
-                    <td colspan="6">
-                        <div class="match-stats">
-                            <h3>Match Details</h3>
-                            <p><strong>Competition:</strong> ${match.competition?.name || "N/A"}</p>
-                            <p><strong>Venue:</strong> ${match.venue?.name || "N/A"}</p>
-                            <p><strong>Match Notes:</strong> ${match.match_notes || "No additional details yet."}</p>
-                        </div>
-                    </td>
-                </tr>
-            `;
-        }).join('')
-        : `<tr><td colspan="6" style="text-align: center;">No matches found</td></tr>`;
-
-    // Attach click events to each match row
     document.querySelectorAll(".match-row").forEach(row => {
         row.addEventListener("click", function () {
             const matchId = this.dataset.matchId;
             const detailsRow = document.getElementById(`match-details-${matchId}`);
-
-            // Highlight the selected row
-            document.querySelectorAll(".match-row").forEach(r => r.classList.remove("selected"));
-            this.classList.add("selected");
-
-            // Show/hide details with animation
             detailsRow.classList.toggle("show");
 
-            // Auto-hide details on mouse leave
-            detailsRow.addEventListener("mouseleave", () => {
-                detailsRow.classList.remove("show");
-                this.classList.remove("selected");
-            });
+            const arrow = this.querySelector(".expand-indicator");
+            arrow.textContent = detailsRow.classList.contains("show") ? "⬆" : "⬇";
         });
     });
 }
