@@ -1,8 +1,8 @@
 :root {
     --primary-bg-color: #0B1E49;
     --secondary-bg-color: #f5f5f5;
-    --accent-color: #26A69A;  /* Teal Green */
-    --accent-hover: #1E8877;  /* Darker Teal */
+    --accent-color: #26A69A;
+    --accent-hover: #1E8877;
     --error-color: #d9534f;
     --error-hover: #c9302c;
     --win-color: #4CAF50;
@@ -33,7 +33,7 @@ html, body {
     color: var(--text-light);
 }
 
-/* HEADER: Logo Left, Title Center, Buttons Right */
+/* HEADER */
 .header-container {
     display: flex;
     align-items: center;
@@ -86,7 +86,7 @@ html, body {
     background-color: var(--accent-hover);
 }
 
-/* Filters Section */
+/* FILTERS */
 .filter-container {
     display: flex;
     flex-wrap: wrap;
@@ -121,7 +121,26 @@ html, body {
     box-shadow: 0 0 5px rgba(38, 166, 154, 0.5);
 }
 
-/* TABLE: Ensure match results display correctly */
+/* MATCH RESULTS TABLE: ENSURE IT'S VISIBLE */
+.results-container {
+    display: block !important; /* Force visibility */
+    width: 100%;
+}
+
+.table-container {
+    flex: 1;
+    background-color: white;
+    color: var(--text-dark);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    display: block !important; /* Force it to be visible */
+}
+
+/* TABLE */
 .results-table {
     width: 100%;
     border-collapse: collapse;
@@ -146,10 +165,10 @@ html, body {
     color: var(--text-dark);
 }
 
-/* SCORE BUBBLES: Ensuring Proper Display */
+/* SCORE BUBBLES */
 .score-badge {
     display: inline-block;
-    width: 28px; /* Slightly smaller */
+    width: 28px;
     height: 28px;
     border-radius: 50%;
     text-align: center;
@@ -160,7 +179,7 @@ html, body {
     margin: 0 5px;
 }
 
-/* Dynamic Win/Loss/Draw Colours */
+/* WIN/LOSS/DRAW COLORS */
 .win-score {
     background-color: var(--win-color);
 }
@@ -175,7 +194,7 @@ html, body {
 
 /* MATCH DETAILS */
 .match-details {
-    display: none;
+    display: none; /* Hide by default */
     background-color: rgba(255, 253, 208, 0.95);
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -186,23 +205,22 @@ html, body {
     position: relative;
 }
 
-/* Show animation when toggled */
+/* Show match details when toggled */
 .match-details.show {
-    display: table-row;
+    display: table-row !important; /* Ensure visibility */
     opacity: 1;
 }
 
-/* MOUSEOVER FIX: Reduce or Remove Zoom */
+/* MOUSEOVER FIX: Reduce Zoom */
 .match-row:hover {
     background-color: var(--hover-bg);
-    transform: scale(1.02); /* Slight zoom, change to (1) to disable */
+    transform: scale(1.02); /* Subtle zoom, change to 1 to remove */
     transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
-/* Ensure selected row is highlighted without excessive zoom */
 .match-row.selected {
     background-color: rgba(38, 166, 154, 0.5);
-    transform: scale(1.02); /* Reduce zoom effect */
+    transform: scale(1.02);
     transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
@@ -222,7 +240,7 @@ html, body {
     transform: rotate(180deg);
 }
 
-/* RESPONSIVE FIX: Keep everything aligned */
+/* RESPONSIVE FIX */
 @media screen and (max-width: 768px) {
     .table-container {
         width: 95%;
