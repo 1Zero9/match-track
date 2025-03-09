@@ -172,6 +172,7 @@ html, body {
     border-bottom: 1px solid var(--border-color);
     color: var(--text-dark);
     text-align: center;
+    position: relative;
 }
 
 /* SCORE BUBBLES */
@@ -201,7 +202,7 @@ html, body {
     background-color: var(--draw-color);
 }
 
-/* MATCH DETAILS: LARGER CARD WITH CLEARER BORDER */
+/* MATCH DETAILS: BIGGER & CLEARLY DEFINED CARD */
 .match-details {
     display: none;
     background-color: white;
@@ -211,10 +212,9 @@ html, body {
     margin-top: 8px;
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
     opacity: 0;
-    transform: translateY(-5px);
     position: absolute;
     left: 50%;
-    width: 700px;
+    width: 750px;
     max-width: 90%;
     transform: translateX(-50%);
     border-left: 8px solid var(--accent-color);
@@ -225,10 +225,9 @@ html, body {
 .match-details.show {
     display: block;
     opacity: 1;
-    transform: translateY(0) translateX(-50%);
 }
 
-/* TOGGLE BUTTON ( + / - ) AT END OF ROW */
+/* MATCH DETAILS TOGGLE BUTTON AT END OF ROW */
 .match-toggle {
     cursor: pointer;
     font-size: 18px;
