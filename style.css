@@ -79,21 +79,6 @@ html, body {
 }
 
 /* Filter Dropdowns */
-.filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    min-width: 140px;
-}
-
-.filter-group label {
-    font-size: 12px;
-    font-weight: bold;
-    color: var(--text-dark);
-    margin-bottom: 5px;
-}
-
-/* Dropdown Styling */
 .filter-group select {
     padding: 8px 10px;
     font-size: 14px;
@@ -127,26 +112,7 @@ html, body {
     background-color: var(--accent-hover);
 }
 
-/* Ensure results are always visible */
-.results-container {
-    display: block;
-    width: 100%;
-}
-
-.table-container {
-    flex: 1;
-    background-color: white;
-    color: var(--text-dark);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto 20px;
-    display: block;
-}
-
-/* Table Styling */
+/* Results Table */
 .results-table {
     width: 100%;
     border-collapse: collapse;
@@ -185,19 +151,6 @@ html, body {
     margin: 0 5px;
 }
 
-/* Dynamic Win/Loss/Draw Colours */
-.win-score {
-    background-color: var(--win-color);
-}
-
-.loss-score {
-    background-color: var(--loss-color);
-}
-
-.draw-score {
-    background-color: var(--draw-color);
-}
-
 /* Match Details (Pop-down Card Style) */
 .match-details {
     display: none;
@@ -206,8 +159,7 @@ html, body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     padding: 15px;
     margin-top: 5px;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    transform: scale(0.95);
+    transition: opacity 0.3s ease-in-out;
     opacity: 0;
     position: relative;
 }
@@ -215,11 +167,10 @@ html, body {
 /* Show animation when toggled */
 .match-details.show {
     display: table-row;
-    transform: scale(1);
     opacity: 1;
 }
 
-/* 🎯 Hover effect on match row (even before clicking) */
+/* 🎯 Fix Double Zoom: Only the row enlarges, not the match details */
 .match-row:hover {
     background-color: var(--hover-bg);
     transform: scale(1.02);
@@ -228,9 +179,15 @@ html, body {
 
 /* 🎯 When selected, increase size and change colour */
 .match-row.selected {
-    background-color: rgba(38, 166, 154, 0.5); /* Stronger teal */
+    background-color: rgba(38, 166, 154, 0.5);
     transform: scale(1.05);
     transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* 📌 Ensure match details don't zoom with the row */
+.match-details.show {
+    transform: scale(1); /* Prevents double zoom */
+    transition: opacity 0.3s ease-in-out;
 }
 
 /* Expand Indicator (Moved to Right) */
