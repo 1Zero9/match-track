@@ -63,13 +63,7 @@ html, body {
     margin-left: 15px;
 }
 
-.header-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: flex-end;
-}
-
-/* Button Styles */
+/* Buttons */
 .main-button {
     background-color: var(--accent-color);
     color: var(--text-light);
@@ -85,121 +79,10 @@ html, body {
     background-color: var(--accent-hover);
 }
 
-.main-button.active {
-    background-color: var(--accent-hover);
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-.reset-button {
-    background-color: var(--error-color);
-    margin-top: 17px; /* Align with inputs */
-}
-
-.reset-button:hover {
-    background-color: var(--error-hover);
-}
-
-/* Container Styles */
-.container-wrapper {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Filter Section */
-.filter-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    background-color: var(--secondary-bg-color);
-    padding: 15px 20px;
-    border-radius: 8px;
-    color: var(--text-dark);
-    justify-content: center;
-    align-items: flex-end;
-    width: 90%;
-    max-width: 1200px;
-    margin: 15px auto;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.filter-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
-    width: 100%;
-}
-
-.filter-header h3 {
-    margin: 0;
-    color: var(--text-dark);
-    font-size: 16px;
-}
-
-.filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    min-width: 120px;
-}
-
-.filter-group label {
-    font-size: 12px;
-    font-weight: bold;
-    color: var(--text-dark);
-    margin-bottom: 5px;
-}
-
-.filter-group select,
-.filter-group input {
-    padding: 8px 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    width: 140px;
-}
-
-/* Results Section */
-.table-container {
-    flex: 1;
-    background-color: white;
-    color: var(--text-dark);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow: auto;
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto 20px;
-}
-
-.results-heading {
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: var(--primary-bg-color);
-    text-align: left;
-}
-
-.results-counter {
-    margin: 15px 0;
-    font-size: 14px;
-    color: #555;
-}
-
-.match-count {
-    font-weight: 600;
-    color: var(--primary-bg-color);
-}
-
 /* Table Styling */
 .results-table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -212,8 +95,6 @@ html, body {
     font-size: 14px;
     text-align: left;
     font-weight: 600;
-    position: sticky;
-    top: 0;
 }
 
 .results-table td {
@@ -223,145 +104,88 @@ html, body {
     color: var(--text-dark);
 }
 
-.results-table tr:last-child td {
-    border-bottom: none;
+/* No default selection */
+.match-row.selected {
+    background-color: transparent;
 }
 
-/* Zebra striping */
-.results-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+/* New Selected Row Colour */
+.match-row.selected {
+    background-color: rgba(0, 153, 255, 0.2); /* Softer blue highlight */
+    transition: background-color 0.2s ease-in-out;
 }
 
-/* Result highlighting */
-.results-table .win {
-    background-color: rgba(76, 175, 80, 0.1);
-    border-left: 4px solid var(--win-color);
+/* Match Details - Card Style */
+.match-details {
+    display: none;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    max-width: 350px;
+    margin-top: 5px;
+    background-color: rgba(255, 253, 208, 0.9); /* Light Yellow */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    transform: scale(0.95);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-.results-table .loss {
-    background-color: rgba(244, 67, 54, 0.1);
-    border-left: 4px solid var(--loss-color);
+.match-details.show {
+    display: block;
+    transform: scale(1);
+    opacity: 1;
 }
 
-.results-table .draw {
-    background-color: rgba(255, 193, 7, 0.1);
-    border-left: 4px solid var(--draw-color);
+/* Expand Indicator */
+.expand-indicator {
+    display: inline-block;
+    margin-left: 8px;
+    font-weight: bold;
+    color: var(--accent-color);
 }
 
+.match-row:hover .expand-indicator {
+    transform: rotate(180deg);
+}
+
+/* Auto-Hide Details */
+.match-details.auto-hide {
+    display: none;
+}
+
+/* Score Badges */
+.score-badge {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    font-weight: bold;
+    line-height: 30px;
+    color: white;
+    font-size: 16px;
+    margin: 0 5px;
+}
+
+/* Win, Loss, and Draw Colours */
+.win-score {
+    background-color: #4CAF50;
+}
+.loss-score {
+    background-color: #F44336;
+}
+.draw-score {
+    background-color: #FFC107;
+}
+
+/* Table Row Hover Effect */
 .results-table tbody tr:hover {
     background-color: var(--hover-bg);
     cursor: pointer;
     transition: all var(--transition-speed) var(--transition-timing);
     transform: scale(1.01);
-}
-
-.results-table td:first-child {
-    white-space: nowrap;
-}
-
-.score-column {
-    font-weight: bold;
-    text-align: center;
-    white-space: nowrap;
-}
-
-/* No results message */
-.no-results {
-    text-align: center;
-    padding: 30px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    margin-top: 20px;
-    color: #666;
-}
-
-/* Admin and Setup Forms */
-.admin-container,
-.setup-container {
-    background-color: white;
-    color: var(--text-dark);
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 800px;
-    margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.admin-form,
-.setup-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.form-group label {
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.form-group input,
-.form-group select {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-}
-
-.form-row {
-    display: flex;
-    gap: 20px;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-.score-inputs {
-    flex: 0 0 auto;
-}
-
-.score-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.score-group input {
-    width: 60px;
-}
-
-.score-group span {
-    font-weight: bold;
-}
-
-.admin-form .main-button,
-.setup-form .main-button {
-    align-self: center;
-    width: 200px;
-    margin-top: 10px;
-}
-
-/* Footer Styles */
-.footer-fixed, 
-footer {
-    background-color: var(--primary-bg-color);
-    color: var(--text-light);
-    text-align: center;
-    padding: 15px;
-    margin-top: auto;
-    width: 100%;
-}
-
-.footer-image {
-    width: 100%;
-    display: block;
-    margin: 0;
-    padding: 0;
 }
 
 /* Responsive Styles */
@@ -376,11 +200,6 @@ footer {
         flex-direction: column;
         text-align: center;
         gap: 15px;
-    }
-
-    .header-buttons {
-        width: 100%;
-        justify-content: center;
     }
 
     .filter-container {
@@ -474,101 +293,3 @@ footer {
         width: 50px;
     }
 }
-
-
-
-
-
-/* Score Badges */
-.score-badge {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    text-align: center;
-    font-weight: bold;
-    line-height: 30px;
-    color: white;
-    font-size: 16px;
-    margin: 0 5px;
-}
-
-/* Green for Wins */
-.win-score {
-    background-color: #4CAF50;
-}
-
-/* Red for Losses */
-.loss-score {
-    background-color: #F44336;
-}
-
-/* Yellow for Draws */
-.draw-score {
-    background-color: #FFC107;
-}
-
-/* Table Row Hover Effect */
-.results-table tbody tr:hover {
-    background-color: var(--hover-bg);
-    cursor: pointer;
-    transition: all var(--transition-speed) var(--transition-timing);
-    transform: scale(1.01);
-}
-
-/* Hidden match details */
-.hidden {
-    display: none;
-}
-
-/* Expanded match details */
-.match-details td {
-    padding: 15px;
-    background-color: rgba(255, 253, 208, 0.9);
-    border-radius: 12px;
-    border-top: 2px solid rgba(255, 140, 0, 0.6);
-}
-
-/* Stats box inside expanded row */
-.match-stats {
-    background: rgba(0, 123, 255, 0.1);
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 14px;
-}
-
-/* Highlight when row is clicked */
-.match-row:hover {
-    background-color: rgba(255, 153, 51, 0.4) !important;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-}
-/* 🔥 Highlight Selected Match Row */
-.match-row.selected {
-    background-color: rgba(255, 140, 0, 0.3); /* Bright orange highlight */
-    transition: background-color 0.2s ease-in-out;
-}
-
-/* 🚀 Match Details Background - Light Yellow */
-.match-details td {
-    padding: 15px;
-    background-color: rgba(255, 253, 208, 0.9); /* Light Yellow */
-    border-radius: 12px;
-    border-top: 2px solid rgba(255, 140, 0, 0.6); /* Orange border */
-}
-
-/* ✨ Keep Rounded Corners & Prevent Growth */
-.match-stats {
-    background: none;
-    padding: 10px;
-    border-radius: 12px;
-    font-size: 14px;
-}
-
-/* ❌ Remove Hover Growth */
-.match-details:hover td {
-    transform: none !important;
-}
-
-
-

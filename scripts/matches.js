@@ -61,7 +61,9 @@ function displayMatches(results) {
                     </td>
                     <td>${match.away_team?.name || "Unknown Team"}</td>
                     <td>${match.competition?.name || "Unknown Competition"}</td>
-                    <td>${match.venue?.name || "Unknown Venue"}</td>
+                    <td>${match.venue?.name || "Unknown Venue"} 
+                        <span class="expand-indicator">⬇</span>
+                    </td>
                 </tr>
                 <tr class="match-details hidden ${matchClass}" id="match-details-${match.id}">
                     <td colspan="6">
@@ -87,7 +89,14 @@ function displayMatches(results) {
             document.querySelectorAll(".match-row").forEach(r => r.classList.remove("selected"));
             this.classList.add("selected");
 
-            detailsRow.classList.toggle("hidden");
+            // Show/hide details with animation
+            detailsRow.classList.toggle("show");
+
+            // Auto-hide details on mouse leave
+            detailsRow.addEventListener("mouseleave", () => {
+                detailsRow.classList.remove("show");
+                this.classList.remove("selected");
+            });
         });
     });
 }
