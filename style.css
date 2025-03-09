@@ -13,7 +13,7 @@
     --border-color: #eee;
     --transition-speed: 0.2s;
     --transition-timing: ease-in-out;
-    --hover-bg: rgba(255, 153, 51, 0.3);
+    --hover-bg: rgba(255, 127, 50, 0.3);
 }
 
 /* Reset Styles */
@@ -105,7 +105,6 @@ html, body {
     transition: border-color 0.3s;
 }
 
-/* Highlight dropdown when selected */
 .filter-group select:focus {
     outline: none;
     border-color: var(--accent-hover);
@@ -220,17 +219,18 @@ html, body {
     opacity: 1;
 }
 
-/* Ensure table row is distinguishable when expanded */
-.match-row.selected {
-    background-color: rgba(0, 153, 255, 0.2);
-    transition: background-color 0.2s ease-in-out;
+/* 🎯 Hover effect on match row (even before clicking) */
+.match-row:hover {
+    background-color: rgba(255, 127, 50, 0.3); /* Light orange on hover */
+    transform: scale(1.02);
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
-/* 🎯 Highlight the selected match when hovering */
-.match-row.selected:hover {
-    background-color: rgba(255, 127, 50, 0.3); /* Subtle orange highlight */
-    transform: scale(1.05); /* Slightly increase in size */
-    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+/* 🎯 When selected, increase size and change colour */
+.match-row.selected {
+    background-color: rgba(255, 127, 50, 0.5); /* Stronger orange */
+    transform: scale(1.05);
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 /* Move Expand Indicator (⬇) to the Left */
