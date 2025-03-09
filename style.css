@@ -173,7 +173,7 @@ html, body {
     background-color: var(--draw-color);
 }
 
-/* MATCH DETAILS: Card Style */
+/* MATCH DETAILS: Card Style with Fixed Width */
 .match-details {
     display: none;
     background-color: white;
@@ -186,11 +186,24 @@ html, body {
     transform: translateY(-5px);
     position: relative;
     border-left: 5px solid var(--draw-color);
+    width: 600px; /* Set a fixed width for future layout */
+    max-width: 100%;
+}
+
+/* Split Into Columns for Future Expansion */
+.match-details-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.match-details-column {
+    width: 48%;
 }
 
 /* Show Match Details */
 .match-details.show {
-    display: table-row;
+    display: block;
     opacity: 1;
     transform: translateY(0);
 }
@@ -201,18 +214,23 @@ html, body {
     transition: background-color 0.2s ease-in-out;
 }
 
-/* ARROW FIX */
-.expand-indicator {
-    font-size: 16px;
+/* + / - ICON */
+.expand-toggle {
+    font-size: 18px;
     font-weight: bold;
-    color: var(--accent-hover);
     cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-    margin-left: 10px;
+    color: var(--accent-color);
+    transition: color 0.2s ease-in-out;
+    margin-right: 10px;
 }
 
-.match-details.show .expand-indicator {
-    transform: rotate(180deg);
+/* Ensure + Turns to - When Open */
+.match-row .expand-toggle::before {
+    content: "+";
+}
+
+.match-details.show + .match-row .expand-toggle::before {
+    content: "−";
 }
 
 /* RESPONSIVE FIX */
@@ -236,5 +254,13 @@ html, body {
 
     .header-buttons {
         margin-top: 10px;
+    }
+
+    .match-details {
+        width: 100%;
+    }
+
+    .match-details-column {
+        width: 100%;
     }
 }
