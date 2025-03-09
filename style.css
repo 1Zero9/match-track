@@ -13,7 +13,7 @@
     --border-color: #eee;
     --transition-speed: 0.2s;
     --transition-timing: ease-in-out;
-    --hover-bg: rgba(38, 166, 154, 0.3);
+    --hover-bg: rgba(38, 166, 154, 0.2);
 }
 
 /* Reset Styles */
@@ -103,32 +103,13 @@ html, body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Filter Dropdowns */
-.filter-group select {
-    padding: 8px 10px;
-    font-size: 14px;
-    border-radius: 8px;
-    border: 2px solid var(--accent-color);
-    width: 160px;
-    background-color: white;
-    color: var(--text-dark);
-    transition: border-color 0.3s;
-}
-
-.filter-group select:focus {
-    outline: none;
-    border-color: var(--accent-hover);
-    box-shadow: 0 0 5px rgba(38, 166, 154, 0.5);
-}
-
-/* MATCH RESULTS TABLE: ENSURE IT'S VISIBLE */
+/* MATCH RESULTS TABLE */
 .results-container {
-    display: block !important; /* Force visibility */
+    display: block !important;
     width: 100%;
 }
 
 .table-container {
-    flex: 1;
     background-color: white;
     color: var(--text-dark);
     padding: 20px;
@@ -137,7 +118,7 @@ html, body {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto 20px;
-    display: block !important; /* Force it to be visible */
+    display: block !important;
 }
 
 /* TABLE */
@@ -192,39 +173,35 @@ html, body {
     background-color: var(--draw-color);
 }
 
-/* MATCH DETAILS */
+/* MATCH DETAILS: Card Style */
 .match-details {
-    display: none; /* Hide by default */
-    background-color: rgba(255, 253, 208, 0.95);
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: none;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     padding: 15px;
     margin-top: 5px;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
     opacity: 0;
+    transform: translateY(-5px);
     position: relative;
+    border-left: 5px solid var(--draw-color);
 }
 
-/* Show match details when toggled */
+/* Show Match Details */
 .match-details.show {
-    display: table-row !important; /* Ensure visibility */
+    display: table-row;
     opacity: 1;
+    transform: translateY(0);
 }
 
-/* MOUSEOVER FIX: Reduce Zoom */
+/* MATCH ROW HOVER FIX */
 .match-row:hover {
     background-color: var(--hover-bg);
-    transform: scale(1.02); /* Subtle zoom, change to 1 to remove */
-    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out;
 }
 
-.match-row.selected {
-    background-color: rgba(38, 166, 154, 0.5);
-    transform: scale(1.02);
-    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-
-/* Expand Indicator */
+/* ARROW FIX */
 .expand-indicator {
     font-size: 16px;
     font-weight: bold;
@@ -232,10 +209,8 @@ html, body {
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
     margin-left: 10px;
-    float: right;
 }
 
-/* Rotate indicator when expanded */
 .match-details.show .expand-indicator {
     transform: rotate(180deg);
 }
