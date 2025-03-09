@@ -278,3 +278,24 @@ html, body {
         width: 90%;
     }
 }
+
+/* Match Toggle Button */
+.match-toggle {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    transition: color 0.2s ease-in-out;
+    width: 30px;
+}
+
+.match-toggle:hover {
+    color: var(--accent-hover);
+}
+
+/* Ensure + Turns to - When Open */
+.match-details.show ~ .match-toggle::before {
+    content: "−";
+}

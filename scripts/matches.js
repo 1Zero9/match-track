@@ -60,10 +60,11 @@ function displayMatches(results) {
                 </td>
                 <td>${match.away_team?.name || "Unknown Team"}</td>
                 <td>${match.competition?.name || "Unknown Competition"}</td>
-                <td><span class="expand-indicator">⬇</span> ${match.venue?.name || "Unknown Venue"}</td>
+                <td>${match.venue?.name || "Unknown Venue"}</td>
+                <td><button class="match-toggle" onclick="toggleMatchDetails(this)">+</button></td>
             </tr>
             <tr class="match-details hidden" id="match-details-${match.id}">
-                <td colspan="6">
+                <td colspan="7">
                     <div class="match-stats">
                         <h3>Match Report</h3>
                         <p><strong>Competition:</strong> ${match.competition?.name || "N/A"}</p>
@@ -76,9 +77,11 @@ function displayMatches(results) {
     }).join('');
 
     // Add event listeners for toggling match details
-    document.querySelectorAll(".match-row").forEach(row => {
-        row.addEventListener("click", function () {
-            const matchId = this.dataset.matchId;
+    document.querySelectorAll(".match-toggle").forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.stopPropagation(); // Prevent row click interference
+            const row = this.closest("tr");
+            const matchId = row.dataset.matchId;
             const detailsRow = document.getElementById(`match-details-${matchId}`);
 
             // Close other open match details
@@ -88,27 +91,19 @@ function displayMatches(results) {
                 }
             });
 
-            // Toggle visibility
+            // Toggle match details visibility
             detailsRow.classList.toggle("show");
 
-            // Highlight the selected row
-            document.querySelectorAll(".match-row").forEach(r => r.classList.remove("selected"));
-            if (detailsRow.classList.contains("show")) {
-                this.classList.add("selected");
-            } else {
-                this.classList.remove("selected");
-            }
+            // Toggle button text (+/-)
+            this.textContent = detailsRow.classList.contains("show") ? "−" : "+";
         });
     });
 
     // Hide match details when clicking outside
     document.addEventListener("click", function (event) {
-        const isMatchRow = event.target.closest(".match-row");
-        const isMatchDetails = event.target.closest(".match-details");
-
-        if (!isMatchRow && !isMatchDetails) {
+        if (!event.target.closest(".match-row") && !event.target.closest(".match-details")) {
             document.querySelectorAll(".match-details").forEach(detail => detail.classList.remove("show"));
-            document.querySelectorAll(".match-row").forEach(row => row.classList.remove("selected"));
+            document.querySelectorAll(".match-toggle").forEach(button => button.textContent = "+");
         }
     });
 }
