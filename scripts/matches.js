@@ -98,12 +98,11 @@ function displayMatches(results) {
             document.querySelectorAll(".match-row").forEach(r => r.classList.remove("selected"));
             if (detailsRow.classList.contains("show")) {
                 row.classList.add("selected");
+                this.textContent = "−"; // Set toggle to minus
             } else {
                 row.classList.remove("selected");
+                this.textContent = "+"; // Set toggle back to plus
             }
-
-            // Toggle button text (+/-)
-            this.textContent = detailsRow.classList.contains("show") ? "−" : "+";
         });
     });
 
@@ -119,3 +118,48 @@ function displayMatches(results) {
 
 // Run fetchMatches() on page load
 document.addEventListener("DOMContentLoaded", fetchMatches);
+/* MATCH TOGGLE BUTTON */
+.match-toggle {
+    cursor: pointer;
+    font-size: 22px; /* Bigger */
+    font-weight: bold;
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    width: 40px;
+}
+
+/* Pulsing animation on + button */
+.match-toggle:hover {
+    color: var(--accent-hover);
+    transform: scale(1.2);
+}
+
+/* MATCH ROW HIGHLIGHT WHEN SELECTED */
+.match-row.selected {
+    background-color: rgba(38, 166, 154, 0.3); /* Subtle highlight */
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* MATCH DETAILS CARD */
+.match-details {
+    display: none;
+    background-color: white;
+    border-radius: 12px;
+    padding: 15px;
+    width: 90%;
+    max-width: 750px;
+    margin: auto;
+    border-left: 6px solid var(--accent-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.match-details.show {
+    display: block;
+    transform: scale(1);
+    opacity: 1;
+}
