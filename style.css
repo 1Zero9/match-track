@@ -1,8 +1,8 @@
 :root {
     --primary-bg-color: #0B1E49;
     --secondary-bg-color: #f5f5f5;
-    --accent-color: #FF7F32;
-    --accent-hover: #e56e2a;
+    --accent-color: #26A69A;  /* Teal Green */
+    --accent-hover: #1E8877;  /* Darker Teal */
     --error-color: #d9534f;
     --error-hover: #c9302c;
     --win-color: #4CAF50;
@@ -13,7 +13,7 @@
     --border-color: #eee;
     --transition-speed: 0.2s;
     --transition-timing: ease-in-out;
-    --hover-bg: rgba(255, 127, 50, 0.3);
+    --hover-bg: rgba(38, 166, 154, 0.3);
 }
 
 /* Reset Styles */
@@ -108,7 +108,7 @@ html, body {
 .filter-group select:focus {
     outline: none;
     border-color: var(--accent-hover);
-    box-shadow: 0 0 5px rgba(255, 127, 50, 0.5);
+    box-shadow: 0 0 5px rgba(38, 166, 154, 0.5);
 }
 
 /* Button Styles */
@@ -221,28 +221,30 @@ html, body {
 
 /* 🎯 Hover effect on match row (even before clicking) */
 .match-row:hover {
-    background-color: rgba(255, 127, 50, 0.3); /* Light orange on hover */
+    background-color: var(--hover-bg);
     transform: scale(1.02);
     transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
 /* 🎯 When selected, increase size and change colour */
 .match-row.selected {
-    background-color: rgba(255, 127, 50, 0.5); /* Stronger orange */
+    background-color: rgba(38, 166, 154, 0.5); /* Stronger teal */
     transform: scale(1.05);
     transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-/* Move Expand Indicator (⬇) to the Left */
+/* Expand Indicator (Moved to Right) */
 .expand-indicator {
-    margin-right: 8px;
     font-size: 16px;
     font-weight: bold;
-    color: var(--accent-color);
+    color: var(--accent-hover);
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
+    margin-left: 10px;
+    float: right;
 }
 
+/* Rotate indicator when expanded */
 .match-details.show .expand-indicator {
     transform: rotate(180deg);
 }
