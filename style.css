@@ -199,18 +199,31 @@ html, body {
     background-color: var(--draw-color);
 }
 
-/* Match Details */
+/* Match Details (Pop-down Card Style) */
 .match-details {
     display: none;
-    background-color: rgba(255, 253, 208, 0.9);
+    background-color: rgba(255, 253, 208, 0.95);
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     padding: 15px;
-    transition: all 0.3s ease-in-out;
+    margin-top: 5px;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transform: scale(0.95);
+    opacity: 0;
+    position: relative;
 }
 
+/* Show animation when toggled */
 .match-details.show {
     display: table-row;
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Ensure table row is distinguishable when expanded */
+.match-row.selected {
+    background-color: rgba(0, 153, 255, 0.2);
+    transition: background-color 0.2s ease-in-out;
 }
 
 /* Move Expand Indicator (⬇) to the Left */

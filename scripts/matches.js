@@ -38,7 +38,7 @@ function displayMatches(results) {
     tbody.innerHTML = results.map(match => {
         let homeScoreClass, awayScoreClass;
 
-        // Determine correct colour logic for the scores
+        // Determine correct score colours
         if (match.home_score > match.away_score) {
             homeScoreClass = "win-score";
             awayScoreClass = "loss-score";
@@ -62,10 +62,10 @@ function displayMatches(results) {
                 <td>${match.competition?.name || "Unknown Competition"}</td>
                 <td><span class="expand-indicator">⬇</span> ${match.venue?.name || "Unknown Venue"}</td>
             </tr>
-            <tr class="match-details" id="match-details-${match.id}">
+            <tr class="match-details hidden" id="match-details-${match.id}">
                 <td colspan="6">
                     <div class="match-stats">
-                        <h3>Match Details</h3>
+                        <h3>Match Report</h3>
                         <p><strong>Competition:</strong> ${match.competition?.name || "N/A"}</p>
                         <p><strong>Venue:</strong> ${match.venue?.name || "N/A"}</p>
                         <p><strong>Match Notes:</strong> ${match.match_notes || "No additional details yet."}</p>
@@ -74,6 +74,43 @@ function displayMatches(results) {
             </tr>
         `;
     }).join('');
+
+    // Add event listeners for toggling match details
+    document.querySelectorAll(".match-row").forEach(row => {
+        row.addEventListener("click", function () {
+            const matchId = this.dataset.matchId;
+            const detailsRow = document.getElementById(`match-details-${matchId}`);
+
+            // Close other open match details
+            document.querySelectorAll(".match-details").forEach(detail => {
+                if (detail !== detailsRow) {
+                    detail.classList.remove("show");
+                }
+            });
+
+            // Toggle visibility
+            detailsRow.classList.toggle("show");
+
+            // Highlight the selected row
+            document.querySelectorAll(".match-row").forEach(r => r.classList.remove("selected"));
+            if (detailsRow.classList.contains("show")) {
+                this.classList.add("selected");
+            } else {
+                this.classList.remove("selected");
+            }
+        });
+    });
+
+    // Hide match details when clicking outside
+    document.addEventListener("click", function (event) {
+        const isMatchRow = event.target.closest(".match-row");
+        const isMatchDetails = event.target.closest(".match-details");
+
+        if (!isMatchRow && !isMatchDetails) {
+            document.querySelectorAll(".match-details").forEach(detail => detail.classList.remove("show"));
+            document.querySelectorAll(".match-row").forEach(row => row.classList.remove("selected"));
+        }
+    });
 }
 
 // Run fetchMatches() on page load
