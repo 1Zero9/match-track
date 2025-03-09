@@ -144,6 +144,7 @@ html, body {
     font-size: 14px;
     border-bottom: 1px solid var(--border-color);
     color: var(--text-dark);
+    position: relative;
 }
 
 /* SCORE BUBBLES */
@@ -173,7 +174,7 @@ html, body {
     background-color: var(--draw-color);
 }
 
-/* MATCH DETAILS: Card Style with Fixed Width */
+/* MATCH DETAILS: Card Style Below Row */
 .match-details {
     display: none;
     background-color: white;
@@ -184,28 +185,20 @@ html, body {
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
     opacity: 0;
     transform: translateY(-5px);
-    position: relative;
+    position: absolute;
+    left: 50%;
+    width: 600px;
+    max-width: 90%;
+    transform: translateX(-50%);
     border-left: 5px solid var(--draw-color);
-    width: 600px; /* Set a fixed width for future layout */
-    max-width: 100%;
-}
-
-/* Split Into Columns for Future Expansion */
-.match-details-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.match-details-column {
-    width: 48%;
+    z-index: 10;
 }
 
 /* Show Match Details */
 .match-details.show {
     display: block;
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) translateX(-50%);
 }
 
 /* MATCH ROW HOVER FIX */
@@ -214,7 +207,7 @@ html, body {
     transition: background-color 0.2s ease-in-out;
 }
 
-/* + / - ICON */
+/* + / - ICON FIX */
 .expand-toggle {
     font-size: 18px;
     font-weight: bold;
@@ -222,6 +215,9 @@ html, body {
     color: var(--accent-color);
     transition: color 0.2s ease-in-out;
     margin-right: 10px;
+    display: inline-block;
+    width: 20px;
+    text-align: center;
 }
 
 /* Ensure + Turns to - When Open */
@@ -257,10 +253,6 @@ html, body {
     }
 
     .match-details {
-        width: 100%;
-    }
-
-    .match-details-column {
-        width: 100%;
+        width: 90%;
     }
 }
