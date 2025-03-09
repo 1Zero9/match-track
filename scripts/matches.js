@@ -40,40 +40,19 @@ function displayMatches(results) {
             <tr class="match-row" data-match-id="${match.id}">
                 <td>${match.date}</td>
                 <td>${match.home_team?.name || "Unknown Team"}</td>
-                <td class="score-column">${match.home_score} - ${match.away_score}</td>
+                <td class="score-column">
+                    <span class="score-badge win-score">${match.home_score}</span> - 
+                    <span class="score-badge loss-score">${match.away_score}</span>
+                </td>
                 <td>${match.away_team?.name || "Unknown Team"}</td>
                 <td>${match.competition?.name || "Unknown Competition"}</td>
-                <td>${match.venue?.name || "Unknown Venue"} 
-                    <span class="expand-indicator">⬇</span>
-                </td>
+                <td><span class="expand-indicator">⬇</span> ${match.venue?.name || "Unknown Venue"}</td>
             </tr>
             <tr class="match-details" id="match-details-${match.id}">
-                <td colspan="6">
-                    <div class="match-stats">
-                        <h3>Match Details</h3>
-                        <p><strong>Competition:</strong> ${match.competition?.name || "N/A"}</p>
-                        <p><strong>Venue:</strong> ${match.venue?.name || "N/A"}</p>
-                        <p><strong>Match Notes:</strong> ${match.match_notes || "No additional details yet."}</p>
-                    </div>
-                </td>
+                <td colspan="6"><p>Match Details</p></td>
             </tr>
         `;
     }).join('');
-
-    // Click to toggle match details
-    document.querySelectorAll(".match-row").forEach(row => {
-        row.addEventListener("click", function () {
-            const matchId = this.dataset.matchId;
-            const detailsRow = document.getElementById(`match-details-${matchId}`);
-
-            // Toggle visibility
-            detailsRow.classList.toggle("show");
-
-            // Flip arrow indicator
-            const arrow = this.querySelector(".expand-indicator");
-            arrow.textContent = detailsRow.classList.contains("show") ? "⬆" : "⬇";
-        });
-    });
 }
 
 // Run fetchMatches() on page load
