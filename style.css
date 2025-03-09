@@ -11,6 +11,9 @@
     --text-dark: #333;
     --text-light: white;
     --border-color: #eee;
+    --transition-speed: 0.2s;
+    --transition-timing: ease-in-out;
+    --hover-bg: rgba(255, 153, 51, 0.3);
 }
 
 /* Reset Styles */
@@ -246,8 +249,10 @@ html, body {
 }
 
 .results-table tbody tr:hover {
-    background-color: rgba(255, 127, 50, 0.1);
+    background-color: var(--hover-bg);
     cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-timing);
+    transform: scale(1.01);
 }
 
 .results-table td:first-child {
@@ -505,23 +510,9 @@ footer {
 
 /* Table Row Hover Effect */
 .results-table tbody tr:hover {
-    background-color: rgba(0, 123, 255, 0.15); /* Soft blue hover effect */
+    background-color: var(--hover-bg);
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-}
-
-/* Optional: Slight Scale Effect on Hover */
-.results-table tbody tr:hover td {
-    transform: scale(1.02);
-    transition: transform 0.2s ease-in-out;
-}
-
-
-/* 🚀 Vibrant Hover Effect */
-.results-table tbody tr:hover {
-    background-color: rgba(255, 153, 51, 0.3); /* Stronger orange pop */
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    transition: all var(--transition-speed) var(--transition-timing);
     transform: scale(1.01);
 }
 
@@ -533,8 +524,9 @@ footer {
 /* Expanded match details */
 .match-details td {
     padding: 15px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-top: 2px solid rgba(255, 153, 51, 0.5);
+    background-color: rgba(255, 253, 208, 0.9);
+    border-radius: 12px;
+    border-top: 2px solid rgba(255, 140, 0, 0.6);
 }
 
 /* Stats box inside expanded row */
@@ -550,6 +542,32 @@ footer {
     background-color: rgba(255, 153, 51, 0.4) !important;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+}
+/* 🔥 Highlight Selected Match Row */
+.match-row.selected {
+    background-color: rgba(255, 140, 0, 0.3); /* Bright orange highlight */
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* 🚀 Match Details Background - Light Yellow */
+.match-details td {
+    padding: 15px;
+    background-color: rgba(255, 253, 208, 0.9); /* Light Yellow */
+    border-radius: 12px;
+    border-top: 2px solid rgba(255, 140, 0, 0.6); /* Orange border */
+}
+
+/* ✨ Keep Rounded Corners & Prevent Growth */
+.match-stats {
+    background: none;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+/* ❌ Remove Hover Growth */
+.match-details:hover td {
+    transform: none !important;
 }
 
 

@@ -41,6 +41,10 @@ function displayMatches(results) {
                 day: 'numeric', month: 'short', year: 'numeric'
             });
 
+            let matchClass = 'draw-match';
+            if (match.home_score > match.away_score) matchClass = 'win-match';
+            if (match.home_score < match.away_score) matchClass = 'loss-match';
+
             let homeScoreClass = match.home_score > match.away_score ? 'win-score' : 
                                  match.home_score < match.away_score ? 'loss-score' : 'draw-score';
 
@@ -59,7 +63,7 @@ function displayMatches(results) {
                     <td>${match.competition?.name || "Unknown Competition"}</td>
                     <td>${match.venue?.name || "Unknown Venue"}</td>
                 </tr>
-                <tr class="match-details hidden" id="match-details-${match.id}">
+                <tr class="match-details hidden ${matchClass}" id="match-details-${match.id}">
                     <td colspan="6">
                         <div class="match-stats">
                             <h3>Match Details</h3>
@@ -78,10 +82,15 @@ function displayMatches(results) {
         row.addEventListener("click", function () {
             const matchId = this.dataset.matchId;
             const detailsRow = document.getElementById(`match-details-${matchId}`);
+
+            // Highlight the selected row
+            document.querySelectorAll(".match-row").forEach(r => r.classList.remove("selected"));
+            this.classList.add("selected");
+
             detailsRow.classList.toggle("hidden");
         });
     });
 }
 
-// Call fetchMatches() when the page loads
+// Run fetchMatches() on page load
 document.addEventListener("DOMContentLoaded", fetchMatches);
