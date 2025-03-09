@@ -111,7 +111,7 @@ html, body {
 
 /* New Selected Row Colour */
 .match-row.selected {
-    background-color: rgba(0, 153, 255, 0.2); /* Softer blue highlight */
+    background-color: rgba(0, 153, 255, 0.2);
     transition: background-color 0.2s ease-in-out;
 }
 
@@ -123,7 +123,7 @@ html, body {
     width: 100%;
     max-width: 350px;
     margin-top: 5px;
-    background-color: rgba(255, 253, 208, 0.9); /* Light Yellow */
+    background-color: rgba(255, 253, 208, 0.9);
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     padding: 15px;
@@ -173,9 +173,11 @@ html, body {
 .win-score {
     background-color: #4CAF50;
 }
+
 .loss-score {
     background-color: #F44336;
 }
+
 .draw-score {
     background-color: #FFC107;
 }
@@ -195,7 +197,7 @@ html, body {
         width: 95%;
         padding: 15px 10px;
     }
-    
+
     .header-container {
         flex-direction: column;
         text-align: center;
@@ -206,18 +208,18 @@ html, body {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     .filter-group {
         width: 100%;
     }
-    
+
     .filter-group select,
     .filter-group input {
         width: 100%;
     }
 }
 
-/* Small Mobile Styles (400px and below) */
+/* Small Mobile Styles */
 @media screen and (max-width: 400px) {
     .header-container {
         padding: 10px;
