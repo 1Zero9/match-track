@@ -30,7 +30,7 @@ async function fetchMatches() {
     }
 }
 
-// Display match results
+// Display match results in the table
 function displayMatches(results) {
     const tbody = document.getElementById("resultsTableBody");
     if (!tbody) return console.error("❌ Error: resultsTableBody not found.");
@@ -47,7 +47,7 @@ function displayMatches(results) {
                     <span class="expand-indicator">⬇</span>
                 </td>
             </tr>
-            <tr class="match-details hidden" id="match-details-${match.id}">
+            <tr class="match-details" id="match-details-${match.id}">
                 <td colspan="6">
                     <div class="match-stats">
                         <h3>Match Details</h3>
@@ -60,12 +60,16 @@ function displayMatches(results) {
         `;
     }).join('');
 
+    // Click to toggle match details
     document.querySelectorAll(".match-row").forEach(row => {
         row.addEventListener("click", function () {
             const matchId = this.dataset.matchId;
             const detailsRow = document.getElementById(`match-details-${matchId}`);
+
+            // Toggle visibility
             detailsRow.classList.toggle("show");
 
+            // Flip arrow indicator
             const arrow = this.querySelector(".expand-indicator");
             arrow.textContent = detailsRow.classList.contains("show") ? "⬆" : "⬇";
         });
@@ -74,59 +78,3 @@ function displayMatches(results) {
 
 // Run fetchMatches() on page load
 document.addEventListener("DOMContentLoaded", fetchMatches);
-
-/* Filter Container Fixes */
-.filter-container {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 1100px;
-    margin: 20px auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: flex-end;
-}
-
-.filter-group {
-    flex: 1 1 200px;
-    min-width: 150px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-/* Results Table Container Fixes */
-.table-container {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 1100px;
-    margin: 20px auto;
-    color: var(--text-dark);
-}
-
-/* Table Row Color Fix */
-.results-table td {
-    background-color: white;
-    color: var(--text-dark);
-    padding: 12px 10px;
-    font-size: 14px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-/* Match Details Row Fix */
-.match-details {
-    background-color: var(--secondary-bg-color);
-    color: var(--text-dark);
-}
-
-.match-details.hidden {
-    display: none;
-}
-
-.match-details.show {
-    display: table-row;
-}
