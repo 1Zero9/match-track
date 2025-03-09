@@ -33,6 +33,25 @@ html, body {
     color: var(--text-light);
 }
 
+/* Header Styles */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: var(--primary-bg-color);
+    color: var(--text-light);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-logo {
+    width: 45px; /* Fixed logo size */
+    height: auto;
+    cursor: pointer;
+}
+
 /* Ensure all main sections are visible */
 .container-wrapper {
     width: 90%;
@@ -167,6 +186,7 @@ html, body {
     margin: 0 5px;
 }
 
+/* Dynamic Win/Loss/Draw Colours */
 .win-score {
     background-color: var(--win-color);
 }

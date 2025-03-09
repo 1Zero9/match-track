@@ -36,20 +36,41 @@ function displayMatches(results) {
     if (!tbody) return console.error("❌ Error: resultsTableBody not found.");
 
     tbody.innerHTML = results.map(match => {
+        let homeScoreClass, awayScoreClass;
+
+        // Determine correct colour logic for the scores
+        if (match.home_score > match.away_score) {
+            homeScoreClass = "win-score";
+            awayScoreClass = "loss-score";
+        } else if (match.home_score < match.away_score) {
+            homeScoreClass = "loss-score";
+            awayScoreClass = "win-score";
+        } else {
+            homeScoreClass = "draw-score";
+            awayScoreClass = "draw-score";
+        }
+
         return `
             <tr class="match-row" data-match-id="${match.id}">
                 <td>${match.date}</td>
                 <td>${match.home_team?.name || "Unknown Team"}</td>
                 <td class="score-column">
-                    <span class="score-badge win-score">${match.home_score}</span> - 
-                    <span class="score-badge loss-score">${match.away_score}</span>
+                    <span class="score-badge ${homeScoreClass}">${match.home_score}</span> - 
+                    <span class="score-badge ${awayScoreClass}">${match.away_score}</span>
                 </td>
                 <td>${match.away_team?.name || "Unknown Team"}</td>
                 <td>${match.competition?.name || "Unknown Competition"}</td>
                 <td><span class="expand-indicator">⬇</span> ${match.venue?.name || "Unknown Venue"}</td>
             </tr>
             <tr class="match-details" id="match-details-${match.id}">
-                <td colspan="6"><p>Match Details</p></td>
+                <td colspan="6">
+                    <div class="match-stats">
+                        <h3>Match Details</h3>
+                        <p><strong>Competition:</strong> ${match.competition?.name || "N/A"}</p>
+                        <p><strong>Venue:</strong> ${match.venue?.name || "N/A"}</p>
+                        <p><strong>Match Notes:</strong> ${match.match_notes || "No additional details yet."}</p>
+                    </div>
+                </td>
             </tr>
         `;
     }).join('');
