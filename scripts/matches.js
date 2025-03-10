@@ -32,11 +32,17 @@ async function fetchMatches() {
 
 // Display match results in the table
 function displayMatches(results) {
-    const tbody = document.getElementById("resultsTableBody");
+
+    // Ensure the match rows contain the + icon for toggling reports
+    // The reports will expand inline without breaking row formatting
+            const tbody = document.getElementById("resultsTableBody");
     if (!tbody) return console.error("❌ Error: resultsTableBody not found.");
 
     tbody.innerHTML = results.map(match => {
-        let homeScoreClass, awayScoreClass;
+
+        const hasReport = match.match_notes && match.match_notes.trim() !== "";
+        const toggleClass = hasReport ? "active" : "inactive";
+                let homeScoreClass, awayScoreClass;
 
         // Determine correct score colours
         if (match.home_score > match.away_score) {
@@ -61,8 +67,13 @@ function displayMatches(results) {
                 <td>${match.away_team?.name || "Unknown Team"}</td>
                 <td>${match.competition?.name || "Unknown Competition"}</td>
                 <td>${match.venue?.name || "Unknown Venue"}</td>
-                <td><button class="match-toggle" onclick="toggleMatchDetails(this)">+</button></td>
-            </tr>
+
+                <td>
+                    <button class="toggle-report ${toggleClass}" data-match-id="${match.id}" aria-label="View Match Report">
+                        ➕
+                    </button>
+                </td>
+                    </tr>
             <tr class="match-details hidden" id="match-details-${match.id}">
                 <td colspan="7">
                     <div class="match-stats">

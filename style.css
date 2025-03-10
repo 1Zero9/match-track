@@ -226,7 +226,7 @@ html, body {
 
 /* Ensure + Turns to - When Open */
 .match-toggle::before { content: "+"; }
-.match-details.show ~ .match-toggle::before { content: "−"; }
+.match-details.show ~ .match-toggle::before { content: "âˆ’"; }
 
 /* FOOTER */
 .footer-fixed {
