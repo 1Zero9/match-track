@@ -32,10 +32,7 @@ async function fetchMatches() {
 
 // Display match results in the table
 function displayMatches(results) {
-
-    // Ensure the match rows contain the + icon for toggling reports
-    // The reports will expand inline without breaking row formatting
-            const tbody = document.getElementById("resultsTableBody");
+    const tbody = document.getElementById("resultsTableBody");
     if (!tbody) return console.error("❌ Error: resultsTableBody not found.");
 
     tbody.innerHTML = results.map(match => {
